@@ -6,6 +6,8 @@ const appState = {
   homeData: window.DEFAULT_HOME_DATA || {}
 };
 
+const CACHE_TTL_MS = 5 * 60 * 1000;
+
 document.addEventListener("DOMContentLoaded", () => {
   renderShell();
 });
@@ -83,6 +85,39 @@ function loadJsonp(baseUrl, mode = "home") {
   });
 }
 
+function getCache(key) {
+  try {
+    const raw = sessionStorage.getItem(key);
+    if (!raw) return null;
+
+    const parsed = JSON.parse(raw);
+    if (!parsed || !parsed.savedAt) return null;
+
+    if (Date.now() - parsed.savedAt > CACHE_TTL_MS) {
+      sessionStorage.removeItem(key);
+      return null;
+    }
+
+    return parsed.data;
+  } catch (error) {
+    return null;
+  }
+}
+
+function setCache(key, data) {
+  try {
+    sessionStorage.setItem(
+      key,
+      JSON.stringify({
+        savedAt: Date.now(),
+        data
+      })
+    );
+  } catch (error) {
+    console.warn("cache save 실패:", error);
+  }
+}
+
 function normalizeHomeData(data) {
   return {
     ok: Boolean(data?.ok),
@@ -120,9 +155,20 @@ function normalizeHomeData(data) {
 }
 
 async function getHomeData() {
+  const cacheKey = "friends_family_home_data_v1";
+  const cached = getCache(cacheKey);
+
+  if (cached) {
+    appState.source = "api";
+    appState.homeData = normalizeHomeData(cached);
+    return appState.homeData;
+  }
+
   try {
     const data = await loadJsonp(API_URL, "home");
     if (!data?.ok) throw new Error(data?.error || "API 응답 오류");
+
+    setCache(cacheKey, data);
     appState.source = "api";
     appState.homeData = normalizeHomeData(data);
     return appState.homeData;
@@ -135,10 +181,16 @@ async function getHomeData() {
 }
 
 async function getNoticePosts() {
+  const cacheKey = "friends_family_notice_posts_v1";
+  const cached = getCache(cacheKey);
+  if (cached) return cached;
+
   try {
     const data = await loadJsonp(API_URL, "notice");
     if (!data?.ok) throw new Error("notice API error");
-    return Array.isArray(data.posts) ? data.posts : [];
+    const posts = Array.isArray(data.posts) ? data.posts : [];
+    setCache(cacheKey, posts);
+    return posts;
   } catch (error) {
     console.warn("공지 fallback 사용:", error);
     return window.DEFAULT_NOTICE_POSTS || [];
@@ -146,10 +198,16 @@ async function getNoticePosts() {
 }
 
 async function getTipsPosts() {
+  const cacheKey = "friends_family_tips_posts_v1";
+  const cached = getCache(cacheKey);
+  if (cached) return cached;
+
   try {
     const data = await loadJsonp(API_URL, "tips");
     if (!data?.ok) throw new Error("tips API error");
-    return Array.isArray(data.posts) ? data.posts : [];
+    const posts = Array.isArray(data.posts) ? data.posts : [];
+    setCache(cacheKey, posts);
+    return posts;
   } catch (error) {
     console.warn("꿀팁 fallback 사용:", error);
     return window.DEFAULT_TIPS_POSTS || [];
