@@ -302,6 +302,71 @@
     </div>
   </footer>
 
+  <!-- GUILD MODAL -->
+  <div class="modal-backdrop" id="guild-modal">
+    <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <button class="modal-close" id="modal-close-btn" aria-label="닫기">×</button>
+
+      <div class="modal-hero">
+        <div class="modal-hero-visual">
+          <span class="modal-badge" id="modal-badge">-</span>
+          <div class="modal-avatar">
+            <div class="modal-avatar-cape"></div>
+            <div class="modal-avatar-head"></div>
+            <div class="modal-avatar-hair"></div>
+            <div class="modal-avatar-body"></div>
+          </div>
+        </div>
+
+        <div class="modal-hero-copy">
+          <span class="modal-label">GUILD PROFILE</span>
+          <h3 id="modal-title">길드명</h3>
+          <p id="modal-desc">길드 설명</p>
+
+          <div class="modal-tags" id="modal-tags"></div>
+        </div>
+      </div>
+
+      <div class="modal-grid">
+        <div class="modal-info-card">
+          <span>운영 포지션</span>
+          <strong id="modal-position">-</strong>
+        </div>
+        <div class="modal-info-card">
+          <span>추천 대상</span>
+          <strong id="modal-target">-</strong>
+        </div>
+        <div class="modal-info-card">
+          <span>평균 전투력</span>
+          <strong id="modal-power">-</strong>
+        </div>
+        <div class="modal-info-card">
+          <span>평균 레벨</span>
+          <strong id="modal-level">-</strong>
+        </div>
+        <div class="modal-info-card">
+          <span>인원</span>
+          <strong id="modal-members">-</strong>
+        </div>
+        <div class="modal-info-card">
+          <span>주간 성장률</span>
+          <strong id="modal-growth">-</strong>
+        </div>
+      </div>
+
+      <div class="modal-detail">
+        <div class="modal-detail-box">
+          <span>운영 요약</span>
+          <p id="modal-summary">-</p>
+        </div>
+        <div class="modal-detail-box">
+          <span>운영 키워드</span>
+          <p id="modal-keywords">-</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="script.js"></script>
 </body>
 </html>

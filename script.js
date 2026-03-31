@@ -12,31 +12,51 @@ const siteData = {
       name: "친구들",
       desc: "패밀리 대표 길드. 상위권 중심 운영 및 핵심 경쟁력 유지 역할을 담당합니다.",
       badge: "MAIN",
-      tags: ["대표 길드", "핵심 전력", "상위권 중심"]
+      tags: ["대표 길드", "핵심 전력", "상위권 중심"],
+      position: "패밀리 대표 메인 길드",
+      target: "상위권 중심 / 핵심 경쟁력 유지 대상",
+      summary: "가장 높은 평균 지표를 기반으로 패밀리의 중심 축 역할을 수행하며, 전체 분위기와 기준점을 이끄는 대표 길드입니다.",
+      keywords: "대표성, 상위권 유지, 핵심 경쟁력, 기준점 역할"
     },
     {
       name: "친구둘",
       desc: "높은 평균 전투력과 안정적인 인원 구성을 기반으로 메인 전력을 보조합니다.",
       badge: "CORE",
-      tags: ["안정 운영", "메인 보조", "중심 전력"]
+      tags: ["안정 운영", "메인 보조", "중심 전력"],
+      position: "메인 전력 보조 길드",
+      target: "안정적 성장과 중상위권 유지 대상",
+      summary: "친구들과 함께 패밀리 상단을 받쳐주는 길드로, 전반적인 안정성과 평균 지표를 균형 있게 유지하는 역할을 맡습니다.",
+      keywords: "안정성, 중상위권, 전력 보조, 평균 유지"
     },
     {
       name: "친구삼",
       desc: "친구둘과 함께 패밀리 중추 밸런스를 담당하며 성장 구간 핵심 길드 역할을 수행합니다.",
       badge: "BALANCE",
-      tags: ["중추 밸런스", "성장 구간", "핵심 라인"]
+      tags: ["중추 밸런스", "성장 구간", "핵심 라인"],
+      position: "패밀리 중추 밸런스 길드",
+      target: "성장 구간 핵심 멤버 / 균형 운영 대상",
+      summary: "패밀리 전체 밸런스를 유지하는 데 중요한 역할을 하며, 성장 중인 인원과 중간층의 전력을 자연스럽게 연결합니다.",
+      keywords: "밸런스, 중추 라인, 성장 연결, 안정 성장"
     },
     {
       name: "친구넷",
       desc: "여유 운영 및 신규 유입 중심의 길드로, 향후 성장 확장 거점 역할을 담당합니다.",
       badge: "GROWTH",
-      tags: ["신규 유입", "확장 거점", "성장형"]
+      tags: ["신규 유입", "확장 거점", "성장형"],
+      position: "신규 유입 및 성장형 길드",
+      target: "신규 멤버 / 성장 여지가 큰 대상",
+      summary: "새로운 유입을 자연스럽게 받아들이고 성장 기반을 만들어주는 길드로, 패밀리 확장의 거점 역할을 맡습니다.",
+      keywords: "유입, 적응, 성장 거점, 확장 기반"
     },
     {
       name: "친구닷",
       desc: "패밀리 확장 구조를 위한 준비 길드로, 장기적 성장과 운영 확장을 고려한 포지션입니다.",
       badge: "NEXT",
-      tags: ["확장 준비", "장기 운영", "미래 포지션"]
+      tags: ["확장 준비", "장기 운영", "미래 포지션"],
+      position: "확장 대비 준비 길드",
+      target: "장기 운영 / 확장 구조 대비 대상",
+      summary: "즉시 경쟁보다 장기적인 운영 구조와 확장을 고려한 준비형 길드로, 미래 패밀리 운영의 여유를 확보하는 데 의미가 있습니다.",
+      keywords: "장기성, 확장 준비, 운영 여유, 미래 포지션"
     }
   ],
   guilds: [
@@ -106,6 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
   renderWeekly();
   renderRanking(currentSort);
   bindSortButtons();
+  bindGuildModal();
 });
 
 function renderSummary() {
@@ -134,13 +155,13 @@ function renderGuildCards() {
   const container = document.getElementById("guild-card-list");
 
   container.innerHTML = siteData.guildDescriptions
-    .map((guild) => {
+    .map((guild, index) => {
       const tags = guild.tags
         .map((tag) => `<span>${tag}</span>`)
         .join("");
 
       return `
-        <div class="guild-card">
+        <div class="guild-card" data-guild-index="${index}" tabindex="0" role="button" aria-label="${guild.name} 상세보기">
           <div class="guild-character">
             <span class="guild-badge">${guild.badge}</span>
             <div class="guild-avatar">
@@ -286,6 +307,69 @@ function bindSortButtons() {
       renderRanking(currentSort);
     });
   });
+}
+
+function bindGuildModal() {
+  const modal = document.getElementById("guild-modal");
+  const closeBtn = document.getElementById("modal-close-btn");
+
+  document.addEventListener("click", (event) => {
+    const card = event.target.closest(".guild-card");
+    if (card) {
+      openGuildModal(Number(card.dataset.guildIndex));
+      return;
+    }
+
+    if (event.target === modal) {
+      closeGuildModal();
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    const activeCard = event.target.closest(".guild-card");
+
+    if (activeCard && (event.key === "Enter" || event.key === " ")) {
+      event.preventDefault();
+      openGuildModal(Number(activeCard.dataset.guildIndex));
+    }
+
+    if (event.key === "Escape") {
+      closeGuildModal();
+    }
+  });
+
+  closeBtn.addEventListener("click", closeGuildModal);
+}
+
+function openGuildModal(index) {
+  const guildInfo = siteData.guildDescriptions[index];
+  const guildStat = siteData.guilds.find((item) => item.name === guildInfo.name);
+  const modal = document.getElementById("guild-modal");
+
+  document.getElementById("modal-badge").textContent = guildInfo.badge;
+  document.getElementById("modal-title").textContent = guildInfo.name;
+  document.getElementById("modal-desc").textContent = guildInfo.desc;
+  document.getElementById("modal-position").textContent = guildInfo.position;
+  document.getElementById("modal-target").textContent = guildInfo.target;
+  document.getElementById("modal-power").textContent = `${formatNumber(guildStat.avgPower)}억`;
+  document.getElementById("modal-level").textContent = `${guildStat.avgLevel}`;
+  document.getElementById("modal-members").textContent = `${guildStat.members}명`;
+  document.getElementById("modal-growth").textContent = `+${guildStat.growth}%`;
+  document.getElementById("modal-summary").textContent = guildInfo.summary;
+  document.getElementById("modal-keywords").textContent = guildInfo.keywords;
+
+  document.getElementById("modal-tags").innerHTML = guildInfo.tags
+    .map((tag) => `<span>${tag}</span>`)
+    .join("");
+
+  modal.classList.add("is-open");
+  document.body.style.overflow = "hidden";
+}
+
+function closeGuildModal() {
+  const modal = document.getElementById("guild-modal");
+  modal.classList.remove("is-open");
+  document.body.style.overflow = "";
 }
 
 function getMedalClass(rank) {
