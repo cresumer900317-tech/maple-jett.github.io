@@ -11,48 +11,51 @@
     href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap"
     rel="stylesheet"
   />
-  <link rel="stylesheet" href="./style.css?v=20260401-premium" />
+  <link rel="stylesheet" href="./style.css?v=20260401-premium-final-2" />
 </head>
 <body>
-  <div class="bg-light bg-light-1"></div>
-  <div class="bg-light bg-light-2"></div>
-  <div class="bg-light bg-light-3"></div>
+  <div class="page-glow glow-1"></div>
+  <div class="page-glow glow-2"></div>
+  <div class="page-glow glow-3"></div>
 
   <header class="site-header">
-    <div class="container hero-shell">
-      <section class="hero-main">
-        <div class="hero-topline">
-          <span class="hero-chip">MAPLE FAMILY</span>
-          <span class="hero-chip soft">PREMIUM GUILD</span>
-          <span class="hero-chip soft">2026 UI</span>
+    <div class="container hero-layout">
+      <section class="hero-panel hero-main">
+        <div class="hero-frame"></div>
+
+        <div class="hero-badges">
+          <span class="hero-badge">MAPLE FAMILY</span>
+          <span class="hero-badge is-purple">PREMIUM GUILD</span>
+          <span class="hero-badge is-soft">2026 UI</span>
         </div>
 
+        <p class="hero-kicker">FRIENDS FAMILY ARCHIVE</p>
         <h1 class="hero-title">친구패밀리 통합 홈페이지</h1>
         <p class="hero-desc">
           친구들 · 친구둘 · 친구삼 · 친구넷 · 친구닷의 전체 데이터를 한곳에 모아,
-          전투력 · 레벨 · 인기도 · 주간 성장 현황을 프리미엄 길드 무드로 보여주는 운영형 홈페이지
+          전투력 · 레벨 · 인기도 · 주간 성장 현황을 상위 길드 감성으로 보여주는 통합 대시보드
         </p>
 
         <div class="hero-meta-grid">
           <article class="hero-meta-card">
-            <span>마지막 갱신</span>
+            <span class="meta-label">마지막 갱신</span>
             <strong id="latestSnapshotAt">불러오는 중...</strong>
           </article>
           <article class="hero-meta-card">
-            <span>주간 기준</span>
+            <span class="meta-label">주간 기준</span>
             <strong id="weeklyBaseAt">불러오는 중...</strong>
           </article>
           <article class="hero-meta-card">
-            <span>주간 범위</span>
+            <span class="meta-label">주간 범위</span>
             <strong id="weekRange">불러오는 중...</strong>
           </article>
         </div>
       </section>
 
-      <aside class="hero-side">
+      <aside class="hero-panel hero-side">
         <div class="hero-side-head">
           <div>
-            <p class="section-kicker">System Status</p>
+            <p class="section-kicker">SYSTEM STATUS</p>
             <h2>운영 현황</h2>
           </div>
           <div id="apiStatus" class="status-badge is-loading">LOADING</div>
@@ -105,7 +108,7 @@
         </div>
       </div>
 
-      <section class="panel table-panel">
+      <section class="content-panel table-panel">
         <div class="table-wrap">
           <table class="ranking-table">
             <thead>
@@ -188,7 +191,7 @@
     </div>
   </footer>
 
-  <script src="./data.js?v=20260401-premium"></script>
-  <script src="./script.js?v=20260401-premium"></script>
+  <script src="./data.js?v=20260401-premium-final-2"></script>
+  <script src="./script.js?v=20260401-premium-final-2"></script>
 </body>
 </html>
