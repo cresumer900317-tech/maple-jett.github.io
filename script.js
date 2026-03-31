@@ -175,9 +175,7 @@ function renderGuilds() {
   if (!container) return;
 
   if (!guilds.length) {
-    container.innerHTML = `
-      <div class="empty-state">길드 요약 데이터가 없습니다.</div>
-    `;
+    container.innerHTML = `<div class="empty-state">길드 요약 데이터가 없습니다.</div>`;
     return;
   }
 
@@ -441,16 +439,16 @@ function renderFooter() {
   if (!footer) return;
 
   if (state.source === "api") {
-    footer.textContent = `실시간 연동: Apps Script API 사용 중`;
+    footer.textContent = "실시간 연동: Apps Script API 사용 중";
     return;
   }
 
   if (state.source === "fallback") {
-    footer.textContent = `API 실패 시 fallback 데이터 사용 중`;
+    footer.textContent = "API 실패 시 fallback 데이터 사용 중";
     return;
   }
 
-  footer.textContent = `API 연결 대기 중`;
+  footer.textContent = "API 연결 대기 중";
 }
 
 function updateActiveTabs(wrapper, activeTab) {
@@ -464,7 +462,7 @@ function setApiStatus(status) {
   const badge = document.getElementById("apiStatus");
   if (!badge) return;
 
-  badge.className = "status-badge";
+  badge.className = "status-chip";
 
   if (status === "loading") {
     badge.classList.add("is-loading");

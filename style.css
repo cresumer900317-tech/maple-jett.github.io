@@ -1,692 +1,191 @@
-:root {
-  --bg: #0b1020;
-  --bg-soft: #121933;
-  --panel: rgba(17, 24, 39, 0.78);
-  --panel-strong: rgba(15, 23, 42, 0.92);
-  --line: rgba(255, 255, 255, 0.1);
-  --line-strong: rgba(255, 255, 255, 0.18);
-  --text: #f8fafc;
-  --text-soft: #cbd5e1;
-  --text-dim: #94a3b8;
-  --blue: #60a5fa;
-  --green: #34d399;
-  --pink: #f472b6;
-  --yellow: #fbbf24;
-  --red: #f87171;
-  --silver: #cbd5e1;
-  --bronze: #d97706;
-  --shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
-  --radius-xl: 28px;
-  --radius-lg: 20px;
-  --radius-md: 16px;
-  --container: 1280px;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  margin: 0;
-  font-family: "Pretendard", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background:
-    radial-gradient(circle at top left, rgba(96, 165, 250, 0.2), transparent 28%),
-    radial-gradient(circle at top right, rgba(244, 114, 182, 0.18), transparent 24%),
-    linear-gradient(180deg, #0b1020 0%, #10182f 45%, #0b1020 100%);
-  color: var(--text);
-}
-
-.page-bg {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.16), transparent 22%),
-    radial-gradient(circle at 90% 10%, rgba(236, 72, 153, 0.13), transparent 18%),
-    radial-gradient(circle at 55% 85%, rgba(52, 211, 153, 0.1), transparent 18%);
-  z-index: -1;
-}
-
-.container {
-  width: min(calc(100% - 32px), var(--container));
-  margin: 0 auto;
-}
-
-.site-header {
-  padding: 36px 0 18px;
-}
-
-.header-inner {
-  display: grid;
-  grid-template-columns: 1.5fr 1fr;
-  gap: 20px;
-  align-items: stretch;
-}
-
-.brand-wrap,
-.header-meta-card,
-.glass-card,
-.guild-card,
-.weekly-card,
-.member-card {
-  border: 1px solid var(--line);
-  background: var(--panel);
-  backdrop-filter: blur(18px);
-  box-shadow: var(--shadow);
-}
-
-.brand-wrap {
-  border-radius: var(--radius-xl);
-  padding: 32px;
-}
-
-.eyebrow,
-.section-kicker {
-  margin: 0 0 8px;
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 0.18em;
-  color: var(--blue);
-  text-transform: uppercase;
-}
-
-.brand-title {
-  margin: 0;
-  font-size: clamp(30px, 4vw, 46px);
-  line-height: 1.05;
-  font-weight: 800;
-}
-
-.brand-desc {
-  margin: 14px 0 0;
-  color: var(--text-soft);
-  font-size: 15px;
-  line-height: 1.7;
-}
-
-.header-meta-card {
-  border-radius: var(--radius-xl);
-  padding: 24px;
-  display: grid;
-  gap: 14px;
-}
-
-.meta-row {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--line);
-}
-
-.meta-row:last-child {
-  border-bottom: 0;
-  padding-bottom: 0;
-}
-
-.meta-label {
-  color: var(--text-dim);
-  font-size: 14px;
-}
-
-.status-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 92px;
-  padding: 7px 12px;
-  border-radius: 999px;
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-}
-
-.status-badge.is-loading {
-  background: rgba(251, 191, 36, 0.18);
-  color: #fde68a;
-}
-
-.status-badge.is-ok {
-  background: rgba(52, 211, 153, 0.18);
-  color: #a7f3d0;
-}
-
-.status-badge.is-fallback {
-  background: rgba(96, 165, 250, 0.18);
-  color: #bfdbfe;
-}
-
-.status-badge.is-error {
-  background: rgba(248, 113, 113, 0.18);
-  color: #fecaca;
-}
-
-.main-content {
-  padding-bottom: 60px;
-}
-
-.hero-panel {
-  border-radius: var(--radius-xl);
-  padding: 28px;
-  display: grid;
-  grid-template-columns: 1.1fr 1fr;
-  gap: 22px;
-}
-
-.hero-panel h2 {
-  margin: 0 0 10px;
-  font-size: clamp(24px, 2.8vw, 34px);
-}
-
-.hero-panel p {
-  margin: 0;
-  color: var(--text-soft);
-  line-height: 1.75;
-}
-
-.hero-summary-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
-}
-
-.summary-card {
-  border: 1px solid var(--line);
-  border-radius: 18px;
-  padding: 18px;
-  background: rgba(255, 255, 255, 0.04);
-}
-
-.summary-card span {
-  display: block;
-  color: var(--text-dim);
-  font-size: 13px;
-  margin-bottom: 8px;
-}
-
-.summary-card strong {
-  font-size: 24px;
-  font-weight: 800;
-}
-
-.section-block {
-  margin-top: 26px;
-}
-
-.section-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: end;
-  gap: 16px;
-  margin-bottom: 16px;
-}
-
-.section-head h2 {
-  margin: 0;
-  font-size: clamp(24px, 2vw, 30px);
-}
-
-.tab-group {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.tab-btn {
-  border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.04);
-  color: var(--text-soft);
-  padding: 10px 14px;
-  border-radius: 999px;
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: 0.2s ease;
-}
-
-.tab-btn:hover,
-.tab-btn.is-active {
-  background: rgba(96, 165, 250, 0.16);
-  border-color: rgba(96, 165, 250, 0.42);
-  color: #eff6ff;
-}
-
-.guild-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-}
-
-.guild-card {
-  border-radius: 22px;
-  padding: 22px;
-  position: relative;
-  overflow: hidden;
-}
-
-.guild-card::before {
-  content: "";
-  position: absolute;
-  inset: 0 auto 0 0;
-  width: 5px;
-  background: currentColor;
-  opacity: 0.85;
-}
-
-.guild-card.is-친구들 { color: #60a5fa; }
-.guild-card.is-친구둘 { color: #34d399; }
-.guild-card.is-친구삼 { color: #fbbf24; }
-.guild-card.is-친구넷 { color: #f472b6; }
-.guild-card.is-친구닷 { color: #a78bfa; }
-.guild-card.is-길드없음 { color: #cbd5e1; }
-
-.guild-card h3 {
-  margin: 0 0 12px;
-  color: var(--text);
-  font-size: 22px;
-}
-
-.guild-stats {
-  display: grid;
-  gap: 10px;
-}
-
-.guild-stat-row {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid var(--line);
-}
-
-.guild-stat-row:last-child {
-  border-bottom: 0;
-  padding-bottom: 0;
-}
-
-.guild-stat-label {
-  color: var(--text-dim);
-  font-size: 14px;
-}
-
-.guild-stat-value {
-  color: var(--text);
-  font-weight: 700;
-  text-align: right;
-}
-
-.table-card {
-  border-radius: var(--radius-xl);
-  overflow: hidden;
-}
-
-.table-wrap {
-  overflow-x: auto;
-}
-
-.ranking-table {
-  width: 100%;
-  border-collapse: collapse;
-  min-width: 980px;
-}
-
-.ranking-table thead th {
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--text-soft);
-  font-size: 13px;
-  text-align: left;
-  padding: 16px 18px;
-  border-bottom: 1px solid var(--line-strong);
-}
-
-.ranking-table tbody td {
-  padding: 16px 18px;
-  border-bottom: 1px solid var(--line);
-  font-size: 14px;
-  vertical-align: middle;
-}
-
-.ranking-table tbody tr:hover {
-  background: rgba(255, 255, 255, 0.035);
-}
-
-.rank-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 42px;
-  height: 42px;
-  border-radius: 14px;
-  font-weight: 800;
-  font-size: 14px;
-  border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.rank-badge.is-gold {
-  background: rgba(251, 191, 36, 0.18);
-  color: #fde68a;
-  border-color: rgba(251, 191, 36, 0.4);
-}
-
-.rank-badge.is-silver {
-  background: rgba(203, 213, 225, 0.18);
-  color: #e2e8f0;
-  border-color: rgba(203, 213, 225, 0.4);
-}
-
-.rank-badge.is-bronze {
-  background: rgba(217, 119, 6, 0.18);
-  color: #fdba74;
-  border-color: rgba(217, 119, 6, 0.4);
-}
-
-.name-cell {
-  display: grid;
-  gap: 4px;
-}
-
-.name-main {
-  font-weight: 800;
-  color: var(--text);
-}
-
-.name-sub {
-  color: var(--text-dim);
-  font-size: 12px;
-}
-
-.guild-pill {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 7px 12px;
-  border-radius: 999px;
-  font-size: 12px;
-  font-weight: 800;
-  white-space: nowrap;
-}
-
-.guild-pill.is-친구들 { background: rgba(96, 165, 250, 0.18); color: #bfdbfe; }
-.guild-pill.is-친구둘 { background: rgba(52, 211, 153, 0.18); color: #a7f3d0; }
-.guild-pill.is-친구삼 { background: rgba(251, 191, 36, 0.18); color: #fde68a; }
-.guild-pill.is-친구넷 { background: rgba(244, 114, 182, 0.18); color: #fbcfe8; }
-.guild-pill.is-친구닷 { background: rgba(167, 139, 250, 0.18); color: #ddd6fe; }
-.guild-pill.is-길드없음 { background: rgba(148, 163, 184, 0.18); color: #e2e8f0; }
-
-.growth-positive {
-  color: #93c5fd;
-  font-weight: 800;
-}
-
-.growth-zero {
-  color: var(--text-dim);
-  font-weight: 700;
-}
-
-.growth-negative {
-  color: #fda4af;
-  font-weight: 800;
-}
-
-.weekly-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-}
-
-.weekly-card {
-  border-radius: 22px;
-  padding: 22px;
-  min-height: 230px;
-}
-
-.weekly-card-rank {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 42px;
-  height: 42px;
-  border-radius: 14px;
-  font-weight: 800;
-  background: rgba(255, 255, 255, 0.06);
-  margin-bottom: 14px;
-}
-
-.weekly-card h3 {
-  margin: 0 0 6px;
-  font-size: 22px;
-}
-
-.weekly-card .sub-text {
-  color: var(--text-dim);
-  font-size: 13px;
-  margin-bottom: 16px;
-}
-
-.weekly-card-list {
-  display: grid;
-  gap: 10px;
-}
-
-.weekly-card-row {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  border-bottom: 1px solid var(--line);
-  padding-bottom: 10px;
-}
-
-.weekly-card-row:last-child {
-  border-bottom: 0;
-  padding-bottom: 0;
-}
-
-.weekly-card-row .left {
-  display: grid;
-  gap: 4px;
-}
-
-.weekly-card-row .right {
-  text-align: right;
-  font-weight: 800;
-}
-
-.members-head {
-  align-items: center;
-}
-
-.toolbar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.search-box input,
-.select-box select {
-  height: 46px;
-  border-radius: 14px;
-  border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--text);
-  padding: 0 14px;
-  font-size: 14px;
-  outline: none;
-}
-
-.search-box input {
-  min-width: 240px;
-}
-
-.select-box select {
-  min-width: 150px;
-}
-
-.members-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 16px;
-}
-
-.member-card {
-  border-radius: 24px;
-  padding: 20px;
-  position: relative;
-  overflow: hidden;
-}
-
-.member-card::after {
-  content: "";
-  position: absolute;
-  inset: auto -40px -40px auto;
-  width: 120px;
-  height: 120px;
-  border-radius: 999px;
-  background: radial-gradient(circle, rgba(255,255,255,0.08), transparent 65%);
-}
-
-.member-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: start;
-  gap: 12px;
-  margin-bottom: 14px;
-}
-
-.member-rank {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--text-dim);
-  font-size: 13px;
-  font-weight: 700;
-}
-
-.member-rank strong {
-  color: var(--text);
-  font-size: 16px;
-}
-
-.member-name {
-  margin: 0 0 4px;
-  font-size: 22px;
-  font-weight: 800;
-}
-
-.member-real-guild {
-  color: var(--text-dim);
-  font-size: 13px;
-}
-
-.member-stats {
-  display: grid;
-  gap: 10px;
-  margin-top: 16px;
-}
-
-.member-stat {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid var(--line);
-}
-
-.member-stat:last-child {
-  border-bottom: 0;
-  padding-bottom: 0;
-}
-
-.member-stat-label {
-  color: var(--text-dim);
-  font-size: 13px;
-}
-
-.member-stat-value {
-  color: var(--text);
-  font-weight: 800;
-  text-align: right;
-}
-
-.empty-state {
-  margin-top: 14px;
-  border: 1px dashed var(--line-strong);
-  border-radius: 20px;
-  padding: 26px;
-  text-align: center;
-  color: var(--text-dim);
-  background: rgba(255, 255, 255, 0.03);
-}
-
-.hidden {
-  display: none !important;
-}
-
-.site-footer {
-  border-top: 1px solid var(--line);
-  padding: 18px 0 28px;
-}
-
-.footer-inner {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  color: var(--text-dim);
-  font-size: 13px;
-}
-
-@media (max-width: 1180px) {
-  .header-inner,
-  .hero-panel {
-    grid-template-columns: 1fr;
-  }
-
-  .guild-grid,
-  .weekly-grid,
-  .members-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 760px) {
-  .container {
-    width: min(calc(100% - 20px), var(--container));
-  }
-
-  .brand-wrap,
-  .header-meta-card,
-  .hero-panel,
-  .table-card,
-  .guild-card,
-  .weekly-card,
-  .member-card {
-    border-radius: 20px;
-  }
-
-  .guild-grid,
-  .weekly-grid,
-  .members-grid,
-  .hero-summary-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .section-head,
-  .members-head,
-  .footer-inner {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .toolbar {
-    flex-direction: column;
-  }
-
-  .search-box input,
-  .select-box select {
-    width: 100%;
-  }
-}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>친구패밀리 홈페이지</title>
+  <meta name="description" content="친구패밀리 통합 랭킹 및 주간 성장 홈페이지" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <div class="bg-orb orb-1"></div>
+  <div class="bg-orb orb-2"></div>
+  <div class="bg-orb orb-3"></div>
+
+  <header class="site-header">
+    <div class="container hero-shell">
+      <section class="hero-main">
+        <div class="hero-badge-row">
+          <span class="hero-badge">MAPLE FAMILY</span>
+          <span class="hero-badge soft">2026 BRIGHT UI</span>
+        </div>
+
+        <h1 class="hero-title">친구패밀리 통합 홈페이지</h1>
+        <p class="hero-desc">
+          친구들 · 친구둘 · 친구삼 · 친구넷 · 친구닷의 데이터를 한곳에 모아
+          전투력, 레벨, 인기도, 주간 성장 현황을 예쁘고 편하게 보는 운영형 홈페이지
+        </p>
+
+        <div class="hero-info-pills">
+          <div class="info-pill">
+            <span class="label">마지막 갱신</span>
+            <strong id="latestSnapshotAt">불러오는 중...</strong>
+          </div>
+          <div class="info-pill">
+            <span class="label">주간 기준</span>
+            <strong id="weeklyBaseAt">불러오는 중...</strong>
+          </div>
+          <div class="info-pill">
+            <span class="label">주간 범위</span>
+            <strong id="weekRange">불러오는 중...</strong>
+          </div>
+        </div>
+      </section>
+
+      <aside class="hero-status-card">
+        <div class="status-top">
+          <p class="section-mini">API STATUS</p>
+          <div id="apiStatus" class="status-chip is-loading">LOADING</div>
+        </div>
+
+        <div class="status-card-grid" id="summaryCards">
+          <article class="summary-card">
+            <span>총 인원</span>
+            <strong>--</strong>
+          </article>
+          <article class="summary-card">
+            <span>평균 레벨</span>
+            <strong>--</strong>
+          </article>
+          <article class="summary-card">
+            <span>평균 전투력</span>
+            <strong>--</strong>
+          </article>
+          <article class="summary-card">
+            <span>평균 인기도</span>
+            <strong>--</strong>
+          </article>
+        </div>
+      </aside>
+    </div>
+  </header>
+
+  <main class="container page-content">
+    <section class="content-section">
+      <div class="section-head">
+        <div>
+          <p class="section-mini">Guild Summary</p>
+          <h2>길드별 주간 요약</h2>
+        </div>
+      </div>
+
+      <div class="guild-grid" id="guildGrid"></div>
+    </section>
+
+    <section class="content-section">
+      <div class="section-head">
+        <div>
+          <p class="section-mini">Family Ranking</p>
+          <h2>친구패밀리 전체 랭킹</h2>
+        </div>
+
+        <div class="tab-group" id="rankingTabs">
+          <button class="tab-btn is-active" data-tab="power">전투력</button>
+          <button class="tab-btn" data-tab="level">레벨</button>
+          <button class="tab-btn" data-tab="popularity">인기도</button>
+        </div>
+      </div>
+
+      <section class="table-panel">
+        <div class="table-wrap">
+          <table class="ranking-table">
+            <thead>
+              <tr>
+                <th>순위</th>
+                <th>캐릭터</th>
+                <th>길드</th>
+                <th>레벨</th>
+                <th>전투력</th>
+                <th>인기도</th>
+                <th>주간 변화</th>
+              </tr>
+            </thead>
+            <tbody id="rankingTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+
+    <section class="content-section">
+      <div class="section-head">
+        <div>
+          <p class="section-mini">Weekly Top</p>
+          <h2>주간 성장 TOP</h2>
+        </div>
+
+        <div class="tab-group" id="weeklyTabs">
+          <button class="tab-btn is-active" data-tab="power">전투력 상승</button>
+          <button class="tab-btn" data-tab="level">레벨 상승</button>
+          <button class="tab-btn" data-tab="popularity">인기도 상승</button>
+        </div>
+      </div>
+
+      <div class="weekly-grid" id="weeklyTopGrid"></div>
+    </section>
+
+    <section class="content-section">
+      <div class="section-head members-head">
+        <div>
+          <p class="section-mini">Members</p>
+          <h2>길드원 카드 목록</h2>
+        </div>
+
+        <div class="toolbar">
+          <div class="search-box">
+            <input
+              type="text"
+              id="memberSearchInput"
+              placeholder="캐릭터명 검색"
+              autocomplete="off"
+            />
+          </div>
+
+          <div class="select-box">
+            <select id="guildFilterSelect">
+              <option value="ALL">전체 길드</option>
+            </select>
+          </div>
+
+          <div class="select-box">
+            <select id="sortSelect">
+              <option value="power">전투력순</option>
+              <option value="level">레벨순</option>
+              <option value="popularity">인기도순</option>
+              <option value="name">이름순</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="members-grid" id="membersGrid"></div>
+      <div class="empty-state hidden" id="membersEmptyState">조건에 맞는 캐릭터가 없습니다.</div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>친구패밀리 홈페이지</p>
+      <p id="footerApiText">API 연결 대기 중</p>
+    </div>
+  </footer>
+
+  <script src="./data.js"></script>
+  <script src="./script.js"></script>
+</body>
+</html>
