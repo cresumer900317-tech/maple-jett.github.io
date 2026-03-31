@@ -11,27 +11,32 @@ const siteData = {
     {
       name: "친구들",
       desc: "패밀리 대표 길드. 상위권 중심 운영 및 핵심 경쟁력 유지 역할을 담당합니다.",
-      badge: "MAIN"
+      badge: "MAIN",
+      tags: ["대표 길드", "핵심 전력", "상위권 중심"]
     },
     {
       name: "친구둘",
       desc: "높은 평균 전투력과 안정적인 인원 구성을 기반으로 메인 전력을 보조합니다.",
-      badge: "CORE"
+      badge: "CORE",
+      tags: ["안정 운영", "메인 보조", "중심 전력"]
     },
     {
       name: "친구삼",
       desc: "친구둘과 함께 패밀리 중추 밸런스를 담당하며 성장 구간 핵심 길드 역할을 수행합니다.",
-      badge: "BALANCE"
+      badge: "BALANCE",
+      tags: ["중추 밸런스", "성장 구간", "핵심 라인"]
     },
     {
       name: "친구넷",
       desc: "여유 운영 및 신규 유입 중심의 길드로, 향후 성장 확장 거점 역할을 담당합니다.",
-      badge: "GROWTH"
+      badge: "GROWTH",
+      tags: ["신규 유입", "확장 거점", "성장형"]
     },
     {
       name: "친구닷",
       desc: "패밀리 확장 구조를 위한 준비 길드로, 장기적 성장과 운영 확장을 고려한 포지션입니다.",
-      badge: "NEXT"
+      badge: "NEXT",
+      tags: ["확장 준비", "장기 운영", "미래 포지션"]
     }
   ],
   guilds: [
@@ -127,20 +132,32 @@ function renderNotices() {
 
 function renderGuildCards() {
   const container = document.getElementById("guild-card-list");
+
   container.innerHTML = siteData.guildDescriptions
-    .map(
-      (guild) => `
+    .map((guild) => {
+      const tags = guild.tags
+        .map((tag) => `<span>${tag}</span>`)
+        .join("");
+
+      return `
         <div class="guild-card">
-          <div class="guild-thumb">
-            <span class="guild-thumb-badge">${guild.badge}</span>
+          <div class="guild-character">
+            <span class="guild-badge">${guild.badge}</span>
+            <div class="guild-avatar">
+              <div class="guild-avatar-cape"></div>
+              <div class="guild-avatar-head"></div>
+              <div class="guild-avatar-hair"></div>
+              <div class="guild-avatar-body"></div>
+            </div>
           </div>
           <div class="guild-body">
             <h3>${guild.name}</h3>
             <p>${guild.desc}</p>
+            <div class="guild-tags">${tags}</div>
           </div>
         </div>
-      `
-    )
+      `;
+    })
     .join("");
 }
 

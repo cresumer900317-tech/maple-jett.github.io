@@ -18,13 +18,8 @@
   --good-soft: rgba(24, 169, 87, 0.14);
 
   --gold: #f4c44e;
-  --gold-soft: rgba(244, 196, 78, 0.22);
-
-  --silver: #cfd7e6;
-  --silver-soft: rgba(207, 215, 230, 0.4);
-
+  --silver: #bfc9d9;
   --bronze: #d99a63;
-  --bronze-soft: rgba(217, 154, 99, 0.24);
 
   --shadow: 0 24px 50px rgba(45, 67, 120, 0.12);
   --shadow-soft: 0 12px 30px rgba(45, 67, 120, 0.08);
@@ -524,67 +519,129 @@ button {
 .guild-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 16px;
+  gap: 18px;
 }
 
 .guild-card {
   overflow: hidden;
-  border-radius: 22px;
+  position: relative;
+  border-radius: 24px;
   background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
   border: 1px solid var(--line);
-  transition: 0.2s ease;
+  transition: 0.22s ease;
   box-shadow: var(--shadow-soft);
 }
 
 .guild-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(91, 140, 255, 0.2);
-  box-shadow: 0 18px 36px rgba(91, 140, 255, 0.12);
+  transform: translateY(-6px);
+  border-color: rgba(91, 140, 255, 0.22);
+  box-shadow: 0 20px 40px rgba(91, 140, 255, 0.14);
 }
 
-.guild-thumb {
+.guild-character {
   position: relative;
-  height: 128px;
+  height: 170px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  overflow: hidden;
   background:
-    radial-gradient(circle at 24% 28%, rgba(255, 255, 255, 0.86), transparent 20%),
-    radial-gradient(circle at 78% 18%, rgba(255, 220, 128, 0.34), transparent 18%),
+    radial-gradient(circle at 28% 26%, rgba(255, 255, 255, 0.92), transparent 20%),
+    radial-gradient(circle at 76% 18%, rgba(255, 220, 128, 0.34), transparent 18%),
     linear-gradient(135deg, rgba(91, 140, 255, 0.22) 0%, rgba(138, 99, 255, 0.22) 54%, rgba(95, 208, 255, 0.18) 100%);
 }
 
-.guild-thumb::before {
+.guild-character::before {
   content: "";
   position: absolute;
-  inset: auto 18px 14px 18px;
-  height: 44px;
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.34);
-  filter: blur(10px);
-}
-
-.guild-thumb::after {
-  content: "";
-  position: absolute;
-  width: 86px;
-  height: 86px;
-  right: -12px;
-  top: -12px;
+  width: 120px;
+  height: 120px;
+  right: -18px;
+  top: -18px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.15);
 }
 
-.guild-thumb-badge {
+.guild-character::after {
+  content: "";
   position: absolute;
-  left: 16px;
-  top: 16px;
+  left: 24px;
+  right: 24px;
+  bottom: 12px;
+  height: 22px;
+  border-radius: 999px;
+  background: rgba(58, 77, 129, 0.12);
+  filter: blur(8px);
+}
+
+.guild-avatar {
+  position: relative;
   z-index: 2;
+  width: 106px;
+  height: 126px;
+  margin-bottom: 16px;
+}
+
+.guild-avatar-head {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 56px;
+  height: 56px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: linear-gradient(180deg, #ffe1c5 0%, #ffd2ae 100%);
+  box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.04);
+}
+
+.guild-avatar-hair {
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  width: 66px;
+  height: 38px;
+  transform: translateX(-50%);
+  border-radius: 40px 40px 24px 24px;
+  background: linear-gradient(180deg, #4d5fd9 0%, #7e5cff 100%);
+}
+
+.guild-avatar-body {
+  position: absolute;
+  top: 48px;
+  left: 50%;
+  width: 74px;
+  height: 64px;
+  transform: translateX(-50%);
+  border-radius: 26px 26px 18px 18px;
+  background: linear-gradient(180deg, #ffffff 0%, #dce8ff 100%);
+  border: 3px solid rgba(255, 255, 255, 0.65);
+}
+
+.guild-avatar-cape {
+  position: absolute;
+  top: 54px;
+  left: 50%;
+  width: 88px;
+  height: 54px;
+  transform: translateX(-50%);
+  border-radius: 20px 20px 30px 30px;
+  background: linear-gradient(180deg, rgba(138, 99, 255, 0.5) 0%, rgba(91, 140, 255, 0.22) 100%);
+  z-index: 1;
+}
+
+.guild-badge {
+  position: absolute;
+  left: 14px;
+  top: 14px;
+  z-index: 3;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 60px;
+  min-width: 62px;
   height: 30px;
   padding: 0 10px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.84);
+  background: rgba(255, 255, 255, 0.86);
   color: var(--primary-deep);
   font-size: 0.78rem;
   font-weight: 800;
@@ -596,15 +653,33 @@ button {
 
 .guild-card h3 {
   margin: 0 0 10px;
-  font-size: 1.12rem;
+  font-size: 1.14rem;
   color: #121a2d;
 }
 
 .guild-card p {
-  margin: 0;
+  margin: 0 0 14px;
   color: #64748b;
   font-size: 0.93rem;
   line-height: 1.8;
+}
+
+.guild-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.guild-tags span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: rgba(91, 140, 255, 0.1);
+  color: #4963a3;
+  font-size: 0.78rem;
+  font-weight: 700;
 }
 
 .dashboard-top-cards {
@@ -772,17 +847,17 @@ tbody tr:hover {
 
 .rank-item.rank-gold {
   border-color: rgba(244, 196, 78, 0.34);
-  background: linear-gradient(180deg, rgba(255, 250, 234, 1) 0%, rgba(255, 245, 214, 1) 100%);
+  background: linear-gradient(180deg, #fff9e8 0%, #fff2c7 100%);
 }
 
 .rank-item.rank-silver {
-  border-color: rgba(207, 215, 230, 0.65);
-  background: linear-gradient(180deg, rgba(250, 252, 255, 1) 0%, rgba(240, 244, 250, 1) 100%);
+  border-color: rgba(168, 182, 201, 0.55);
+  background: linear-gradient(180deg, #f8fbff 0%, #e5edf7 100%);
 }
 
 .rank-item.rank-bronze {
   border-color: rgba(217, 154, 99, 0.38);
-  background: linear-gradient(180deg, rgba(255, 247, 240, 1) 0%, rgba(250, 236, 225, 1) 100%);
+  background: linear-gradient(180deg, #fff7f0 0%, #faece1 100%);
 }
 
 .rank-left {
@@ -795,24 +870,25 @@ tbody tr:hover {
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  background: var(--primary-soft);
-  color: var(--primary-deep);
+  background: linear-gradient(180deg, #f2f6ff 0%, #dde7ff 100%);
+  color: #4c6fdc;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 800;
+  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.03);
 }
 
 .rank-number.rank-gold {
-  background: linear-gradient(135deg, #ffd86b 0%, #f4c44e 100%);
+  background: linear-gradient(135deg, #ffe28a 0%, #f4c44e 100%);
   color: #6b4a00;
   box-shadow: 0 10px 20px rgba(244, 196, 78, 0.26);
 }
 
 .rank-number.rank-silver {
-  background: linear-gradient(135deg, #eef3fb 0%, #cfd7e6 100%);
-  color: #536177;
-  box-shadow: 0 10px 20px rgba(207, 215, 230, 0.35);
+  background: linear-gradient(135deg, #f8fbff 0%, #bcc8d7 100%);
+  color: #4b5f78;
+  box-shadow: 0 10px 20px rgba(173, 186, 201, 0.34);
 }
 
 .rank-number.rank-bronze {
@@ -863,28 +939,29 @@ tbody tr:hover {
 }
 
 .rank-badge {
-  min-width: 36px;
-  height: 36px;
+  min-width: 38px;
+  height: 38px;
   border-radius: 999px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: var(--primary-soft);
-  color: var(--primary-deep);
+  background: linear-gradient(180deg, #eef3ff 0%, #dce7ff 100%);
+  color: #4564cf;
   font-size: 0.84rem;
   font-weight: 800;
+  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.03);
 }
 
 .rank-badge.rank-gold {
-  background: linear-gradient(135deg, #ffd86b 0%, #f4c44e 100%);
+  background: linear-gradient(135deg, #ffe28a 0%, #f4c44e 100%);
   color: #6b4a00;
   box-shadow: 0 10px 20px rgba(244, 196, 78, 0.26);
 }
 
 .rank-badge.rank-silver {
-  background: linear-gradient(135deg, #eef3fb 0%, #cfd7e6 100%);
-  color: #536177;
-  box-shadow: 0 10px 20px rgba(207, 215, 230, 0.35);
+  background: linear-gradient(135deg, #f8fbff 0%, #bcc8d7 100%);
+  color: #4b5f78;
+  box-shadow: 0 10px 20px rgba(173, 186, 201, 0.34);
 }
 
 .rank-badge.rank-bronze {
