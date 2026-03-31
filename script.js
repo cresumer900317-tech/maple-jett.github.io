@@ -243,6 +243,7 @@ function renderWeekly() {
 
 function renderRankList(targetId, items) {
   const container = document.getElementById(targetId);
+
   container.innerHTML = items
     .map((item) => {
       const medalClass = getMedalClass(item.rank);

@@ -1,6 +1,6 @@
 :root {
   --bg: #f5f7ff;
-  --panel: rgba(255, 255, 255, 0.88);
+  --panel: rgba(255, 255, 255, 0.9);
   --line: rgba(23, 34, 59, 0.08);
 
   --text: #182338;
@@ -17,6 +17,10 @@
 
   --shadow: 0 24px 50px rgba(45, 67, 120, 0.12);
   --shadow-soft: 0 12px 30px rgba(45, 67, 120, 0.08);
+
+  --gold-bg: linear-gradient(135deg, #ffe28a 0%, #f4c44e 100%);
+  --silver-bg: linear-gradient(135deg, #f8fbff 0%, #bcc8d7 100%);
+  --bronze-bg: linear-gradient(135deg, #efbb8b 0%, #d99a63 100%);
 
   --radius: 24px;
   --container: 1200px;
@@ -214,6 +218,10 @@ button {
   background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 55%, var(--accent-2) 100%);
   color: #fff;
   box-shadow: 0 14px 30px rgba(91, 140, 255, 0.26);
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
 }
 
 .btn-secondary {
@@ -539,58 +547,78 @@ button {
   filter: blur(8px);
 }
 
-.guild-avatar {
+.guild-avatar,
+.modal-avatar {
   position: relative;
   z-index: 2;
+}
+
+.guild-avatar {
   width: 106px;
   height: 126px;
   margin-bottom: 16px;
 }
 
-.guild-avatar-head {
+.guild-avatar-head,
+.modal-avatar-head {
   position: absolute;
   top: 0;
   left: 50%;
-  width: 56px;
-  height: 56px;
   transform: translateX(-50%);
   border-radius: 50%;
   background: linear-gradient(180deg, #ffe1c5 0%, #ffd2ae 100%);
 }
 
-.guild-avatar-hair {
+.guild-avatar-head {
+  width: 56px;
+  height: 56px;
+}
+
+.guild-avatar-hair,
+.modal-avatar-hair {
   position: absolute;
   top: -4px;
   left: 50%;
-  width: 66px;
-  height: 38px;
   transform: translateX(-50%);
-  border-radius: 40px 40px 24px 24px;
   background: linear-gradient(180deg, #4d5fd9 0%, #7e5cff 100%);
 }
 
-.guild-avatar-body {
+.guild-avatar-hair {
+  width: 66px;
+  height: 38px;
+  border-radius: 40px 40px 24px 24px;
+}
+
+.guild-avatar-body,
+.modal-avatar-body {
   position: absolute;
-  top: 48px;
   left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, #ffffff 0%, #dce8ff 100%);
+}
+
+.guild-avatar-body {
+  top: 48px;
   width: 74px;
   height: 64px;
-  transform: translateX(-50%);
   border-radius: 26px 26px 18px 18px;
-  background: linear-gradient(180deg, #ffffff 0%, #dce8ff 100%);
   border: 3px solid rgba(255, 255, 255, 0.65);
 }
 
-.guild-avatar-cape {
+.guild-avatar-cape,
+.modal-avatar-cape {
   position: absolute;
-  top: 54px;
   left: 50%;
-  width: 88px;
-  height: 54px;
   transform: translateX(-50%);
-  border-radius: 20px 20px 30px 30px;
   background: linear-gradient(180deg, rgba(138, 99, 255, 0.5) 0%, rgba(91, 140, 255, 0.22) 100%);
   z-index: 1;
+}
+
+.guild-avatar-cape {
+  top: 54px;
+  width: 88px;
+  height: 54px;
+  border-radius: 20px 20px 30px 30px;
 }
 
 .guild-badge {
@@ -628,13 +656,15 @@ button {
   line-height: 1.8;
 }
 
-.guild-tags {
+.guild-tags,
+.modal-tags {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
 }
 
-.guild-tags span {
+.guild-tags span,
+.modal-tags span {
   display: inline-flex;
   align-items: center;
   min-height: 30px;
@@ -829,30 +859,47 @@ tbody tr:hover {
   gap: 12px;
 }
 
+.rank-number,
+.rank-badge,
+.member-rank {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+}
+
 .rank-number {
   width: 38px;
   height: 38px;
   border-radius: 50%;
   background: linear-gradient(180deg, #f2f6ff 0%, #dde7ff 100%);
   color: #4c6fdc;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 800;
 }
 
-.rank-number.rank-gold {
-  background: linear-gradient(135deg, #ffe28a 0%, #f4c44e 100%);
+.rank-badge {
+  min-width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #eef3ff 0%, #dce7ff 100%);
+  color: #4564cf;
+  font-size: 0.84rem;
+}
+
+.rank-number.rank-gold,
+.rank-badge.rank-gold {
+  background: var(--gold-bg);
   color: #6b4a00;
 }
 
-.rank-number.rank-silver {
-  background: linear-gradient(135deg, #f8fbff 0%, #bcc8d7 100%);
+.rank-number.rank-silver,
+.rank-badge.rank-silver {
+  background: var(--silver-bg);
   color: #4b5f78;
 }
 
-.rank-number.rank-bronze {
-  background: linear-gradient(135deg, #efbb8b 0%, #d99a63 100%);
+.rank-number.rank-bronze,
+.rank-badge.rank-bronze {
+  background: var(--bronze-bg);
   color: #6b3f1f;
 }
 
@@ -896,34 +943,6 @@ tbody tr:hover {
   border-color: rgba(91, 140, 255, 0.16);
 }
 
-.rank-badge {
-  min-width: 38px;
-  height: 38px;
-  border-radius: 999px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(180deg, #eef3ff 0%, #dce7ff 100%);
-  color: #4564cf;
-  font-size: 0.84rem;
-  font-weight: 800;
-}
-
-.rank-badge.rank-gold {
-  background: linear-gradient(135deg, #ffe28a 0%, #f4c44e 100%);
-  color: #6b4a00;
-}
-
-.rank-badge.rank-silver {
-  background: linear-gradient(135deg, #f8fbff 0%, #bcc8d7 100%);
-  color: #4b5f78;
-}
-
-.rank-badge.rank-bronze {
-  background: linear-gradient(135deg, #efbb8b 0%, #d99a63 100%);
-  color: #6b3f1f;
-}
-
 .site-footer {
   margin-top: 30px;
   border-top: 1px solid rgba(23, 34, 59, 0.06);
@@ -940,6 +959,7 @@ tbody tr:hover {
   font-size: 0.9rem;
 }
 
+/* Modal */
 .modal-backdrop {
   position: fixed;
   inset: 0;
@@ -980,6 +1000,10 @@ tbody tr:hover {
   color: #334155;
   font-size: 1.5rem;
   cursor: pointer;
+}
+
+.modal-close:hover {
+  background: rgba(23, 34, 59, 0.12);
 }
 
 .modal-hero {
@@ -1072,57 +1096,35 @@ tbody tr:hover {
 }
 
 .modal-avatar {
-  position: relative;
-  z-index: 2;
   width: 144px;
   height: 174px;
   margin-bottom: 24px;
 }
 
 .modal-avatar-head {
-  position: absolute;
-  top: 0;
-  left: 50%;
   width: 72px;
   height: 72px;
-  transform: translateX(-50%);
-  border-radius: 50%;
-  background: linear-gradient(180deg, #ffe1c5 0%, #ffd2ae 100%);
 }
 
 .modal-avatar-hair {
-  position: absolute;
-  top: -4px;
-  left: 50%;
   width: 86px;
   height: 48px;
-  transform: translateX(-50%);
   border-radius: 44px 44px 26px 26px;
-  background: linear-gradient(180deg, #4d5fd9 0%, #7e5cff 100%);
 }
 
 .modal-avatar-body {
-  position: absolute;
   top: 62px;
-  left: 50%;
   width: 96px;
   height: 82px;
-  transform: translateX(-50%);
   border-radius: 28px 28px 20px 20px;
-  background: linear-gradient(180deg, #ffffff 0%, #dce8ff 100%);
   border: 4px solid rgba(255, 255, 255, 0.65);
 }
 
 .modal-avatar-cape {
-  position: absolute;
   top: 70px;
-  left: 50%;
   width: 118px;
   height: 70px;
-  transform: translateX(-50%);
   border-radius: 24px 24px 34px 34px;
-  background: linear-gradient(180deg, rgba(138, 99, 255, 0.52) 0%, rgba(91, 140, 255, 0.24) 100%);
-  z-index: 1;
 }
 
 .modal-hero-copy {
@@ -1154,21 +1156,6 @@ tbody tr:hover {
 
 .modal-tags {
   margin-top: 18px;
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.modal-tags span {
-  display: inline-flex;
-  align-items: center;
-  min-height: 32px;
-  padding: 0 12px;
-  border-radius: 999px;
-  background: rgba(91, 140, 255, 0.1);
-  color: #4963a3;
-  font-size: 0.8rem;
-  font-weight: 700;
 }
 
 .modal-grid {
@@ -1210,7 +1197,8 @@ tbody tr:hover {
   border: 1px solid rgba(23, 34, 59, 0.06);
 }
 
-.modal-detail-box span {
+.modal-detail-box span,
+.modal-members-head span {
   display: inline-block;
   margin-bottom: 10px;
   color: var(--primary-deep);
@@ -1226,15 +1214,6 @@ tbody tr:hover {
 
 .modal-members-section {
   margin-top: 20px;
-}
-
-.modal-members-head span {
-  display: inline-block;
-  margin-bottom: 6px;
-  color: var(--primary-deep);
-  font-size: 0.76rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
 }
 
 .modal-members-head h4 {
@@ -1260,12 +1239,8 @@ tbody tr:hover {
   width: 34px;
   height: 34px;
   border-radius: 50%;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
   background: linear-gradient(180deg, #eef3ff 0%, #dce7ff 100%);
   color: #4564cf;
-  font-weight: 800;
   margin-bottom: 12px;
 }
 
@@ -1286,6 +1261,7 @@ tbody tr:hover {
   font-size: 0.84rem;
 }
 
+/* scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
