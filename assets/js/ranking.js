@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const data = await getHomeData();
   renderRankingTable(data.rankings.power || [], "power");
+  updateRankingSidebar("전투력");
 
   const tabs = document.getElementById("rankingTabs");
   tabs?.addEventListener("click", (event) => {
@@ -11,10 +12,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     button.classList.add("is-active");
 
     const tab = button.dataset.tab;
+    const label = tab === "power" ? "전투력" : tab === "level" ? "레벨" : "인기도";
     renderRankingTable(data.rankings[tab] || [], tab);
+    updateRankingSidebar(label);
   });
-
-  renderFooter();
 });
 
 function renderRankingTable(rows, tab = "power") {
@@ -60,10 +61,9 @@ function renderRankingTable(rows, tab = "power") {
   }).join("");
 }
 
-function renderFooter() {
-  const footer = document.getElementById("footerApiText");
-  if (!footer) return;
-  footer.textContent = appState.source === "api"
-    ? "실시간 연동: Apps Script API 사용 중"
-    : "API 실패 시 fallback 데이터 사용 중";
+function updateRankingSidebar(label) {
+  const metric = document.getElementById("rankingMetricLabel");
+  const api = document.getElementById("rankingApiText");
+  if (metric) metric.textContent = label;
+  if (api) api.textContent = appState.source === "api" ? "실시간 반영" : "fallback 반영";
 }

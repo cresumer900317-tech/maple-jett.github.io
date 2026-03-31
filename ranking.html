@@ -7,11 +7,8 @@
   <meta name="description" content="친구패밀리 전체 랭킹" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap"
-    rel="stylesheet"
-  />
-  <link rel="stylesheet" href="./assets/css/style.css?v=apple-final-001" />
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./assets/css/style.css?v=apple-final-002" />
 </head>
 <body data-page="ranking">
   <div id="app-shell"></div>
@@ -20,46 +17,75 @@
     <section class="container page-hero">
       <p class="eyebrow">Family Ranking</p>
       <h1>친구패밀리 전체 랭킹</h1>
-      <p>전투력 · 레벨 · 인기도 기준으로 친구패밀리 전체 순위를 확인할 수 있습니다.</p>
+      <p>전투력, 레벨, 인기도 기준으로 전체 순위를 가장 읽기 쉬운 밀도로 정리했습니다.</p>
     </section>
 
-    <section class="container section">
-      <div class="section-head">
-        <div>
+    <section class="container ranking-layout section">
+      <aside class="panel ranking-sidebar">
+        <div class="panel-section">
           <p class="eyebrow">Ranking Filter</p>
-          <h2>랭킹 탭</h2>
+          <h2 class="side-title">필터</h2>
+
+          <div class="tab-stack" id="rankingTabs">
+            <button class="tab-btn is-active" data-tab="power">전투력</button>
+            <button class="tab-btn" data-tab="level">레벨</button>
+            <button class="tab-btn" data-tab="popularity">인기도</button>
+          </div>
         </div>
 
-        <div class="tab-group" id="rankingTabs">
-          <button class="tab-btn is-active" data-tab="power">전투력</button>
-          <button class="tab-btn" data-tab="level">레벨</button>
-          <button class="tab-btn" data-tab="popularity">인기도</button>
-        </div>
-      </div>
+        <div class="divider"></div>
 
-      <section class="content-panel">
-        <div class="table-wrap">
-          <table class="ranking-table">
-            <thead>
-              <tr>
-                <th>순위</th>
-                <th>캐릭터</th>
-                <th>길드</th>
-                <th>레벨</th>
-                <th>전투력</th>
-                <th>인기도</th>
-                <th>주간 변화</th>
-              </tr>
-            </thead>
-            <tbody id="rankingTableBody"></tbody>
-          </table>
+        <div class="panel-section" id="rankingSummaryBox">
+          <p class="eyebrow">Live Summary</p>
+          <div class="mini-summary-list">
+            <div class="mini-summary-row">
+              <span>기준</span>
+              <strong id="rankingMetricLabel">전투력</strong>
+            </div>
+            <div class="mini-summary-row">
+              <span>표시 범위</span>
+              <strong>TOP 50</strong>
+            </div>
+            <div class="mini-summary-row">
+              <span>상태</span>
+              <strong id="rankingApiText">실시간 반영</strong>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <section class="panel ranking-main">
+        <div class="ranking-table-head">
+          <div>
+            <p class="eyebrow">Ranking Table</p>
+            <h2>전체 순위표</h2>
+          </div>
+        </div>
+
+        <div class="ranking-scroll-shell">
+          <div class="table-wrap ranking-inner-scroll">
+            <table class="ranking-table">
+              <thead>
+                <tr>
+                  <th>순위</th>
+                  <th>캐릭터</th>
+                  <th>길드</th>
+                  <th>레벨</th>
+                  <th>전투력</th>
+                  <th>인기도</th>
+                  <th>주간 변화</th>
+                </tr>
+              </thead>
+              <tbody id="rankingTableBody"></tbody>
+            </table>
+          </div>
         </div>
       </section>
     </section>
   </main>
 
-  <script src="./assets/js/data.js?v=apple-final-001"></script>
-  <script src="./assets/js/common.js?v=apple-final-001"></script>
-  <script src="./assets/js/ranking.js?v=apple-final-001"></script>
+  <script src="./assets/js/data.js?v=apple-final-002"></script>
+  <script src="./assets/js/common.js?v=apple-final-002"></script>
+  <script src="./assets/js/ranking.js?v=apple-final-002"></script>
 </body>
 </html>

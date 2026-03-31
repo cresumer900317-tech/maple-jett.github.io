@@ -95,7 +95,7 @@ function getCache(key) {
     }
 
     return parsed.data;
-  } catch (error) {
+  } catch {
     return null;
   }
 }
@@ -151,7 +151,7 @@ function normalizeHomeData(data) {
 }
 
 async function getHomeData() {
-  const cacheKey = "friends_family_home_data_v2";
+  const cacheKey = "friends_family_home_data_v3";
   const cached = getCache(cacheKey);
 
   if (cached) {
@@ -177,7 +177,7 @@ async function getHomeData() {
 }
 
 async function getNoticePosts() {
-  const cacheKey = "friends_family_notice_posts_v2";
+  const cacheKey = "friends_family_notice_posts_v3";
   const cached = getCache(cacheKey);
   if (cached) return cached;
 
@@ -194,7 +194,7 @@ async function getNoticePosts() {
 }
 
 async function getTipsPosts() {
-  const cacheKey = "friends_family_tips_posts_v2";
+  const cacheKey = "friends_family_tips_posts_v3";
   const cached = getCache(cacheKey);
   if (cached) return cached;
 
@@ -267,12 +267,6 @@ function getRankBadgeClass(rank) {
   if (rank === 2) return "is-silver";
   if (rank === 3) return "is-bronze";
   return "";
-}
-
-function getGuildClassName(guildName) {
-  const normalized = String(guildName || "길드 없음").replace(/\s+/g, "");
-  if (normalized === "길드없음") return "is-길드없음";
-  return `is-${normalized}`;
 }
 
 function getDiffClass(value) {

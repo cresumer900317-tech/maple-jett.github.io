@@ -24,8 +24,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     state.sort = e.target.value;
     renderMembers(state);
   });
-
-  renderFooter();
 });
 
 function setupGuildOptions(guilds) {
@@ -96,12 +94,4 @@ function renderMembers(state) {
       </article>
     `;
   }).join("");
-}
-
-function renderFooter() {
-  const footer = document.getElementById("footerApiText");
-  if (!footer) return;
-  footer.textContent = appState.source === "api"
-    ? "실시간 연동: Apps Script API 사용 중"
-    : "API 실패 시 fallback 데이터 사용 중";
 }
