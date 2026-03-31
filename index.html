@@ -5,12 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>친구 패밀리</title>
   <meta name="description" content="메이플 길드 친구 패밀리 공식 홈페이지" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap"
-    rel="stylesheet"
-  />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -54,24 +48,50 @@
             <a href="#dashboard" class="btn btn-primary">대시보드 보기</a>
             <a href="#ranking" class="btn btn-secondary">전체 순위 보기</a>
           </div>
+
+          <div class="hero-meta">
+            <div class="hero-meta-item">
+              <span>운영 방향</span>
+              <strong>패밀리 통합 성장</strong>
+            </div>
+            <div class="hero-meta-item">
+              <span>운영 방식</span>
+              <strong>데이터 기반 밸런싱</strong>
+            </div>
+          </div>
         </div>
 
-        <div class="hero-summary">
-          <div class="summary-card">
-            <span>전체 인원</span>
-            <strong id="summary-total-members">-</strong>
+        <div class="hero-side">
+          <div class="hero-summary">
+            <div class="summary-card">
+              <span>전체 인원</span>
+              <strong id="summary-total-members">-</strong>
+            </div>
+            <div class="summary-card">
+              <span>패밀리 평균 전투력</span>
+              <strong id="summary-avg-power">-</strong>
+            </div>
+            <div class="summary-card">
+              <span>패밀리 평균 레벨</span>
+              <strong id="summary-avg-level">-</strong>
+            </div>
+            <div class="summary-card">
+              <span>최근 업데이트</span>
+              <strong id="summary-updated-at">-</strong>
+            </div>
           </div>
-          <div class="summary-card">
-            <span>패밀리 평균 전투력</span>
-            <strong id="summary-avg-power">-</strong>
-          </div>
-          <div class="summary-card">
-            <span>패밀리 평균 레벨</span>
-            <strong id="summary-avg-level">-</strong>
-          </div>
-          <div class="summary-card">
-            <span>최근 업데이트</span>
-            <strong id="summary-updated-at">-</strong>
+
+          <div class="hero-visual">
+            <div class="hero-orb hero-orb-1"></div>
+            <div class="hero-orb hero-orb-2"></div>
+            <div class="hero-visual-card">
+              <span class="hero-visual-label">FAMILY STATUS</span>
+              <h3>길드 운영 현황</h3>
+              <p>
+                패밀리 전체 평균 지표와 길드별 성장 데이터를 기반으로
+                운영 방향을 정리하는 통합 허브입니다.
+              </p>
+            </div>
           </div>
         </div>
       </div>

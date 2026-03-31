@@ -10,23 +10,28 @@ const siteData = {
   guildDescriptions: [
     {
       name: "친구들",
-      desc: "패밀리 대표 길드. 상위권 중심 운영 및 핵심 경쟁력 유지 역할을 담당합니다."
+      desc: "패밀리 대표 길드. 상위권 중심 운영 및 핵심 경쟁력 유지 역할을 담당합니다.",
+      badge: "MAIN"
     },
     {
       name: "친구둘",
-      desc: "높은 평균 전투력과 안정적인 인원 구성을 기반으로 메인 전력을 보조합니다."
+      desc: "높은 평균 전투력과 안정적인 인원 구성을 기반으로 메인 전력을 보조합니다.",
+      badge: "CORE"
     },
     {
       name: "친구삼",
-      desc: "친구둘과 함께 패밀리 중추 밸런스를 담당하며 성장 구간 핵심 길드 역할을 수행합니다."
+      desc: "친구둘과 함께 패밀리 중추 밸런스를 담당하며 성장 구간 핵심 길드 역할을 수행합니다.",
+      badge: "BALANCE"
     },
     {
       name: "친구넷",
-      desc: "여유 운영 및 신규 유입 중심의 길드로, 향후 성장 확장 거점 역할을 담당합니다."
+      desc: "여유 운영 및 신규 유입 중심의 길드로, 향후 성장 확장 거점 역할을 담당합니다.",
+      badge: "GROWTH"
     },
     {
       name: "친구닷",
-      desc: "패밀리 확장 구조를 위한 준비 길드로, 장기적 성장과 운영 확장을 고려한 포지션입니다."
+      desc: "패밀리 확장 구조를 위한 준비 길드로, 장기적 성장과 운영 확장을 고려한 포지션입니다.",
+      badge: "NEXT"
     }
   ],
   guilds: [
@@ -126,8 +131,13 @@ function renderGuildCards() {
     .map(
       (guild) => `
         <div class="guild-card">
-          <h3>${guild.name}</h3>
-          <p>${guild.desc}</p>
+          <div class="guild-thumb">
+            <span class="guild-thumb-badge">${guild.badge}</span>
+          </div>
+          <div class="guild-body">
+            <h3>${guild.name}</h3>
+            <p>${guild.desc}</p>
+          </div>
         </div>
       `
     )
