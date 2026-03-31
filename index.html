@@ -7,20 +7,23 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="./assets/css/style.css?v=multi-final-1" />
+  <link rel="stylesheet" href="./assets/css/style.css?v=multi-final-2" />
 </head>
 <body data-page="home">
   <div id="app-shell"></div>
 
   <main class="page-wrap">
-    <section class="container hero-grid">
-      <section class="hero-card hero-main">
-        <div class="hero-chip-row">
-          <span class="hero-chip">MAPLE FAMILY</span>
-          <span class="hero-chip is-purple">PREMIUM GUILD</span>
-          <span class="hero-chip is-soft">2026 UI</span>
+    <section class="container hero-layout">
+      <section class="hero-panel hero-main">
+        <div class="hero-frame"></div>
+
+        <div class="hero-badges">
+          <span class="hero-badge">MAPLE FAMILY</span>
+          <span class="hero-badge is-purple">PREMIUM GUILD</span>
+          <span class="hero-badge is-soft">2026 UI</span>
         </div>
-        <p class="eyebrow">FRIENDS FAMILY ARCHIVE</p>
+
+        <p class="hero-kicker">FRIENDS FAMILY ARCHIVE</p>
         <h1 class="hero-title">친구패밀리 통합 홈페이지</h1>
         <p class="hero-desc">
           친구들 · 친구둘 · 친구삼 · 친구넷 · 친구닷의 전체 데이터를 한곳에 모아,
@@ -43,10 +46,10 @@
         </div>
       </section>
 
-      <aside class="hero-card hero-side">
-        <div class="card-head between">
+      <aside class="hero-panel hero-side">
+        <div class="hero-side-head">
           <div>
-            <p class="eyebrow">SYSTEM STATUS</p>
+            <p class="section-kicker">SYSTEM STATUS</p>
             <h2>운영 현황</h2>
           </div>
           <div id="apiStatus" class="status-badge is-loading">LOADING</div>
@@ -59,39 +62,7 @@
     <section class="container section">
       <div class="section-head">
         <div>
-          <p class="eyebrow">Quick Access</p>
-          <h2>바로가기</h2>
-        </div>
-      </div>
-
-      <div class="quick-grid">
-        <a class="quick-card" href="./ranking.html">
-          <strong>전체 랭킹</strong>
-          <span>전투력 · 레벨 · 인기도 전체 순위</span>
-        </a>
-        <a class="quick-card" href="./members.html">
-          <strong>길드원 목록</strong>
-          <span>길드원 카드형 아카이브</span>
-        </a>
-        <a class="quick-card" href="./weekly.html">
-          <strong>주간 성장</strong>
-          <span>주간 상승 TOP 및 변화량</span>
-        </a>
-        <a class="quick-card" href="./notice.html">
-          <strong>공지 게시판</strong>
-          <span>운영 공지 / 규칙 / 이벤트</span>
-        </a>
-        <a class="quick-card" href="./tips.html">
-          <strong>꿀팁 게시판</strong>
-          <span>육성 / 세팅 / 보스 팁</span>
-        </a>
-      </div>
-    </section>
-
-    <section class="container section">
-      <div class="section-head">
-        <div>
-          <p class="eyebrow">Guild Summary</p>
+          <p class="section-kicker">Guild Summary</p>
           <h2>길드별 요약</h2>
         </div>
       </div>
@@ -102,7 +73,7 @@
       <section>
         <div class="section-head compact">
           <div>
-            <p class="eyebrow">Weekly Top</p>
+            <p class="section-kicker">Weekly Top</p>
             <h2>주간 TOP 3</h2>
           </div>
         </div>
@@ -112,7 +83,7 @@
       <section>
         <div class="section-head compact">
           <div>
-            <p class="eyebrow">Latest Notice</p>
+            <p class="section-kicker">Latest Notice</p>
             <h2>최신 공지</h2>
           </div>
         </div>
@@ -121,8 +92,8 @@
     </section>
   </main>
 
-  <script src="./assets/js/data.js?v=multi-final-1"></script>
-  <script src="./assets/js/common.js?v=multi-final-1"></script>
-  <script src="./assets/js/home.js?v=multi-final-1"></script>
+  <script src="./assets/js/data.js?v=multi-final-2"></script>
+  <script src="./assets/js/common.js?v=multi-final-2"></script>
+  <script src="./assets/js/home.js?v=multi-final-2"></script>
 </body>
 </html>
