@@ -1,49 +1,56 @@
 :root {
-  --bg: #f6f2ea;
-  --bg-2: #fbf8f2;
-  --bg-3: #f3ede3;
+  --bg: #fcfbf8;
+  --bg-soft: #f7f4ee;
+  --surface: #ffffff;
+  --surface-soft: #fdfaf5;
+  --surface-tint: #faf6ef;
 
-  --card: rgba(255, 252, 247, 0.94);
-  --card-strong: #fffdfa;
-  --glass: rgba(255, 255, 255, 0.68);
+  --line: rgba(194, 165, 104, 0.18);
+  --line-strong: rgba(185, 151, 80, 0.34);
 
-  --line: rgba(198, 169, 108, 0.20);
-  --line-strong: rgba(188, 154, 83, 0.34);
+  --text: #3c312a;
+  --text-strong: #1f1712;
+  --text-soft: #746558;
+  --text-dim: #a29386;
 
-  --text: #43362d;
-  --text-strong: #221913;
-  --text-soft: #756456;
-  --text-dim: #a08f81;
-
-  --gold: #c9a55b;
-  --gold-deep: #8a6a28;
-  --gold-soft: #f2e2b7;
-  --champagne: #f7ecd6;
-  --pearl: #f8f4ec;
+  --gold: #c7a45d;
+  --gold-deep: #8d6b28;
+  --gold-soft: #f4e6bf;
+  --champagne: #f8efd9;
   --ivory: #fffdfa;
+  --pearl: #f8f4ec;
 
-  --positive: #467fc5;
-  --negative: #c96773;
-  --neutral: #9e8a79;
+  --blue: #547fc2;
+  --green: #46886a;
+  --purple: #7d67a5;
+  --slate: #71757f;
 
-  --guild-1: linear-gradient(180deg, #eef5fc 0%, #fafcff 100%);
-  --guild-2: linear-gradient(180deg, #edf8f3 0%, #fbfffd 100%);
-  --guild-3: linear-gradient(180deg, #fbf4df 0%, #fffdf6 100%);
-  --guild-4: linear-gradient(180deg, #f6eff8 0%, #fffafe 100%);
-  --guild-5: linear-gradient(180deg, #f1f1fb 0%, #fcfcff 100%);
-  --guild-0: linear-gradient(180deg, #f4f1ec 0%, #fbfaf8 100%);
+  --positive: #497fc5;
+  --negative: #cb6975;
+  --neutral: #9a8a7b;
 
-  --shadow-xl: 0 28px 80px rgba(112, 86, 49, 0.14);
-  --shadow-lg: 0 18px 44px rgba(116, 90, 53, 0.12);
-  --shadow-md: 0 10px 24px rgba(130, 102, 63, 0.10);
-  --shadow-sm: 0 6px 16px rgba(120, 97, 68, 0.08);
+  --guild-1: linear-gradient(180deg, #f4f9ff 0%, #ffffff 100%);
+  --guild-2: linear-gradient(180deg, #f3fbf7 0%, #ffffff 100%);
+  --guild-3: linear-gradient(180deg, #fff8e9 0%, #ffffff 100%);
+  --guild-4: linear-gradient(180deg, #faf5fd 0%, #ffffff 100%);
+  --guild-5: linear-gradient(180deg, #f5f6ff 0%, #ffffff 100%);
+  --guild-0: linear-gradient(180deg, #f7f7f7 0%, #ffffff 100%);
+
+  --gold-badge: linear-gradient(180deg, #fff2c8 0%, #efd27f 100%);
+  --silver-badge: linear-gradient(180deg, #f5f7fb 0%, #d8e0ea 100%);
+  --bronze-badge: linear-gradient(180deg, #ffe8d7 0%, #ecbb8d 100%);
+
+  --shadow-xl: 0 26px 80px rgba(94, 70, 37, 0.10);
+  --shadow-lg: 0 18px 44px rgba(104, 79, 44, 0.09);
+  --shadow-md: 0 10px 24px rgba(116, 92, 58, 0.08);
+  --shadow-sm: 0 4px 12px rgba(117, 95, 70, 0.06);
 
   --radius-xl: 32px;
   --radius-lg: 26px;
   --radius-md: 20px;
   --radius-sm: 14px;
 
-  --container: 1280px;
+  --container: 1320px;
 }
 
 * {
@@ -59,43 +66,43 @@ body {
   font-family: "Pretendard", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   color: var(--text);
   background:
-    radial-gradient(circle at top left, rgba(255, 255, 255, 0.92), transparent 28%),
-    radial-gradient(circle at top right, rgba(237, 226, 199, 0.48), transparent 23%),
-    linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 38%, var(--bg-3) 100%);
+    radial-gradient(circle at top left, rgba(255,255,255,0.96), transparent 28%),
+    radial-gradient(circle at top right, rgba(246, 234, 202, 0.34), transparent 22%),
+    linear-gradient(180deg, var(--bg) 0%, var(--bg-soft) 100%);
   letter-spacing: -0.01em;
 }
 
 .bg-light {
   position: fixed;
   border-radius: 999px;
-  filter: blur(30px);
+  filter: blur(34px);
   pointer-events: none;
   z-index: -1;
-  opacity: 0.7;
+  opacity: 0.75;
 }
 
 .bg-light-1 {
-  width: 320px;
-  height: 320px;
-  top: 30px;
-  left: -40px;
-  background: rgba(255, 255, 255, 0.92);
+  width: 360px;
+  height: 360px;
+  top: 20px;
+  left: -50px;
+  background: rgba(255,255,255,0.96);
 }
 
 .bg-light-2 {
-  width: 280px;
-  height: 280px;
-  top: 140px;
+  width: 300px;
+  height: 300px;
+  top: 120px;
   right: -40px;
-  background: rgba(235, 221, 183, 0.52);
+  background: rgba(241, 229, 197, 0.48);
 }
 
 .bg-light-3 {
-  width: 260px;
-  height: 260px;
-  bottom: 60px;
-  left: 46%;
-  background: rgba(232, 238, 246, 0.46);
+  width: 280px;
+  height: 280px;
+  bottom: 40px;
+  left: 45%;
+  background: rgba(235, 241, 248, 0.42);
 }
 
 .container {
@@ -104,13 +111,13 @@ body {
 }
 
 .site-header {
-  padding: 30px 0 14px;
+  padding: 32px 0 14px;
 }
 
 .hero-shell {
   display: grid;
-  grid-template-columns: 1.35fr 0.95fr;
-  gap: 20px;
+  grid-template-columns: 1.45fr 0.95fr;
+  gap: 22px;
 }
 
 .hero-main,
@@ -119,20 +126,19 @@ body {
 .guild-card,
 .weekly-card,
 .member-card {
-  background: var(--card);
+  background: var(--surface);
   border: 1px solid var(--line);
   box-shadow: var(--shadow-lg);
-  backdrop-filter: blur(12px);
 }
 
 .hero-main {
   position: relative;
   overflow: hidden;
   border-radius: var(--radius-xl);
-  padding: 38px;
+  padding: 42px;
   background:
-    radial-gradient(circle at top right, rgba(255,255,255,0.96), transparent 28%),
-    linear-gradient(180deg, rgba(255,253,249,0.98) 0%, rgba(247,240,228,0.95) 100%);
+    radial-gradient(circle at top right, rgba(255,255,255,0.98), transparent 28%),
+    linear-gradient(180deg, #fffefd 0%, #fbf8f1 100%);
 }
 
 .hero-main::before {
@@ -140,28 +146,24 @@ body {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(135deg, rgba(255,255,255,0.45), transparent 26%),
-    radial-gradient(circle at 78% 22%, rgba(255,255,255,0.85), transparent 16%);
+    linear-gradient(135deg, rgba(255,255,255,0.52), transparent 24%),
+    radial-gradient(circle at 84% 18%, rgba(255,255,255,0.95), transparent 16%);
   pointer-events: none;
 }
 
 .hero-main::after {
   content: "";
   position: absolute;
-  right: -34px;
-  top: -34px;
-  width: 230px;
-  height: 230px;
-  border-radius: 999px;
-  background: radial-gradient(circle, rgba(255,255,255,0.95), transparent 66%);
+  inset: 0;
   pointer-events: none;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.78);
 }
 
 .hero-topline {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 }
 
 .hero-chip {
@@ -171,9 +173,9 @@ body {
   min-height: 34px;
   padding: 0 12px;
   border-radius: 999px;
-  background: linear-gradient(180deg, #f8eed6 0%, #eeddb0 100%);
+  background: linear-gradient(180deg, #f8eed7 0%, #efddb0 100%);
   color: var(--gold-deep);
-  border: 1px solid rgba(190, 157, 84, 0.34);
+  border: 1px solid rgba(191, 156, 81, 0.30);
   box-shadow: var(--shadow-sm);
   font-size: 11px;
   font-weight: 800;
@@ -181,23 +183,24 @@ body {
 }
 
 .hero-chip.soft {
-  background: linear-gradient(180deg, #ffffff 0%, #f5efe4 100%);
-  color: #7b6a5a;
-  border-color: rgba(187, 168, 140, 0.28);
+  background: linear-gradient(180deg, #ffffff 0%, #f4efe6 100%);
+  color: #766657;
+  border-color: rgba(193, 175, 149, 0.26);
 }
 
 .hero-title {
   margin: 0;
-  font-size: clamp(36px, 4.2vw, 58px);
-  line-height: 1.02;
+  font-size: clamp(38px, 4.2vw, 64px);
+  line-height: 1.01;
   color: var(--text-strong);
   font-weight: 800;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.04em;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.65);
 }
 
 .hero-desc {
   margin: 18px 0 0;
-  max-width: 760px;
+  max-width: 780px;
   color: var(--text-soft);
   line-height: 1.9;
   font-size: 15px;
@@ -206,17 +209,17 @@ body {
 .hero-meta-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
-  margin-top: 24px;
+  gap: 14px;
+  margin-top: 28px;
 }
 
 .hero-meta-card {
   position: relative;
   overflow: hidden;
-  background: linear-gradient(180deg, rgba(255,255,255,0.86) 0%, rgba(249,244,235,0.96) 100%);
-  border: 1px solid rgba(200, 174, 116, 0.24);
+  background: linear-gradient(180deg, #ffffff 0%, #f9f5ec 100%);
+  border: 1px solid rgba(200, 173, 116, 0.18);
   border-radius: 18px;
-  padding: 16px;
+  padding: 18px;
   box-shadow: var(--shadow-md);
 }
 
@@ -225,7 +228,7 @@ body {
   position: absolute;
   inset: 0 0 auto 0;
   height: 2px;
-  background: linear-gradient(90deg, transparent, rgba(201,165,91,0.6), transparent);
+  background: linear-gradient(90deg, transparent, rgba(199,164,93,0.62), transparent);
 }
 
 .hero-meta-card span {
@@ -246,18 +249,18 @@ body {
   position: relative;
   overflow: hidden;
   border-radius: var(--radius-xl);
-  padding: 24px;
+  padding: 26px;
   background:
-    radial-gradient(circle at top left, rgba(255,255,255,0.96), transparent 28%),
-    linear-gradient(180deg, rgba(255,252,247,0.98) 0%, rgba(244,237,225,0.95) 100%);
+    radial-gradient(circle at top left, rgba(255,255,255,0.98), transparent 28%),
+    linear-gradient(180deg, #fffdfa 0%, #f8f3ea 100%);
 }
 
-.hero-side::before {
+.hero-side::after {
   content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(180deg, rgba(255,255,255,0.08), transparent 24%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.8);
 }
 
 .hero-side-head {
@@ -265,14 +268,14 @@ body {
   justify-content: space-between;
   gap: 16px;
   align-items: flex-start;
-  margin-bottom: 18px;
+  margin-bottom: 20px;
 }
 
 .hero-side-head h2 {
   margin: 4px 0 0;
   color: var(--text-strong);
-  font-size: 30px;
-  letter-spacing: -0.02em;
+  font-size: 32px;
+  letter-spacing: -0.03em;
 }
 
 .section-kicker {
@@ -305,7 +308,7 @@ body {
 }
 
 .status-badge.is-ok {
-  background: linear-gradient(180deg, #edf7f1 0%, #dceedd 100%);
+  background: linear-gradient(180deg, #eef8f1 0%, #dfeee5 100%);
   color: #3c8a68;
 }
 
@@ -322,16 +325,16 @@ body {
 .summary-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
+  gap: 14px;
 }
 
 .summary-card {
   position: relative;
   overflow: hidden;
   border-radius: 18px;
-  padding: 18px;
-  background: linear-gradient(180deg, #fffdfa 0%, #f8f2e7 100%);
-  border: 1px solid rgba(200, 173, 116, 0.24);
+  padding: 20px;
+  background: linear-gradient(180deg, #ffffff 0%, #f8f3ea 100%);
+  border: 1px solid rgba(200, 173, 116, 0.18);
   box-shadow: var(--shadow-md);
 }
 
@@ -340,7 +343,7 @@ body {
   position: absolute;
   inset: 0 0 auto 0;
   height: 2px;
-  background: linear-gradient(90deg, transparent, rgba(201,165,91,0.55), transparent);
+  background: linear-gradient(90deg, transparent, rgba(199,164,93,0.55), transparent);
 }
 
 .summary-card span {
@@ -351,18 +354,18 @@ body {
 }
 
 .summary-card strong {
-  font-size: 25px;
+  font-size: 27px;
   color: var(--text-strong);
   font-weight: 800;
-  line-height: 1.2;
+  line-height: 1.15;
 }
 
 .main-content {
-  padding-bottom: 56px;
+  padding-bottom: 64px;
 }
 
 .section-block {
-  margin-top: 30px;
+  margin-top: 34px;
 }
 
 .section-head {
@@ -370,14 +373,14 @@ body {
   justify-content: space-between;
   align-items: end;
   gap: 16px;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 }
 
 .section-head h2 {
   margin: 4px 0 0;
   color: var(--text-strong);
-  font-size: clamp(25px, 2vw, 32px);
-  letter-spacing: -0.02em;
+  font-size: clamp(28px, 2vw, 36px);
+  letter-spacing: -0.03em;
 }
 
 .tab-group {
@@ -387,11 +390,11 @@ body {
 }
 
 .tab-btn {
-  height: 44px;
+  height: 46px;
   padding: 0 16px;
   border-radius: 999px;
-  border: 1px solid rgba(198, 171, 112, 0.30);
-  background: linear-gradient(180deg, #fffdfa 0%, #f4ede2 100%);
+  border: 1px solid rgba(198, 171, 112, 0.24);
+  background: linear-gradient(180deg, #ffffff 0%, #f5efe4 100%);
   color: var(--text-soft);
   font-size: 14px;
   font-weight: 700;
@@ -403,22 +406,22 @@ body {
 .tab-btn:hover,
 .tab-btn.is-active {
   color: var(--gold-deep);
-  border-color: rgba(198, 162, 87, 0.45);
-  background: linear-gradient(180deg, #fcf2dc 0%, #efddb0 100%);
+  border-color: rgba(198, 162, 87, 0.38);
+  background: linear-gradient(180deg, #fcf3df 0%, #efdcb0 100%);
   transform: translateY(-1px);
 }
 
 .guild-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
+  gap: 18px;
 }
 
 .guild-card {
   position: relative;
   overflow: hidden;
   border-radius: var(--radius-lg);
-  padding: 22px;
+  padding: 24px;
 }
 
 .guild-card::before {
@@ -426,7 +429,7 @@ body {
   position: absolute;
   inset: 0 0 auto 0;
   height: 3px;
-  background: linear-gradient(90deg, transparent, rgba(201,165,91,0.7), transparent);
+  background: linear-gradient(90deg, transparent, rgba(199,164,93,0.74), transparent);
 }
 
 .guild-card::after {
@@ -434,10 +437,10 @@ body {
   position: absolute;
   top: 14px;
   right: 14px;
-  width: 96px;
-  height: 96px;
+  width: 100px;
+  height: 100px;
   border-radius: 999px;
-  background: radial-gradient(circle, rgba(255,255,255,0.95), transparent 68%);
+  background: radial-gradient(circle, rgba(255,255,255,0.98), transparent 68%);
 }
 
 .guild-card.is-친구들 { background: var(--guild-1); }
@@ -448,11 +451,11 @@ body {
 .guild-card.is-길드없음 { background: var(--guild-0); }
 
 .guild-card h3 {
-  margin: 0 0 14px;
+  margin: 0 0 16px;
   color: var(--text-strong);
-  font-size: 26px;
+  font-size: 28px;
   font-weight: 800;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
 }
 
 .guild-stats {
@@ -465,7 +468,7 @@ body {
   justify-content: space-between;
   gap: 14px;
   padding-bottom: 10px;
-  border-bottom: 1px dashed rgba(175, 151, 107, 0.34);
+  border-bottom: 1px dashed rgba(175, 151, 107, 0.30);
 }
 
 .guild-stat-row:last-child {
@@ -485,10 +488,9 @@ body {
 }
 
 .panel {
-  border-radius: var(--radius-xl);
   overflow: hidden;
-  background:
-    linear-gradient(180deg, rgba(255,253,249,0.98) 0%, rgba(246,240,230,0.96) 100%);
+  border-radius: var(--radius-xl);
+  background: linear-gradient(180deg, #fffefd 0%, #f8f3ea 100%);
 }
 
 .table-wrap {
@@ -502,57 +504,57 @@ body {
 }
 
 .ranking-table thead th {
-  background: linear-gradient(180deg, #fbf4e1 0%, #f0ddb0 100%);
+  background: linear-gradient(180deg, #fcf5e2 0%, #f0dcad 100%);
   color: #7f6022;
   font-size: 13px;
   font-weight: 800;
   text-align: left;
-  padding: 17px 18px;
-  border-bottom: 1px solid rgba(186, 157, 91, 0.30);
+  padding: 18px;
+  border-bottom: 1px solid rgba(186, 157, 91, 0.26);
 }
 
 .ranking-table tbody td {
-  padding: 16px 18px;
+  padding: 18px;
   font-size: 14px;
   color: var(--text);
-  background: rgba(255,255,255,0.58);
-  border-bottom: 1px solid rgba(216, 196, 163, 0.24);
+  background: rgba(255,255,255,0.68);
+  border-bottom: 1px solid rgba(216, 196, 163, 0.20);
 }
 
 .ranking-table tbody tr:hover td {
-  background: rgba(255, 252, 246, 0.96);
+  background: rgba(255,255,255,0.96);
 }
 
 .rank-badge {
-  width: 44px;
-  height: 44px;
-  border-radius: 15px;
+  width: 46px;
+  height: 46px;
+  border-radius: 16px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   font-weight: 800;
-  background: linear-gradient(180deg, #fffdfa 0%, #f1e9dc 100%);
-  border: 1px solid rgba(194, 171, 132, 0.26);
+  background: linear-gradient(180deg, #fffdfa 0%, #f1eadf 100%);
+  border: 1px solid rgba(194, 171, 132, 0.22);
   color: var(--text-soft);
   box-shadow: var(--shadow-md);
 }
 
 .rank-badge.is-gold {
-  background: linear-gradient(180deg, #fff4cf 0%, #efd387 100%);
-  color: #866113;
-  border-color: rgba(191, 151, 57, 0.34);
+  background: var(--gold-badge);
+  color: #836014;
+  border-color: rgba(191, 151, 57, 0.32);
 }
 
 .rank-badge.is-silver {
-  background: linear-gradient(180deg, #f5f7fa 0%, #dae2eb 100%);
-  color: #677585;
-  border-color: rgba(145, 159, 177, 0.34);
+  background: var(--silver-badge);
+  color: #667384;
+  border-color: rgba(145, 159, 177, 0.30);
 }
 
 .rank-badge.is-bronze {
-  background: linear-gradient(180deg, #ffeada 0%, #ecbf93 100%);
-  color: #99612b;
-  border-color: rgba(186, 122, 70, 0.34);
+  background: var(--bronze-badge);
+  color: #97602a;
+  border-color: rgba(186, 122, 70, 0.30);
 }
 
 .name-cell {
@@ -581,15 +583,15 @@ body {
   font-weight: 800;
   white-space: nowrap;
   border: 1px solid rgba(0,0,0,0.04);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.55);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.58);
 }
 
-.guild-pill.is-친구들 { background: #e8f0f9; color: #557ea8; }
-.guild-pill.is-친구둘 { background: #e7f4ed; color: #4b8768; }
-.guild-pill.is-친구삼 { background: #f7eed6; color: #9b7424; }
-.guild-pill.is-친구넷 { background: #f1ebf6; color: #7f669d; }
-.guild-pill.is-친구닷 { background: #ececf7; color: #676aa2; }
-.guild-pill.is-길드없음 { background: #efeeeb; color: #7f796f; }
+.guild-pill.is-친구들 { background: #edf4fb; color: var(--blue); }
+.guild-pill.is-친구둘 { background: #edf7f2; color: var(--green); }
+.guild-pill.is-친구삼 { background: #fbf3df; color: var(--gold-deep); }
+.guild-pill.is-친구넷 { background: #f4eef9; color: var(--purple); }
+.guild-pill.is-친구닷 { background: #eef0fb; color: #6870ad; }
+.guild-pill.is-길드없음 { background: #f1f1ef; color: var(--slate); }
 
 .growth-positive {
   color: var(--positive);
@@ -609,17 +611,15 @@ body {
 .weekly-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
+  gap: 18px;
 }
 
 .weekly-card {
   position: relative;
   overflow: hidden;
   border-radius: var(--radius-lg);
-  padding: 22px;
-  background:
-    radial-gradient(circle at top right, rgba(255,255,255,0.95), transparent 28%),
-    linear-gradient(180deg, #fffdfa 0%, #f6efe2 100%);
+  padding: 24px;
+  background: linear-gradient(180deg, #fffefd 0%, #f8f3ea 100%);
 }
 
 .weekly-card::before {
@@ -627,28 +627,55 @@ body {
   position: absolute;
   inset: 0 0 auto 0;
   height: 3px;
-  background: linear-gradient(90deg, transparent, rgba(201,165,91,0.68), transparent);
+  background: linear-gradient(90deg, transparent, rgba(199,164,93,0.72), transparent);
+}
+
+.weekly-card::after {
+  content: "";
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 110px;
+  height: 110px;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(255,255,255,0.95), transparent 68%);
 }
 
 .weekly-card-rank {
-  width: 46px;
-  height: 46px;
-  border-radius: 16px;
+  width: 48px;
+  height: 48px;
+  border-radius: 17px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(180deg, #fbf0d2 0%, #ecd18a 100%);
-  color: #80611f;
+  background: linear-gradient(180deg, #faf0d5 0%, #ebd089 100%);
+  color: #7c5f1f;
   font-weight: 800;
   margin-bottom: 14px;
   box-shadow: var(--shadow-md);
 }
 
+.weekly-card-rank.is-gold {
+  background: var(--gold-badge);
+  color: #7f5c14;
+}
+
+.weekly-card-rank.is-silver {
+  background: var(--silver-badge);
+  color: #687587;
+}
+
+.weekly-card-rank.is-bronze {
+  background: var(--bronze-badge);
+  color: #98602a;
+}
+
 .weekly-card h3 {
   margin: 0 0 6px;
   color: var(--text-strong);
-  font-size: 25px;
+  font-size: 26px;
   font-weight: 800;
+  letter-spacing: -0.02em;
 }
 
 .weekly-card .sub-text {
@@ -665,7 +692,7 @@ body {
   justify-content: space-between;
   gap: 14px;
   padding-top: 12px;
-  border-top: 1px dashed rgba(177, 155, 112, 0.34);
+  border-top: 1px dashed rgba(177, 155, 112, 0.30);
 }
 
 .weekly-card-row .left {
@@ -675,6 +702,7 @@ body {
 
 .weekly-card-row .left strong {
   color: var(--text-strong);
+  font-size: 18px;
 }
 
 .weekly-card-row .right {
@@ -698,8 +726,8 @@ body {
 .select-box select {
   height: 48px;
   border-radius: 16px;
-  border: 1px solid rgba(193, 166, 108, 0.26);
-  background: linear-gradient(180deg, #fffdfa 0%, #f4ede1 100%);
+  border: 1px solid rgba(193, 166, 108, 0.22);
+  background: linear-gradient(180deg, #ffffff 0%, #f6f0e5 100%);
   color: var(--text-strong);
   padding: 0 14px;
   font-size: 14px;
@@ -718,17 +746,15 @@ body {
 .members-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 16px;
+  gap: 18px;
 }
 
 .member-card {
   position: relative;
   overflow: hidden;
-  border-radius: 28px;
-  padding: 20px;
-  background:
-    radial-gradient(circle at bottom right, rgba(255,255,255,0.95), transparent 34%),
-    linear-gradient(180deg, #fffdfa 0%, #f7f1e6 100%);
+  border-radius: 30px;
+  padding: 22px;
+  background: linear-gradient(180deg, #ffffff 0%, #f8f3ea 100%);
 }
 
 .member-card::before {
@@ -736,7 +762,7 @@ body {
   position: absolute;
   inset: 0 0 auto 0;
   height: 3px;
-  background: linear-gradient(90deg, transparent, rgba(201,165,91,0.62), transparent);
+  background: linear-gradient(90deg, transparent, rgba(199,164,93,0.72), transparent);
 }
 
 .member-card::after {
@@ -744,10 +770,10 @@ body {
   position: absolute;
   right: -20px;
   bottom: -20px;
-  width: 120px;
-  height: 120px;
+  width: 126px;
+  height: 126px;
   border-radius: 999px;
-  background: radial-gradient(circle, rgba(255,255,255,0.92), transparent 70%);
+  background: radial-gradient(circle, rgba(255,255,255,0.95), transparent 70%);
 }
 
 .member-top {
@@ -775,9 +801,9 @@ body {
 .member-name {
   margin: 6px 0 4px;
   color: var(--text-strong);
-  font-size: 25px;
+  font-size: 26px;
   font-weight: 800;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
 }
 
 .member-real-guild {
@@ -795,7 +821,7 @@ body {
   justify-content: space-between;
   gap: 12px;
   padding-bottom: 10px;
-  border-bottom: 1px dashed rgba(174, 149, 106, 0.26);
+  border-bottom: 1px dashed rgba(174, 149, 106, 0.22);
 }
 
 .member-stat:last-child {
@@ -818,8 +844,8 @@ body {
   margin-top: 14px;
   padding: 24px;
   border-radius: 20px;
-  background: linear-gradient(180deg, #fffdfa 0%, #f4ede1 100%);
-  border: 1px dashed rgba(188, 163, 112, 0.34);
+  background: linear-gradient(180deg, #ffffff 0%, #f5efe4 100%);
+  border: 1px dashed rgba(188, 163, 112, 0.28);
   color: var(--text-dim);
   text-align: center;
   box-shadow: var(--shadow-sm);
@@ -831,7 +857,7 @@ body {
 
 .site-footer {
   padding: 22px 0 36px;
-  border-top: 1px solid rgba(203, 177, 123, 0.18);
+  border-top: 1px solid rgba(203, 177, 123, 0.14);
 }
 
 .footer-inner {

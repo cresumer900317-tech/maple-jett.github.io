@@ -310,9 +310,19 @@ function renderWeeklyTop() {
           ? `현재 레벨 ${formatNumber(row.currentLevel)}`
           : `현재 인기도 ${formatNumber(row.currentPopularity)}`;
 
+    const medalClass =
+      index === 0 ? "is-gold" :
+      index === 1 ? "is-silver" :
+      index === 2 ? "is-bronze" : "";
+
+    const medalText =
+      index === 0 ? "🥇" :
+      index === 1 ? "🥈" :
+      index === 2 ? "🥉" : String(index + 1);
+
     return `
       <article class="weekly-card">
-        <div class="weekly-card-rank">${index + 1}</div>
+        <div class="weekly-card-rank ${medalClass}">${medalText}</div>
         <h3>${escapeHtml(row.name || "-")}</h3>
         <div class="sub-text">${escapeHtml(row.guild || "길드 없음")}</div>
         <div class="weekly-card-list">
