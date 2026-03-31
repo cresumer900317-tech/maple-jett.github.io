@@ -156,9 +156,7 @@ function renderGuildCards() {
 
   container.innerHTML = siteData.guildDescriptions
     .map((guild, index) => {
-      const tags = guild.tags
-        .map((tag) => `<span>${tag}</span>`)
-        .join("");
+      const tags = guild.tags.map((tag) => `<span>${tag}</span>`).join("");
 
       return `
         <div class="guild-card" data-guild-index="${index}" tabindex="0" role="button" aria-label="${guild.name} 상세보기">
@@ -196,34 +194,30 @@ function renderDashboardCards() {
   ];
 
   document.getElementById("dashboard-top-cards").innerHTML = cards
-    .map(
-      (card) => `
-        <div class="top-card">
-          <span>${card.label}</span>
-          <strong>${card.value}</strong>
-        </div>
-      `
-    )
+    .map((card) => `
+      <div class="top-card">
+        <span>${card.label}</span>
+        <strong>${card.value}</strong>
+      </div>
+    `)
     .join("");
 }
 
 function renderGuildTable() {
   const tbody = document.getElementById("guild-table-body");
   tbody.innerHTML = siteData.guilds
-    .map(
-      (guild) => `
-        <tr>
-          <td>
-            <span class="guild-name">${guild.name}</span>
-            <span class="guild-meta">${guild.short}</span>
-          </td>
-          <td>${guild.members}명</td>
-          <td>${formatNumber(guild.avgPower)}억</td>
-          <td>${guild.avgLevel}</td>
-          <td><span class="growth-badge">+${guild.growth}%</span></td>
-        </tr>
-      `
-    )
+    .map((guild) => `
+      <tr>
+        <td>
+          <span class="guild-name">${guild.name}</span>
+          <span class="guild-meta">${guild.short}</span>
+        </td>
+        <td>${guild.members}명</td>
+        <td>${formatNumber(guild.avgPower)}억</td>
+        <td>${guild.avgLevel}</td>
+        <td><span class="growth-badge">+${guild.growth}%</span></td>
+      </tr>
+    `)
     .join("");
 }
 
@@ -280,11 +274,7 @@ function renderRanking(sortKey) {
 
       return `
         <tr>
-          <td>
-            <span class="rank-badge ${medalClass ? `rank-${medalClass}` : ""}">
-              ${rank}
-            </span>
-          </td>
+          <td><span class="rank-badge ${medalClass ? `rank-${medalClass}` : ""}">${rank}</span></td>
           <td>${member.name}</td>
           <td>${member.guild}</td>
           <td>${member.level}</td>
@@ -362,8 +352,37 @@ function openGuildModal(index) {
     .map((tag) => `<span>${tag}</span>`)
     .join("");
 
+  renderGuildMembersPreview(guildInfo.name);
+
   modal.classList.add("is-open");
   document.body.style.overflow = "hidden";
+}
+
+function renderGuildMembersPreview(guildName) {
+  const container = document.getElementById("modal-members-grid");
+  const members = [...siteData.ranking]
+    .filter((member) => member.guild === guildName)
+    .sort((a, b) => b.power - a.power)
+    .slice(0, 4);
+
+  if (!members.length) {
+    container.innerHTML = `<div class="member-card"><div class="member-name">데이터 없음</div></div>`;
+    return;
+  }
+
+  container.innerHTML = members
+    .map((member, index) => `
+      <div class="member-card">
+        <div class="member-rank">${index + 1}</div>
+        <div class="member-name">${member.name}</div>
+        <div class="member-meta">
+          <span>레벨 ${member.level}</span>
+          <span>전투력 ${formatNumber(member.power)}억</span>
+          <span>인기 ${member.popularity}</span>
+        </div>
+      </div>
+    `)
+    .join("");
 }
 
 function closeGuildModal() {

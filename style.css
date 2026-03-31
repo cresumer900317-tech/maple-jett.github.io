@@ -1,7 +1,6 @@
 :root {
   --bg: #f5f7ff;
   --panel: rgba(255, 255, 255, 0.88);
-  --panel-strong: rgba(255, 255, 255, 0.94);
   --line: rgba(23, 34, 59, 0.08);
 
   --text: #182338;
@@ -13,13 +12,8 @@
   --accent-2: #5fd0ff;
 
   --primary-soft: rgba(91, 140, 255, 0.14);
-  --accent-soft: rgba(138, 99, 255, 0.14);
   --good: #18a957;
   --good-soft: rgba(24, 169, 87, 0.14);
-
-  --gold: #f4c44e;
-  --silver: #bfc9d9;
-  --bronze: #d99a63;
 
   --shadow: 0 24px 50px rgba(45, 67, 120, 0.12);
   --shadow-soft: 0 12px 30px rgba(45, 67, 120, 0.08);
@@ -63,8 +57,7 @@ button {
   background:
     radial-gradient(circle at 12% 8%, rgba(255, 255, 255, 0.95), transparent 16%),
     radial-gradient(circle at 84% 10%, rgba(177, 228, 255, 0.38), transparent 18%),
-    radial-gradient(circle at 72% 56%, rgba(138, 99, 255, 0.08), transparent 18%),
-    radial-gradient(circle at 38% 24%, rgba(255, 221, 128, 0.08), transparent 14%);
+    radial-gradient(circle at 72% 56%, rgba(138, 99, 255, 0.08), transparent 18%);
   z-index: -1;
 }
 
@@ -161,19 +154,6 @@ button {
   right: -40px;
   border-radius: 50%;
   background: radial-gradient(circle, rgba(138, 99, 255, 0.18), transparent 65%);
-  pointer-events: none;
-}
-
-.hero-copy::after {
-  content: "";
-  position: absolute;
-  width: 220px;
-  height: 220px;
-  bottom: -90px;
-  left: -40px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(95, 208, 255, 0.16), transparent 65%);
-  pointer-events: none;
 }
 
 .eyebrow {
@@ -236,19 +216,10 @@ button {
   box-shadow: 0 14px 30px rgba(91, 140, 255, 0.26);
 }
 
-.btn-primary:hover {
-  transform: translateY(-1px);
-  filter: brightness(1.03);
-}
-
 .btn-secondary {
   border: 1px solid var(--line);
   background: rgba(255, 255, 255, 0.85);
   color: #172033;
-}
-
-.btn-secondary:hover {
-  background: #fff;
 }
 
 .hero-meta {
@@ -311,7 +282,6 @@ button {
   font-size: 1.5rem;
   line-height: 1.35;
   color: #111827;
-  letter-spacing: -0.03em;
 }
 
 .hero-visual {
@@ -557,17 +527,6 @@ button {
     linear-gradient(135deg, rgba(91, 140, 255, 0.22) 0%, rgba(138, 99, 255, 0.22) 54%, rgba(95, 208, 255, 0.18) 100%);
 }
 
-.guild-character::before {
-  content: "";
-  position: absolute;
-  width: 120px;
-  height: 120px;
-  right: -18px;
-  top: -18px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.15);
-}
-
 .guild-character::after {
   content: "";
   position: absolute;
@@ -597,7 +556,6 @@ button {
   transform: translateX(-50%);
   border-radius: 50%;
   background: linear-gradient(180deg, #ffe1c5 0%, #ffd2ae 100%);
-  box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.04);
 }
 
 .guild-avatar-hair {
@@ -744,7 +702,6 @@ thead th {
   top: 0;
   z-index: 2;
   background: #f7fbff;
-  backdrop-filter: blur(8px);
 }
 
 th,
@@ -882,25 +839,21 @@ tbody tr:hover {
   align-items: center;
   justify-content: center;
   font-weight: 800;
-  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.03);
 }
 
 .rank-number.rank-gold {
   background: linear-gradient(135deg, #ffe28a 0%, #f4c44e 100%);
   color: #6b4a00;
-  box-shadow: 0 10px 20px rgba(244, 196, 78, 0.26);
 }
 
 .rank-number.rank-silver {
   background: linear-gradient(135deg, #f8fbff 0%, #bcc8d7 100%);
   color: #4b5f78;
-  box-shadow: 0 10px 20px rgba(173, 186, 201, 0.34);
 }
 
 .rank-number.rank-bronze {
   background: linear-gradient(135deg, #efbb8b 0%, #d99a63 100%);
   color: #6b3f1f;
-  box-shadow: 0 10px 20px rgba(217, 154, 99, 0.24);
 }
 
 .rank-name {
@@ -934,7 +887,6 @@ tbody tr:hover {
   border-radius: 14px;
   padding: 10px 14px;
   font-weight: 700;
-  transition: 0.2s ease;
 }
 
 .sort-btn:hover,
@@ -955,25 +907,21 @@ tbody tr:hover {
   color: #4564cf;
   font-size: 0.84rem;
   font-weight: 800;
-  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.03);
 }
 
 .rank-badge.rank-gold {
   background: linear-gradient(135deg, #ffe28a 0%, #f4c44e 100%);
   color: #6b4a00;
-  box-shadow: 0 10px 20px rgba(244, 196, 78, 0.26);
 }
 
 .rank-badge.rank-silver {
   background: linear-gradient(135deg, #f8fbff 0%, #bcc8d7 100%);
   color: #4b5f78;
-  box-shadow: 0 10px 20px rgba(173, 186, 201, 0.34);
 }
 
 .rank-badge.rank-bronze {
   background: linear-gradient(135deg, #efbb8b 0%, #d99a63 100%);
   color: #6b3f1f;
-  box-shadow: 0 10px 20px rgba(217, 154, 99, 0.24);
 }
 
 .site-footer {
@@ -992,7 +940,6 @@ tbody tr:hover {
   font-size: 0.9rem;
 }
 
-/* modal */
 .modal-backdrop {
   position: fixed;
   inset: 0;
@@ -1011,11 +958,11 @@ tbody tr:hover {
 
 .modal-panel {
   position: relative;
-  width: min(920px, 100%);
+  width: min(980px, 100%);
   max-height: min(88vh, 900px);
   overflow-y: auto;
   border-radius: 30px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(246, 250, 255, 0.96) 100%);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.97) 0%, rgba(246, 250, 255, 0.96) 100%);
   border: 1px solid rgba(23, 34, 59, 0.08);
   box-shadow: 0 30px 80px rgba(28, 45, 88, 0.22);
   padding: 28px;
@@ -1035,20 +982,16 @@ tbody tr:hover {
   cursor: pointer;
 }
 
-.modal-close:hover {
-  background: rgba(23, 34, 59, 0.12);
-}
-
 .modal-hero {
   display: grid;
-  grid-template-columns: 280px 1fr;
+  grid-template-columns: 300px 1fr;
   gap: 24px;
   margin-bottom: 22px;
 }
 
 .modal-hero-visual {
   position: relative;
-  min-height: 260px;
+  min-height: 300px;
   border-radius: 28px;
   overflow: hidden;
   background:
@@ -1077,7 +1020,7 @@ tbody tr:hover {
   position: absolute;
   left: 16px;
   top: 16px;
-  z-index: 2;
+  z-index: 3;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1088,6 +1031,43 @@ tbody tr:hover {
   background: rgba(255, 255, 255, 0.86);
   color: var(--primary-deep);
   font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.modal-emblem {
+  position: absolute;
+  right: 18px;
+  top: 18px;
+  width: 92px;
+  height: 92px;
+  z-index: 2;
+}
+
+.modal-emblem-ring,
+.modal-emblem-core {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+}
+
+.modal-emblem-ring {
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.18);
+}
+
+.modal-emblem-core {
+  inset: 14px;
+  background: linear-gradient(135deg, rgba(255, 232, 165, 0.9) 0%, rgba(255, 255, 255, 0.85) 50%, rgba(181, 226, 255, 0.85) 100%);
+}
+
+.modal-emblem-star {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6a55ff;
+  font-size: 1.6rem;
   font-weight: 800;
 }
 
@@ -1164,7 +1144,6 @@ tbody tr:hover {
   margin: 0 0 12px;
   font-size: 2rem;
   color: #111827;
-  letter-spacing: -0.04em;
 }
 
 .modal-hero-copy p {
@@ -1245,6 +1224,68 @@ tbody tr:hover {
   line-height: 1.85;
 }
 
+.modal-members-section {
+  margin-top: 20px;
+}
+
+.modal-members-head span {
+  display: inline-block;
+  margin-bottom: 6px;
+  color: var(--primary-deep);
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.modal-members-head h4 {
+  margin: 0 0 14px;
+  font-size: 1.2rem;
+  color: #111827;
+}
+
+.modal-members-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+.member-card {
+  padding: 16px;
+  border-radius: 20px;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+  border: 1px solid rgba(23, 34, 59, 0.06);
+}
+
+.member-rank {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, #eef3ff 0%, #dce7ff 100%);
+  color: #4564cf;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+.member-name {
+  font-size: 1rem;
+  font-weight: 800;
+  color: #111827;
+  margin-bottom: 8px;
+}
+
+.member-meta {
+  display: grid;
+  gap: 6px;
+}
+
+.member-meta span {
+  color: #64748b;
+  font-size: 0.84rem;
+}
+
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -1258,10 +1299,6 @@ tbody tr:hover {
 ::-webkit-scrollbar-thumb {
   background: rgba(120, 138, 165, 0.45);
   border-radius: 999px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(120, 138, 165, 0.65);
 }
 
 @media (max-width: 1100px) {
@@ -1278,7 +1315,8 @@ tbody tr:hover {
   }
 
   .dashboard-top-cards,
-  .modal-grid {
+  .modal-grid,
+  .modal-members-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 
@@ -1324,7 +1362,8 @@ tbody tr:hover {
   .mini-stats,
   .guild-grid,
   .dashboard-top-cards,
-  .modal-grid {
+  .modal-grid,
+  .modal-members-grid {
     grid-template-columns: 1fr;
   }
 
@@ -1355,9 +1394,5 @@ tbody tr:hover {
 
   .modal-backdrop {
     padding: 12px;
-  }
-
-  .modal-hero-visual {
-    min-height: 220px;
   }
 }
