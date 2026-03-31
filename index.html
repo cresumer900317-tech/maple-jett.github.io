@@ -2,78 +2,275 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>친구 패밀리</title>
-  <link rel="stylesheet" href="style.css"/>
+  <meta name="description" content="메이플 길드 친구 패밀리 공식 홈페이지" />
+  <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="#" class="logo">친구 패밀리</a>
 
-<header class="header">
-  <h1>친구 패밀리</h1>
-  <nav>
-    <a href="#">소개</a>
-    <a href="#dashboard">대시보드</a>
-    <a href="#ranking">전체 순위</a>
-  </nav>
-</header>
-
-<main class="container">
-
-  <!-- 메인 -->
-  <section class="hero">
-    <h2>친구 패밀리 공식 홈페이지</h2>
-    <p>길드 통합 대시보드 & 전체 순위 시스템</p>
-  </section>
-
-  <!-- 대시보드 -->
-  <section id="dashboard" class="section">
-    <h2>대시보드</h2>
-    <div class="card-grid">
-
-      <div class="card">
-        <p>전체 인원</p>
-        <h3 id="total-count">-</h3>
-      </div>
-
-      <div class="card">
-        <p>평균 전투력</p>
-        <h3 id="avg-power">-</h3>
-      </div>
-
-      <div class="card">
-        <p>평균 레벨</p>
-        <h3 id="avg-level">-</h3>
-      </div>
-
+      <nav class="nav">
+        <a href="#about">소개</a>
+        <a href="#guilds">길드</a>
+        <a href="#dashboard">대시보드</a>
+        <a href="#weekly">위클리</a>
+        <a href="#ranking">전체 순위</a>
+        <a href="#notice">공지</a>
+      </nav>
     </div>
-  </section>
+  </header>
 
-  <!-- 전체 순위 -->
-  <section id="ranking" class="section">
-    <h2>전체 순위</h2>
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-left">
+          <span class="hero-badge">Maple Story · Friend Family</span>
+          <h1>친구 패밀리 공식 홈페이지</h1>
+          <p class="hero-desc">
+            친구들, 친구둘, 친구삼, 친구넷, 친구닷까지.
+            길드 소개, 패밀리 운영 방향, 대시보드, 위클리, 전체 순위를
+            한 곳에서 확인할 수 있는 패밀리 허브입니다.
+          </p>
 
-    <table>
-      <thead>
-        <tr>
-          <th>순위</th>
-          <th>닉네임</th>
-          <th>길드</th>
-          <th>레벨</th>
-          <th>전투력</th>
-        </tr>
-      </thead>
-      <tbody id="ranking-body"></tbody>
-    </table>
+          <div class="hero-actions">
+            <a href="#dashboard" class="btn btn-primary">대시보드 보기</a>
+            <a href="#ranking" class="btn btn-secondary">전체 순위 보기</a>
+          </div>
+        </div>
 
-  </section>
+        <div class="hero-right">
+          <div class="hero-stat-card">
+            <span>전체 인원</span>
+            <strong id="total-count">-</strong>
+          </div>
+          <div class="hero-stat-card">
+            <span>평균 전투력</span>
+            <strong id="avg-power">-</strong>
+          </div>
+          <div class="hero-stat-card">
+            <span>평균 레벨</span>
+            <strong id="avg-level">-</strong>
+          </div>
+          <div class="hero-stat-card">
+            <span>업데이트</span>
+            <strong id="updated-at">-</strong>
+          </div>
+        </div>
+      </div>
+    </section>
 
-</main>
+    <!-- ABOUT -->
+    <section id="about" class="section">
+      <div class="container two-col">
+        <div class="panel">
+          <div class="section-head">
+            <h2>패밀리 소개</h2>
+            <p>함께 성장하고 함께 즐기는 메이플 길드 운영</p>
+          </div>
 
-<footer class="footer">
-  <p>© 2026 친구 패밀리</p>
-</footer>
+          <div class="about-text">
+            <p>
+              친구 패밀리는 단순히 길드를 나누어 운영하는 구조가 아니라,
+              장기적으로 함께 성장할 수 있도록 평균 전투력, 성장률, 길드 역할을
+              기준으로 밸런스를 관리하는 패밀리형 운영 구조를 지향합니다.
+            </p>
+            <p>
+              분기별 재배치, 주간 성장률 확인, 길드별 평균치 관리, 신규 유입 분산 운영을
+              통해 전체 경쟁력을 유지하고, 각 길드가 고유한 역할을 가지도록 구성합니다.
+            </p>
+          </div>
 
-<script src="script.js"></script>
+          <div class="feature-grid">
+            <div class="feature-card">
+              <span>운영 원칙</span>
+              <strong>데이터 기반 운영</strong>
+            </div>
+            <div class="feature-card">
+              <span>리밸런싱</span>
+              <strong>분기 1회 재배치</strong>
+            </div>
+            <div class="feature-card">
+              <span>지향점</span>
+              <strong>패밀리 전체 성장</strong>
+            </div>
+          </div>
+        </div>
+
+        <div id="notice" class="panel">
+          <div class="section-head">
+            <h2>운영 공지</h2>
+            <p>패밀리 공지 및 운영 메모</p>
+          </div>
+
+          <div id="notice-list" class="notice-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GUILDS -->
+    <section id="guilds" class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>길드 구성</h2>
+          <p>친구 패밀리 길드별 역할과 운영 방향</p>
+        </div>
+
+        <div class="guild-grid" id="guild-card-list"></div>
+      </div>
+    </section>
+
+    <!-- DASHBOARD -->
+    <section id="dashboard" class="section">
+      <div class="container two-col">
+        <div class="panel">
+          <div class="section-head">
+            <h2>패밀리 대시보드</h2>
+            <p>길드별 평균 전투력 및 운영 상태</p>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>길드</th>
+                  <th>인원</th>
+                  <th>평균 전투력</th>
+                  <th>평균 레벨</th>
+                  <th>주간 성장률</th>
+                </tr>
+              </thead>
+              <tbody id="guild-table-body"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="section-head">
+            <h2>운영 포인트</h2>
+            <p>홈페이지에서 보여줄 핵심 지표</p>
+          </div>
+
+          <div class="point-list">
+            <div class="point-item">패밀리 전체 인원 및 평균 지표</div>
+            <div class="point-item">길드별 평균 전투력 및 평균 레벨</div>
+            <div class="point-item">주간 성장 랭킹</div>
+            <div class="point-item">패밀리 전체 순위 나래비</div>
+            <div class="point-item">운영 공지 / 가입 정책 / 재배치 안내</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WEEKLY -->
+    <section id="weekly" class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>위클리 데이터</h2>
+          <p>주간 성장률 기반 TOP 랭킹</p>
+        </div>
+
+        <div class="weekly-grid">
+          <div class="panel">
+            <h3 class="panel-title">주간 레벨 상승 TOP</h3>
+            <div id="weekly-level-list" class="rank-list"></div>
+          </div>
+
+          <div class="panel">
+            <h3 class="panel-title">주간 전투력 상승 TOP</h3>
+            <div id="weekly-power-list" class="rank-list"></div>
+          </div>
+
+          <div class="panel">
+            <h3 class="panel-title">주간 인기 상승 TOP</h3>
+            <div id="weekly-popularity-list" class="rank-list"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RANKING -->
+    <section id="ranking" class="section">
+      <div class="container">
+        <div class="panel">
+          <div class="section-head">
+            <h2>패밀리 전체 순위</h2>
+            <p>패밀리 전체 통합 나래비</p>
+          </div>
+
+          <div class="toolbar">
+            <button class="sort-btn active" data-sort="power">전투력순</button>
+            <button class="sort-btn" data-sort="level">레벨순</button>
+            <button class="sort-btn" data-sort="popularity">인기순</button>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>순위</th>
+                  <th>닉네임</th>
+                  <th>길드</th>
+                  <th>레벨</th>
+                  <th>전투력</th>
+                  <th>인기</th>
+                </tr>
+              </thead>
+              <tbody id="ranking-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NEXT STEP -->
+    <section class="section">
+      <div class="container two-col">
+        <div class="panel">
+          <div class="section-head">
+            <h2>다음 단계</h2>
+            <p>UI 다음으로 진행할 작업</p>
+          </div>
+
+          <div class="step-list">
+            <div class="step-item">1. 현재 더미 데이터를 JSON 파일로 분리</div>
+            <div class="step-item">2. script.js에서 fetch로 JSON 불러오기</div>
+            <div class="step-item">3. Google Sheet 또는 수집 스크립트와 연동</div>
+            <div class="step-item">4. 실제 위클리 / 순위 데이터 자동 반영</div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="section-head">
+            <h2>추천 구조</h2>
+            <p>가장 현실적인 운영 방식</p>
+          </div>
+
+          <div class="architecture-box">
+            <p><strong>mgf.gg → 수집/가공 → JSON → 홈페이지 렌더링</strong></p>
+            <p>
+              브라우저가 mgf.gg를 직접 읽는 방식은 CORS, 차단, 구조 변경 이슈가 있어
+              운영이 불안정할 수 있습니다.
+            </p>
+            <p>
+              가장 추천하는 방식은 중간에 JSON 데이터 소스를 두고,
+              홈페이지는 그 JSON만 읽어서 보여주는 구조입니다.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© 2026 친구 패밀리</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
