@@ -142,9 +142,9 @@ function renderDashboardCards() {
 
   const cards = [
     { label: "전체 인원", value: `${formatNumber(totalMembers)}명` },
-    { label: "최고 평균 전투력 길드", value: `${highestPowerGuild.name}` },
-    { label: "최고 평균 레벨 길드", value: `${highestLevelGuild.name}` },
-    { label: "최고 성장률 길드", value: `${bestGrowthGuild.name}` }
+    { label: "최고 평균 전투력 길드", value: highestPowerGuild.name },
+    { label: "최고 평균 레벨 길드", value: highestLevelGuild.name },
+    { label: "최고 성장률 길드", value: bestGrowthGuild.name }
   ];
 
   document.getElementById("dashboard-top-cards").innerHTML = cards
@@ -241,6 +241,7 @@ function renderRanking(sortKey) {
 
 function bindSortButtons() {
   const buttons = document.querySelectorAll(".sort-btn");
+
   buttons.forEach((button) => {
     button.addEventListener("click", () => {
       buttons.forEach((btn) => btn.classList.remove("active"));
