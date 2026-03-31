@@ -27,7 +27,6 @@ function bindEvents() {
   rankingTabs?.addEventListener("click", (event) => {
     const button = event.target.closest(".tab-btn");
     if (!button) return;
-
     state.rankingTab = button.dataset.tab;
     updateActiveTabs(rankingTabs, state.rankingTab);
     renderRankingTable();
@@ -36,7 +35,6 @@ function bindEvents() {
   weeklyTabs?.addEventListener("click", (event) => {
     const button = event.target.closest(".tab-btn");
     if (!button) return;
-
     state.weeklyTab = button.dataset.tab;
     updateActiveTabs(weeklyTabs, state.weeklyTab);
     renderWeeklyTop();
@@ -62,16 +60,7 @@ async function loadHomeData() {
   setApiStatus("loading");
 
   try {
-    const response = await fetch(API_URL, {
-      method: "GET",
-      cache: "no-store"
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}`);
-    }
-
-    const data = await response.json();
+    const data = await loadJsonp(API_URL, "home");
 
     if (!data?.ok) {
       throw new Error(data?.error || "API 응답 오류");
@@ -86,6 +75,46 @@ async function loadHomeData() {
     state.source = "fallback";
     setApiStatus("fallback");
   }
+}
+
+function loadJsonp(baseUrl, mode = "home") {
+  return new Promise((resolve, reject) => {
+    const callbackName = `jsonp_callback_${Date.now()}_${Math.floor(Math.random() * 10000)}`;
+    const script = document.createElement("script");
+    const url = new URL(baseUrl);
+
+    url.searchParams.set("mode", mode);
+    url.searchParams.set("callback", callbackName);
+    url.searchParams.set("_ts", String(Date.now()));
+
+    const timeout = setTimeout(() => {
+      cleanup();
+      reject(new Error("JSONP 요청 시간 초과"));
+    }, 15000);
+
+    function cleanup() {
+      clearTimeout(timeout);
+      try {
+        delete window[callbackName];
+      } catch (_) {}
+      if (script.parentNode) {
+        script.parentNode.removeChild(script);
+      }
+    }
+
+    window[callbackName] = (data) => {
+      cleanup();
+      resolve(data);
+    };
+
+    script.onerror = () => {
+      cleanup();
+      reject(new Error("JSONP 스크립트 로드 실패"));
+    };
+
+    script.src = url.toString();
+    document.body.appendChild(script);
+  });
 }
 
 function normalizeHomeData(data) {
@@ -137,7 +166,6 @@ function renderAll() {
 
 function renderMeta() {
   const { meta } = state.data;
-
   setText("latestSnapshotAt", formatDateTime(meta.latestSnapshotAt));
   setText("weeklyBaseAt", formatDateTime(meta.weeklyBaseAt));
   setText("weekRange", meta.weekRange || "-");
@@ -146,7 +174,6 @@ function renderMeta() {
 function renderSummary() {
   const container = document.getElementById("summaryCards");
   const summary = state.data.summary;
-
   if (!container) return;
 
   const cards = [
@@ -156,22 +183,17 @@ function renderSummary() {
     { label: "평균 인기도", value: formatDecimal(summary.avgPopularity) }
   ];
 
-  container.innerHTML = cards
-    .map(
-      (card) => `
-        <article class="summary-card">
-          <span>${escapeHtml(card.label)}</span>
-          <strong>${escapeHtml(card.value)}</strong>
-        </article>
-      `
-    )
-    .join("");
+  container.innerHTML = cards.map((card) => `
+    <article class="summary-card">
+      <span>${escapeHtml(card.label)}</span>
+      <strong>${escapeHtml(card.value)}</strong>
+    </article>
+  `).join("");
 }
 
 function renderGuilds() {
   const container = document.getElementById("guildGrid");
   const guilds = state.data.guilds || [];
-
   if (!container) return;
 
   if (!guilds.length) {
@@ -179,110 +201,95 @@ function renderGuilds() {
     return;
   }
 
-  container.innerHTML = guilds
-    .map((guild) => {
-      const guildClass = getGuildClassName(guild.guild);
-
-      return `
-        <article class="guild-card ${guildClass}">
-          <h3>${escapeHtml(guild.guild || "길드 없음")}</h3>
-          <div class="guild-stats">
-            <div class="guild-stat-row">
-              <span class="guild-stat-label">인원수</span>
-              <strong class="guild-stat-value">${formatNumber(guild.memberCount)}</strong>
-            </div>
-            <div class="guild-stat-row">
-              <span class="guild-stat-label">평균 레벨</span>
-              <strong class="guild-stat-value">${formatDecimal(guild.avgLevel)}</strong>
-            </div>
-            <div class="guild-stat-row">
-              <span class="guild-stat-label">평균 전투력</span>
-              <strong class="guild-stat-value">${escapeHtml(guild.avgPowerText || "0")}</strong>
-            </div>
-            <div class="guild-stat-row">
-              <span class="guild-stat-label">평균 인기도</span>
-              <strong class="guild-stat-value">${formatDecimal(guild.avgPopularity)}</strong>
-            </div>
-            <div class="guild-stat-row">
-              <span class="guild-stat-label">주간 전투력 증감</span>
-              <strong class="guild-stat-value ${getDiffClass(guild.weeklyPowerDiffValue)}">
-                ${escapeHtml(guild.weeklyPowerDiffText || "0")}
-              </strong>
-            </div>
-            <div class="guild-stat-row">
-              <span class="guild-stat-label">주간 레벨업 인원</span>
-              <strong class="guild-stat-value">${formatNumber(guild.weeklyLevelUpCount)}</strong>
-            </div>
-          </div>
-        </article>
-      `;
-    })
-    .join("");
+  container.innerHTML = guilds.map((guild) => `
+    <article class="guild-card ${getGuildClassName(guild.guild)}">
+      <h3>${escapeHtml(guild.guild || "길드 없음")}</h3>
+      <div class="guild-stats">
+        <div class="guild-stat-row">
+          <span class="guild-stat-label">인원수</span>
+          <strong class="guild-stat-value">${formatNumber(guild.memberCount)}</strong>
+        </div>
+        <div class="guild-stat-row">
+          <span class="guild-stat-label">평균 레벨</span>
+          <strong class="guild-stat-value">${formatDecimal(guild.avgLevel)}</strong>
+        </div>
+        <div class="guild-stat-row">
+          <span class="guild-stat-label">평균 전투력</span>
+          <strong class="guild-stat-value">${escapeHtml(guild.avgPowerText || "0")}</strong>
+        </div>
+        <div class="guild-stat-row">
+          <span class="guild-stat-label">평균 인기도</span>
+          <strong class="guild-stat-value">${formatDecimal(guild.avgPopularity)}</strong>
+        </div>
+        <div class="guild-stat-row">
+          <span class="guild-stat-label">주간 전투력 증감</span>
+          <strong class="guild-stat-value ${getDiffClass(guild.weeklyPowerDiffValue)}">
+            ${escapeHtml(guild.weeklyPowerDiffText || "0")}
+          </strong>
+        </div>
+        <div class="guild-stat-row">
+          <span class="guild-stat-label">주간 레벨업 인원</span>
+          <strong class="guild-stat-value">${formatNumber(guild.weeklyLevelUpCount)}</strong>
+        </div>
+      </div>
+    </article>
+  `).join("");
 }
 
 function renderRankingTable() {
   const tbody = document.getElementById("rankingTableBody");
   const rows = state.data.rankings?.[state.rankingTab] || [];
-
   if (!tbody) return;
 
   if (!rows.length) {
     tbody.innerHTML = `
       <tr>
-        <td colspan="7">
-          <div class="empty-state">랭킹 데이터가 없습니다.</div>
-        </td>
+        <td colspan="7"><div class="empty-state">랭킹 데이터가 없습니다.</div></td>
       </tr>
     `;
     return;
   }
 
-  tbody.innerHTML = rows
-    .slice(0, 30)
-    .map((row) => {
-      const rankClass = getRankBadgeClass(row.rank);
-      const metricText =
-        state.rankingTab === "power"
-          ? row.weeklyPowerDiffText || "0"
-          : state.rankingTab === "level"
+  tbody.innerHTML = rows.slice(0, 30).map((row) => {
+    const rankClass = getRankBadgeClass(row.rank);
+    const metricText =
+      state.rankingTab === "power"
+        ? row.weeklyPowerDiffText || "0"
+        : state.rankingTab === "level"
           ? formatSignedNumber(row.weeklyLevelDiff)
           : formatSignedNumber(row.weeklyPopularityDiff);
 
-      const metricValue =
-        state.rankingTab === "power"
-          ? Number(row.weeklyPowerDiffValue || 0)
-          : state.rankingTab === "level"
+    const metricValue =
+      state.rankingTab === "power"
+        ? Number(row.weeklyPowerDiffValue || 0)
+        : state.rankingTab === "level"
           ? Number(row.weeklyLevelDiff || 0)
           : Number(row.weeklyPopularityDiff || 0);
 
-      return `
-        <tr>
-          <td>
-            <span class="rank-badge ${rankClass}">${escapeHtml(String(row.rank ?? "-"))}</span>
-          </td>
-          <td>
-            <div class="name-cell">
-              <span class="name-main">${escapeHtml(row.name || "-")}</span>
-              <span class="name-sub">전체 ${formatNullableRank(row.overallRank)} / 서버 ${formatNullableRank(row.serverRank)}</span>
-            </div>
-          </td>
-          <td>
-            <span class="guild-pill ${getGuildClassName(row.guild)}">${escapeHtml(row.guild || "길드 없음")}</span>
-          </td>
-          <td>${formatNumber(row.level)}</td>
-          <td>${escapeHtml(row.powerText || "0")}</td>
-          <td>${formatNumber(row.popularity)}</td>
-          <td class="${getDiffClass(metricValue)}">${escapeHtml(metricText)}</td>
-        </tr>
-      `;
-    })
-    .join("");
+    return `
+      <tr>
+        <td><span class="rank-badge ${rankClass}">${escapeHtml(String(row.rank ?? "-"))}</span></td>
+        <td>
+          <div class="name-cell">
+            <span class="name-main">${escapeHtml(row.name || "-")}</span>
+            <span class="name-sub">전체 ${formatNullableRank(row.overallRank)} / 서버 ${formatNullableRank(row.serverRank)}</span>
+          </div>
+        </td>
+        <td>
+          <span class="guild-pill ${getGuildClassName(row.guild)}">${escapeHtml(row.guild || "길드 없음")}</span>
+        </td>
+        <td>${formatNumber(row.level)}</td>
+        <td>${escapeHtml(row.powerText || "0")}</td>
+        <td>${formatNumber(row.popularity)}</td>
+        <td class="${getDiffClass(metricValue)}">${escapeHtml(metricText)}</td>
+      </tr>
+    `;
+  }).join("");
 }
 
 function renderWeeklyTop() {
   const container = document.getElementById("weeklyTopGrid");
   const rows = state.data.weeklyTop?.[state.weeklyTab] || [];
-
   if (!container) return;
 
   if (!rows.length) {
@@ -290,20 +297,18 @@ function renderWeeklyTop() {
     return;
   }
 
-  const topCards = rows.slice(0, 3).map((row, index) => {
+  container.innerHTML = rows.slice(0, 3).map((row, index) => {
     const title =
       state.weeklyTab === "power"
         ? row.diffText || "0"
-        : state.weeklyTab === "level"
-        ? row.diffText || formatSignedNumber(row.diff)
         : row.diffText || formatSignedNumber(row.diff);
 
     const extra =
       state.weeklyTab === "power"
         ? `${row.powerText || "-"} · ${row.growthRateText || "0%"}`
         : state.weeklyTab === "level"
-        ? `현재 레벨 ${formatNumber(row.currentLevel)}`
-        : `현재 인기도 ${formatNumber(row.currentPopularity)}`;
+          ? `현재 레벨 ${formatNumber(row.currentLevel)}`
+          : `현재 인기도 ${formatNumber(row.currentPopularity)}`;
 
     return `
       <article class="weekly-card">
@@ -324,9 +329,7 @@ function renderWeeklyTop() {
         </div>
       </article>
     `;
-  });
-
-  container.innerHTML = topCards.join("");
+  }).join("");
 }
 
 function renderGuildFilterOptions() {
@@ -336,12 +339,10 @@ function renderGuildFilterOptions() {
   const guilds = (state.data.guilds || []).map((guild) => guild.guild).filter(Boolean);
   const uniqueGuilds = ["ALL", ...new Set(guilds)];
 
-  select.innerHTML = uniqueGuilds
-    .map((guild) => {
-      const label = guild === "ALL" ? "전체 길드" : guild;
-      return `<option value="${escapeHtml(guild)}">${escapeHtml(label)}</option>`;
-    })
-    .join("");
+  select.innerHTML = uniqueGuilds.map((guild) => {
+    const label = guild === "ALL" ? "전체 길드" : guild;
+    return `<option value="${escapeHtml(guild)}">${escapeHtml(label)}</option>`;
+  }).join("");
 
   select.value = state.guildFilter;
 }
@@ -373,65 +374,55 @@ function renderMembers() {
 
   emptyState.classList.add("hidden");
 
-  container.innerHTML = members
-    .map((member) => {
-      const weekly = member.weekly || {};
-      const guildClass = getGuildClassName(member.guild);
-
-      return `
-        <article class="member-card">
-          <div class="member-top">
-            <div>
-              <div class="member-rank">
-                <span>패밀리 전투력 순위</span>
-                <strong>#${formatNumber(member.familyRankByPower)}</strong>
-              </div>
-              <h3 class="member-name">${escapeHtml(member.name || "-")}</h3>
-              <div class="member-real-guild">${escapeHtml(member.realGuild || "길드 없음")}</div>
+  container.innerHTML = members.map((member) => {
+    const weekly = member.weekly || {};
+    return `
+      <article class="member-card">
+        <div class="member-top">
+          <div>
+            <div class="member-rank">
+              <span>패밀리 전투력 순위</span>
+              <strong>#${formatNumber(member.familyRankByPower)}</strong>
             </div>
-            <span class="guild-pill ${guildClass}">${escapeHtml(member.guild || "길드 없음")}</span>
+            <h3 class="member-name">${escapeHtml(member.name || "-")}</h3>
+            <div class="member-real-guild">${escapeHtml(member.realGuild || "길드 없음")}</div>
           </div>
+          <span class="guild-pill ${getGuildClassName(member.guild)}">${escapeHtml(member.guild || "길드 없음")}</span>
+        </div>
 
-          <div class="member-stats">
-            <div class="member-stat">
-              <span class="member-stat-label">레벨</span>
-              <strong class="member-stat-value">${formatNumber(member.level)}</strong>
-            </div>
-            <div class="member-stat">
-              <span class="member-stat-label">전투력</span>
-              <strong class="member-stat-value">${escapeHtml(member.powerText || "0")}</strong>
-            </div>
-            <div class="member-stat">
-              <span class="member-stat-label">인기도</span>
-              <strong class="member-stat-value">${formatNumber(member.popularity)}</strong>
-            </div>
-            <div class="member-stat">
-              <span class="member-stat-label">주간 전투력</span>
-              <strong class="member-stat-value ${getDiffClass(weekly.powerDiffValue)}">
-                ${escapeHtml(weekly.powerDiffText || "0")}
-              </strong>
-            </div>
-            <div class="member-stat">
-              <span class="member-stat-label">주간 레벨</span>
-              <strong class="member-stat-value ${getDiffClass(weekly.levelDiff)}">
-                ${escapeHtml(weekly.levelDiffText || "0")}
-              </strong>
-            </div>
-            <div class="member-stat">
-              <span class="member-stat-label">주간 인기도</span>
-              <strong class="member-stat-value ${getDiffClass(weekly.popularityDiff)}">
-                ${escapeHtml(weekly.popularityDiffText || "0")}
-              </strong>
-            </div>
-            <div class="member-stat">
-              <span class="member-stat-label">주간 성장률</span>
-              <strong class="member-stat-value">${escapeHtml(weekly.growthRateText || "0%")}</strong>
-            </div>
+        <div class="member-stats">
+          <div class="member-stat">
+            <span class="member-stat-label">레벨</span>
+            <strong class="member-stat-value">${formatNumber(member.level)}</strong>
           </div>
-        </article>
-      `;
-    })
-    .join("");
+          <div class="member-stat">
+            <span class="member-stat-label">전투력</span>
+            <strong class="member-stat-value">${escapeHtml(member.powerText || "0")}</strong>
+          </div>
+          <div class="member-stat">
+            <span class="member-stat-label">인기도</span>
+            <strong class="member-stat-value">${formatNumber(member.popularity)}</strong>
+          </div>
+          <div class="member-stat">
+            <span class="member-stat-label">주간 전투력</span>
+            <strong class="member-stat-value ${getDiffClass(weekly.powerDiffValue)}">${escapeHtml(weekly.powerDiffText || "0")}</strong>
+          </div>
+          <div class="member-stat">
+            <span class="member-stat-label">주간 레벨</span>
+            <strong class="member-stat-value ${getDiffClass(weekly.levelDiff)}">${escapeHtml(weekly.levelDiffText || "0")}</strong>
+          </div>
+          <div class="member-stat">
+            <span class="member-stat-label">주간 인기도</span>
+            <strong class="member-stat-value ${getDiffClass(weekly.popularityDiff)}">${escapeHtml(weekly.popularityDiffText || "0")}</strong>
+          </div>
+          <div class="member-stat">
+            <span class="member-stat-label">주간 성장률</span>
+            <strong class="member-stat-value">${escapeHtml(weekly.growthRateText || "0%")}</strong>
+          </div>
+        </div>
+      </article>
+    `;
+  }).join("");
 }
 
 function renderFooter() {
@@ -462,7 +453,7 @@ function setApiStatus(status) {
   const badge = document.getElementById("apiStatus");
   if (!badge) return;
 
-  badge.className = "status-chip";
+  badge.className = "status-badge";
 
   if (status === "loading") {
     badge.classList.add("is-loading");
@@ -487,18 +478,9 @@ function setApiStatus(status) {
 }
 
 function compareMembers(a, b, sortKey) {
-  if (sortKey === "level") {
-    return Number(b.level || 0) - Number(a.level || 0);
-  }
-
-  if (sortKey === "popularity") {
-    return Number(b.popularity || 0) - Number(a.popularity || 0);
-  }
-
-  if (sortKey === "name") {
-    return String(a.name || "").localeCompare(String(b.name || ""), "ko");
-  }
-
+  if (sortKey === "level") return Number(b.level || 0) - Number(a.level || 0);
+  if (sortKey === "popularity") return Number(b.popularity || 0) - Number(a.popularity || 0);
+  if (sortKey === "name") return String(a.name || "").localeCompare(String(b.name || ""), "ko");
   return Number(b.powerValue || 0) - Number(a.powerValue || 0);
 }
 
@@ -524,7 +506,6 @@ function getDiffClass(value) {
 
 function formatDateTime(value) {
   if (!value) return "-";
-
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return "-";
 
@@ -538,16 +519,14 @@ function formatDateTime(value) {
 }
 
 function formatNumber(value) {
-  const numeric = Number(value ?? 0);
-  return new Intl.NumberFormat("ko-KR").format(numeric);
+  return new Intl.NumberFormat("ko-KR").format(Number(value ?? 0));
 }
 
 function formatDecimal(value) {
-  const numeric = Number(value ?? 0);
   return new Intl.NumberFormat("ko-KR", {
     minimumFractionDigits: 0,
     maximumFractionDigits: 2
-  }).format(numeric);
+  }).format(Number(value ?? 0));
 }
 
 function formatSignedNumber(value) {

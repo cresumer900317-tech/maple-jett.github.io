@@ -11,50 +11,54 @@
     href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap"
     rel="stylesheet"
   />
-  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="./style.css?v=20260401-premium" />
 </head>
 <body>
-  <div class="bg-orb orb-1"></div>
-  <div class="bg-orb orb-2"></div>
-  <div class="bg-orb orb-3"></div>
+  <div class="bg-light bg-light-1"></div>
+  <div class="bg-light bg-light-2"></div>
+  <div class="bg-light bg-light-3"></div>
 
   <header class="site-header">
     <div class="container hero-shell">
       <section class="hero-main">
-        <div class="hero-badge-row">
-          <span class="hero-badge">MAPLE FAMILY</span>
-          <span class="hero-badge soft">2026 BRIGHT UI</span>
+        <div class="hero-topline">
+          <span class="hero-chip">MAPLE FAMILY</span>
+          <span class="hero-chip soft">PREMIUM GUILD</span>
+          <span class="hero-chip soft">2026 UI</span>
         </div>
 
         <h1 class="hero-title">친구패밀리 통합 홈페이지</h1>
         <p class="hero-desc">
-          친구들 · 친구둘 · 친구삼 · 친구넷 · 친구닷의 데이터를 한곳에 모아
-          전투력, 레벨, 인기도, 주간 성장 현황을 예쁘고 편하게 보는 운영형 홈페이지
+          친구들 · 친구둘 · 친구삼 · 친구넷 · 친구닷의 전체 데이터를 한곳에 모아,
+          전투력 · 레벨 · 인기도 · 주간 성장 현황을 프리미엄 길드 무드로 보여주는 운영형 홈페이지
         </p>
 
-        <div class="hero-info-pills">
-          <div class="info-pill">
-            <span class="label">마지막 갱신</span>
+        <div class="hero-meta-grid">
+          <article class="hero-meta-card">
+            <span>마지막 갱신</span>
             <strong id="latestSnapshotAt">불러오는 중...</strong>
-          </div>
-          <div class="info-pill">
-            <span class="label">주간 기준</span>
+          </article>
+          <article class="hero-meta-card">
+            <span>주간 기준</span>
             <strong id="weeklyBaseAt">불러오는 중...</strong>
-          </div>
-          <div class="info-pill">
-            <span class="label">주간 범위</span>
+          </article>
+          <article class="hero-meta-card">
+            <span>주간 범위</span>
             <strong id="weekRange">불러오는 중...</strong>
-          </div>
+          </article>
         </div>
       </section>
 
-      <aside class="hero-status-card">
-        <div class="status-top">
-          <p class="section-mini">API STATUS</p>
-          <div id="apiStatus" class="status-chip is-loading">LOADING</div>
+      <aside class="hero-side">
+        <div class="hero-side-head">
+          <div>
+            <p class="section-kicker">System Status</p>
+            <h2>운영 현황</h2>
+          </div>
+          <div id="apiStatus" class="status-badge is-loading">LOADING</div>
         </div>
 
-        <div class="status-card-grid" id="summaryCards">
+        <div class="summary-grid" id="summaryCards">
           <article class="summary-card">
             <span>총 인원</span>
             <strong>--</strong>
@@ -76,22 +80,21 @@
     </div>
   </header>
 
-  <main class="container page-content">
-    <section class="content-section">
+  <main class="container main-content">
+    <section class="section-block">
       <div class="section-head">
         <div>
-          <p class="section-mini">Guild Summary</p>
+          <p class="section-kicker">Guild Summary</p>
           <h2>길드별 주간 요약</h2>
         </div>
       </div>
-
       <div class="guild-grid" id="guildGrid"></div>
     </section>
 
-    <section class="content-section">
+    <section class="section-block">
       <div class="section-head">
         <div>
-          <p class="section-mini">Family Ranking</p>
+          <p class="section-kicker">Family Ranking</p>
           <h2>친구패밀리 전체 랭킹</h2>
         </div>
 
@@ -102,7 +105,7 @@
         </div>
       </div>
 
-      <section class="table-panel">
+      <section class="panel table-panel">
         <div class="table-wrap">
           <table class="ranking-table">
             <thead>
@@ -122,10 +125,10 @@
       </section>
     </section>
 
-    <section class="content-section">
+    <section class="section-block">
       <div class="section-head">
         <div>
-          <p class="section-mini">Weekly Top</p>
+          <p class="section-kicker">Weekly Top</p>
           <h2>주간 성장 TOP</h2>
         </div>
 
@@ -139,10 +142,10 @@
       <div class="weekly-grid" id="weeklyTopGrid"></div>
     </section>
 
-    <section class="content-section">
+    <section class="section-block">
       <div class="section-head members-head">
         <div>
-          <p class="section-mini">Members</p>
+          <p class="section-kicker">Members</p>
           <h2>길드원 카드 목록</h2>
         </div>
 
@@ -180,12 +183,12 @@
 
   <footer class="site-footer">
     <div class="container footer-inner">
-      <p>친구패밀리 홈페이지</p>
+      <p>친구패밀리 프리미엄 길드 홈페이지</p>
       <p id="footerApiText">API 연결 대기 중</p>
     </div>
   </footer>
 
-  <script src="./data.js"></script>
-  <script src="./script.js"></script>
+  <script src="./data.js?v=20260401-premium"></script>
+  <script src="./script.js?v=20260401-premium"></script>
 </body>
 </html>
