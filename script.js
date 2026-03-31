@@ -212,11 +212,13 @@ function renderWeekly() {
 function renderRankList(targetId, items) {
   const container = document.getElementById(targetId);
   container.innerHTML = items
-    .map(
-      (item) => `
-        <div class="rank-item">
+    .map((item) => {
+      const medalClass = getMedalClass(item.rank);
+
+      return `
+        <div class="rank-item ${medalClass ? `rank-${medalClass}` : ""}">
           <div class="rank-left">
-            <div class="rank-number">${item.rank}</div>
+            <div class="rank-number ${medalClass ? `rank-${medalClass}` : ""}">${item.rank}</div>
             <div>
               <div class="rank-name">${item.name}</div>
               <div class="rank-guild">${item.guild}</div>
@@ -224,8 +226,8 @@ function renderRankList(targetId, items) {
           </div>
           <div class="rank-value">${item.value}</div>
         </div>
-      `
-    )
+      `;
+    })
     .join("");
 }
 
@@ -234,18 +236,25 @@ function renderRanking(sortKey) {
   const sorted = [...siteData.ranking].sort((a, b) => b[sortKey] - a[sortKey]);
 
   tbody.innerHTML = sorted
-    .map(
-      (member, index) => `
+    .map((member, index) => {
+      const rank = index + 1;
+      const medalClass = getMedalClass(rank);
+
+      return `
         <tr>
-          <td><span class="rank-badge">${index + 1}</span></td>
+          <td>
+            <span class="rank-badge ${medalClass ? `rank-${medalClass}` : ""}">
+              ${rank}
+            </span>
+          </td>
           <td>${member.name}</td>
           <td>${member.guild}</td>
           <td>${member.level}</td>
           <td>${formatNumber(member.power)}억</td>
           <td>${member.popularity}</td>
         </tr>
-      `
-    )
+      `;
+    })
     .join("");
 }
 
@@ -260,6 +269,13 @@ function bindSortButtons() {
       renderRanking(currentSort);
     });
   });
+}
+
+function getMedalClass(rank) {
+  if (rank === 1) return "gold";
+  if (rank === 2) return "silver";
+  if (rank === 3) return "bronze";
+  return "";
 }
 
 function formatNumber(value) {
