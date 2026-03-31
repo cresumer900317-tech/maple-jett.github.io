@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const data = await getHomeData();
-  renderRankingTable(data.rankings.power || []);
+  renderRankingTable(data.rankings.power || [], "power");
 
   const tabs = document.getElementById("rankingTabs");
   tabs?.addEventListener("click", (event) => {
@@ -50,7 +50,7 @@ function renderRankingTable(rows, tab = "power") {
             <span class="name-sub">전체 ${formatNullableRank(row.overallRank)} / 서버 ${formatNullableRank(row.serverRank)}</span>
           </div>
         </td>
-        <td><span class="guild-pill ${getGuildClassName(row.guild)}">${escapeHtml(row.guild || "길드 없음")}</span></td>
+        <td><span class="guild-pill">${escapeHtml(row.guild || "길드 없음")}</span></td>
         <td>${formatNumber(row.level)}</td>
         <td>${escapeHtml(row.powerText || "0")}</td>
         <td>${formatNumber(row.popularity)}</td>

@@ -4,10 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>친구패밀리 | 홈</title>
+  <meta name="description" content="친구패밀리 프리미엄 길드 포털" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="./assets/css/style.css?v=multi-final-2" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="./assets/css/style.css?v=apple-final-001" />
 </head>
 <body data-page="home">
   <div id="app-shell"></div>
@@ -15,19 +19,17 @@
   <main class="page-wrap">
     <section class="container hero-layout">
       <section class="hero-panel hero-main">
-        <div class="hero-frame"></div>
-
         <div class="hero-badges">
           <span class="hero-badge">MAPLE FAMILY</span>
           <span class="hero-badge is-purple">PREMIUM GUILD</span>
-          <span class="hero-badge is-soft">2026 UI</span>
+          <span class="hero-badge is-soft">APPLE STYLE UI</span>
         </div>
 
-        <p class="hero-kicker">FRIENDS FAMILY ARCHIVE</p>
+        <p class="eyebrow">FRIENDS FAMILY PORTAL</p>
         <h1 class="hero-title">친구패밀리 통합 홈페이지</h1>
         <p class="hero-desc">
           친구들 · 친구둘 · 친구삼 · 친구넷 · 친구닷의 전체 데이터를 한곳에 모아,
-          랭킹 · 주간 성장 · 공지 · 꿀팁을 한 번에 보는 프리미엄 길드 포털
+          랭킹 · 주간 성장 · 공지 · 꿀팁을 가장 읽기 쉬운 방식으로 정리한 프리미엄 길드 포털
         </p>
 
         <div class="hero-meta-grid">
@@ -49,7 +51,7 @@
       <aside class="hero-panel hero-side">
         <div class="hero-side-head">
           <div>
-            <p class="section-kicker">SYSTEM STATUS</p>
+            <p class="eyebrow">SYSTEM STATUS</p>
             <h2>운영 현황</h2>
           </div>
           <div id="apiStatus" class="status-badge is-loading">LOADING</div>
@@ -62,38 +64,68 @@
     <section class="container section">
       <div class="section-head">
         <div>
-          <p class="section-kicker">Guild Summary</p>
-          <h2>길드별 요약</h2>
+          <p class="eyebrow">Ranking Preview</p>
+          <h2>전체 랭킹 TOP 10</h2>
         </div>
+        <a class="text-link" href="./ranking.html">전체 랭킹 보기</a>
       </div>
-      <div id="guildGrid" class="guild-grid"></div>
+
+      <section class="content-panel">
+        <div class="table-wrap">
+          <table class="ranking-table compact-table">
+            <thead>
+              <tr>
+                <th>순위</th>
+                <th>캐릭터</th>
+                <th>길드</th>
+                <th>레벨</th>
+                <th>전투력</th>
+                <th>주간 변화</th>
+              </tr>
+            </thead>
+            <tbody id="homeRankingPreviewBody"></tbody>
+          </table>
+        </div>
+      </section>
     </section>
 
     <section class="container two-col section">
       <section>
         <div class="section-head compact">
           <div>
-            <p class="section-kicker">Weekly Top</p>
-            <h2>주간 TOP 3</h2>
+            <p class="eyebrow">Guild Summary</p>
+            <h2>길드별 요약</h2>
           </div>
         </div>
-        <div id="homeWeeklyTop" class="weekly-grid compact-grid"></div>
+        <div id="guildGrid" class="guild-grid"></div>
       </section>
 
       <section>
         <div class="section-head compact">
           <div>
-            <p class="section-kicker">Latest Notice</p>
-            <h2>최신 공지</h2>
+            <p class="eyebrow">Weekly Top</p>
+            <h2>주간 TOP 3</h2>
           </div>
+          <a class="text-link" href="./weekly.html">주간 성장 보기</a>
         </div>
-        <div id="latestNoticeList" class="board-list"></div>
+        <div id="homeWeeklyTop" class="weekly-grid weekly-grid-home"></div>
       </section>
+    </section>
+
+    <section class="container section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Latest Notice</p>
+          <h2>최신 공지</h2>
+        </div>
+        <a class="text-link" href="./notice.html">공지 전체 보기</a>
+      </div>
+      <div id="latestNoticeList" class="board-list board-list-home"></div>
     </section>
   </main>
 
-  <script src="./assets/js/data.js?v=multi-final-2"></script>
-  <script src="./assets/js/common.js?v=multi-final-2"></script>
-  <script src="./assets/js/home.js?v=multi-final-2"></script>
+  <script src="./assets/js/data.js?v=apple-final-001"></script>
+  <script src="./assets/js/common.js?v=apple-final-001"></script>
+  <script src="./assets/js/home.js?v=apple-final-001"></script>
 </body>
 </html>

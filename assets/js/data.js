@@ -12,11 +12,23 @@ window.DEFAULT_HOME_DATA = {
     avgLevel: 0,
     avgPowerText: "0",
     avgPopularity: 0,
-    positiveGrowthMembers: { power: 0, level: 0, popularity: 0 }
+    positiveGrowthMembers: {
+      power: 0,
+      level: 0,
+      popularity: 0
+    }
   },
   guilds: [],
-  rankings: { power: [], level: [], popularity: [] },
-  weeklyTop: { power: [], level: [], popularity: [] },
+  rankings: {
+    power: [],
+    level: [],
+    popularity: []
+  },
+  weeklyTop: {
+    power: [],
+    level: [],
+    popularity: []
+  },
   members: []
 };
 

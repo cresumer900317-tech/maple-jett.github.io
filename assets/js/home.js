@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   renderApiStatus();
   renderSummary(data.summary);
+  renderHomeRankingPreview(data.rankings.power || []);
   renderGuilds(data.guilds);
   renderHomeWeeklyTop(data.weeklyTop.power || []);
   renderHomeNoticePreview(await getNoticePosts());
@@ -46,6 +47,37 @@ function renderSummary(summary) {
   `).join("");
 }
 
+function renderHomeRankingPreview(rows) {
+  const tbody = document.getElementById("homeRankingPreviewBody");
+  if (!tbody) return;
+
+  const preview = rows.slice(0, 10);
+  if (!preview.length) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="6"><div class="empty-state">랭킹 데이터가 없습니다.</div></td>
+      </tr>
+    `;
+    return;
+  }
+
+  tbody.innerHTML = preview.map((row) => `
+    <tr>
+      <td><span class="rank-badge ${getRankBadgeClass(row.rank)}">${escapeHtml(String(row.rank ?? "-"))}</span></td>
+      <td>
+        <div class="name-cell">
+          <span class="name-main">${escapeHtml(row.name || "-")}</span>
+          <span class="name-sub">전체 ${formatNullableRank(row.overallRank)} / 서버 ${formatNullableRank(row.serverRank)}</span>
+        </div>
+      </td>
+      <td><span class="guild-pill">${escapeHtml(row.guild || "길드 없음")}</span></td>
+      <td>${formatNumber(row.level)}</td>
+      <td>${escapeHtml(row.powerText || "0")}</td>
+      <td class="${getDiffClass(row.weeklyPowerDiffValue)}">${escapeHtml(row.weeklyPowerDiffText || "0")}</td>
+    </tr>
+  `).join("");
+}
+
 function renderGuilds(guilds) {
   const root = document.getElementById("guildGrid");
   if (!root) return;
@@ -56,7 +88,7 @@ function renderGuilds(guilds) {
   }
 
   root.innerHTML = guilds.map((guild) => `
-    <article class="guild-card ${getGuildClassName(guild.guild)}">
+    <article class="guild-card">
       <h3>${escapeHtml(guild.guild || "길드 없음")}</h3>
       <div class="guild-stats">
         <div class="guild-stat-row">
@@ -70,6 +102,10 @@ function renderGuilds(guilds) {
         <div class="guild-stat-row">
           <span class="guild-stat-label">평균 전투력</span>
           <strong class="guild-stat-value">${escapeHtml(guild.avgPowerText || "0")}</strong>
+        </div>
+        <div class="guild-stat-row">
+          <span class="guild-stat-label">평균 인기도</span>
+          <strong class="guild-stat-value">${formatDecimal(guild.avgPopularity)}</strong>
         </div>
       </div>
     </article>

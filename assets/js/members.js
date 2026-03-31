@@ -81,7 +81,7 @@ function renderMembers(state) {
             <h3 class="member-name">${escapeHtml(member.name || "-")}</h3>
             <div class="member-real-guild">${escapeHtml(member.realGuild || "길드 없음")}</div>
           </div>
-          <span class="guild-pill ${getGuildClassName(member.guild)}">${escapeHtml(member.guild || "길드 없음")}</span>
+          <span class="guild-pill">${escapeHtml(member.guild || "길드 없음")}</span>
         </div>
 
         <div class="member-stats">

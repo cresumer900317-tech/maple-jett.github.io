@@ -19,10 +19,6 @@ function renderShell() {
   const page = document.body.dataset.page || "home";
 
   root.innerHTML = `
-    <div class="page-glow glow-1"></div>
-    <div class="page-glow glow-2"></div>
-    <div class="page-glow glow-3"></div>
-
     <header class="site-header-bar">
       <div class="container site-header-inner">
         <div class="brand-box">
@@ -155,7 +151,7 @@ function normalizeHomeData(data) {
 }
 
 async function getHomeData() {
-  const cacheKey = "friends_family_home_data_v1";
+  const cacheKey = "friends_family_home_data_v2";
   const cached = getCache(cacheKey);
 
   if (cached) {
@@ -181,7 +177,7 @@ async function getHomeData() {
 }
 
 async function getNoticePosts() {
-  const cacheKey = "friends_family_notice_posts_v1";
+  const cacheKey = "friends_family_notice_posts_v2";
   const cached = getCache(cacheKey);
   if (cached) return cached;
 
@@ -198,7 +194,7 @@ async function getNoticePosts() {
 }
 
 async function getTipsPosts() {
-  const cacheKey = "friends_family_tips_posts_v1";
+  const cacheKey = "friends_family_tips_posts_v2";
   const cached = getCache(cacheKey);
   if (cached) return cached;
 

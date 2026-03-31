@@ -325,6 +325,18 @@ body {
   font-size: clamp(24px, 2vw, 30px);
 }
 
+.text-link {
+  color: var(--blue-deep);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.text-link:hover {
+  text-decoration: underline;
+}
+
 .status-badge {
   min-width: 96px;
   height: 38px;
@@ -374,7 +386,7 @@ body {
 
 .guild-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: 1fr;
   gap: 14px;
 }
 
@@ -452,7 +464,7 @@ body {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.weekly-grid.compact-grid {
+.weekly-grid.weekly-grid-home {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
@@ -615,6 +627,14 @@ body {
   background: #fafcff;
 }
 
+.compact-table thead th {
+  padding: 13px 16px;
+}
+
+.compact-table tbody td {
+  padding: 12px 16px;
+}
+
 .name-cell {
   display: grid;
   gap: 3px;
@@ -698,6 +718,10 @@ body {
 .board-list {
   display: grid;
   gap: 12px;
+}
+
+.board-list.board-list-home {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .board-item {
@@ -790,11 +814,11 @@ body {
     grid-template-columns: 1fr;
   }
 
-  .guild-grid,
   .weekly-grid,
+  .weekly-grid.weekly-grid-home,
   .members-grid,
   .two-col,
-  .weekly-grid.compact-grid {
+  .board-list.board-list-home {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
@@ -835,11 +859,11 @@ body {
 
   .hero-meta-grid,
   .summary-grid,
-  .guild-grid,
   .weekly-grid,
+  .weekly-grid.weekly-grid-home,
   .members-grid,
   .two-col,
-  .weekly-grid.compact-grid {
+  .board-list.board-list-home {
     grid-template-columns: 1fr;
   }
 
