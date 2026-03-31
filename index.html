@@ -8,48 +8,48 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="./assets/css/style.css?v=apple-final-002" />
+  <link rel="stylesheet" href="./assets/css/style.css?v=apple-grid-final-003" />
 </head>
 <body data-page="home">
   <div id="app-shell"></div>
 
   <main class="page-wrap">
-    <section class="container home-hero">
-      <section class="hero-surface hero-main">
+    <section class="container hero-grid">
+      <section class="surface hero-main">
         <div class="hero-badges">
           <span class="hero-badge">MAPLE FAMILY</span>
           <span class="hero-badge is-purple">PREMIUM GUILD</span>
-          <span class="hero-badge is-soft">APPLE CLASS UI</span>
+          <span class="hero-badge is-soft">APPLE SYSTEM</span>
         </div>
 
         <p class="eyebrow">FRIENDS FAMILY PORTAL</p>
         <h1 class="hero-title">친구패밀리 통합 홈페이지</h1>
         <p class="hero-desc">
           친구들 · 친구둘 · 친구삼 · 친구넷 · 친구닷 전체 데이터를 한곳에 모아
-          랭킹, 주간 성장, 공지, 꿀팁을 서비스 수준의 정보 구조로 정리한 프리미엄 길드 포털
+          랭킹, 주간 성장, 공지, 꿀팁을 가장 읽기 쉬운 정보 구조로 정리한 프리미엄 길드 포털
         </p>
 
-        <div class="hero-meta-row">
-          <article class="hero-meta-card">
-            <span>마지막 갱신</span>
-            <strong id="latestSnapshotAt">불러오는 중...</strong>
+        <div class="hero-meta-grid">
+          <article class="metric-card">
+            <span class="metric-label">마지막 갱신</span>
+            <strong class="metric-value" id="latestSnapshotAt">불러오는 중...</strong>
           </article>
-          <article class="hero-meta-card">
-            <span>주간 기준</span>
-            <strong id="weeklyBaseAt">불러오는 중...</strong>
+          <article class="metric-card">
+            <span class="metric-label">주간 기준</span>
+            <strong class="metric-value" id="weeklyBaseAt">불러오는 중...</strong>
           </article>
-          <article class="hero-meta-card">
-            <span>주간 범위</span>
-            <strong id="weekRange">불러오는 중...</strong>
+          <article class="metric-card">
+            <span class="metric-label">주간 범위</span>
+            <strong class="metric-value" id="weekRange">불러오는 중...</strong>
           </article>
         </div>
       </section>
 
-      <aside class="hero-surface hero-side">
-        <div class="hero-side-head">
+      <aside class="surface hero-side">
+        <div class="section-header section-header-tight">
           <div>
             <p class="eyebrow">SYSTEM STATUS</p>
-            <h2>운영 현황</h2>
+            <h2 class="section-title">운영 현황</h2>
           </div>
           <div id="apiStatus" class="status-badge is-loading">LOADING</div>
         </div>
@@ -58,18 +58,18 @@
       </aside>
     </section>
 
-    <section class="container section">
-      <div class="section-head">
+    <section class="container section-block">
+      <div class="section-header">
         <div>
           <p class="eyebrow">Ranking Preview</p>
-          <h2>전체 랭킹 TOP 10</h2>
+          <h2 class="section-title">전체 랭킹 TOP 10</h2>
         </div>
-        <a class="text-link" href="./ranking.html">전체 랭킹 보기</a>
+        <a class="section-link" href="./ranking.html">전체 랭킹 보기</a>
       </div>
 
-      <section class="panel panel-table">
+      <section class="surface panel-table">
         <div class="table-wrap">
-          <table class="ranking-table compact-table">
+          <table class="ranking-table ranking-table-compact">
             <thead>
               <tr>
                 <th>순위</th>
@@ -86,37 +86,38 @@
       </section>
     </section>
 
-    <section class="container home-grid section">
-      <section class="panel panel-section">
-        <div class="section-head compact">
+    <section class="container section-block home-split">
+      <section class="surface panel-section">
+        <div class="section-header section-header-tight">
           <div>
             <p class="eyebrow">Guild Summary</p>
-            <h2>길드별 요약</h2>
+            <h2 class="section-title">길드별 요약</h2>
           </div>
         </div>
         <div id="guildGrid" class="guild-summary-grid"></div>
       </section>
 
-      <section class="panel panel-section">
-        <div class="section-head compact">
+      <section class="surface panel-section">
+        <div class="section-header section-header-tight">
           <div>
             <p class="eyebrow">Weekly Top</p>
-            <h2>주간 TOP 3</h2>
+            <h2 class="section-title">주간 TOP 3</h2>
           </div>
-          <a class="text-link" href="./weekly.html">주간 성장 보기</a>
+          <a class="section-link" href="./weekly.html">주간 성장 보기</a>
         </div>
         <div id="homeWeeklyTop" class="weekly-card-grid"></div>
       </section>
     </section>
 
-    <section class="container section">
-      <div class="section-head">
+    <section class="container section-block">
+      <div class="section-header">
         <div>
           <p class="eyebrow">Latest Notice</p>
-          <h2>최신 공지</h2>
+          <h2 class="section-title">최신 공지</h2>
         </div>
-        <a class="text-link" href="./notice.html">공지 전체 보기</a>
+        <a class="section-link" href="./notice.html">공지 전체 보기</a>
       </div>
+
       <div id="latestNoticeList" class="board-list board-list-home"></div>
     </section>
   </main>
@@ -124,27 +125,27 @@
   <div id="guildDetailModal" class="modal hidden" aria-hidden="true">
     <div class="modal-backdrop" data-close-modal="true"></div>
     <div class="modal-dialog">
-      <div class="modal-head">
+      <div class="section-header">
         <div>
           <p class="eyebrow">Guild Detail</p>
-          <h3 id="guildModalTitle">길드 상세</h3>
+          <h3 class="modal-title" id="guildModalTitle">길드 상세</h3>
         </div>
         <button id="guildModalClose" class="modal-close" type="button" aria-label="닫기">✕</button>
       </div>
 
-      <div id="guildModalMeta" class="modal-meta"></div>
+      <div id="guildModalMeta" class="modal-meta-grid"></div>
 
-      <div class="modal-section">
-        <div class="modal-section-head">
+      <section class="modal-block">
+        <div class="modal-block-head">
           <strong>핵심 인원 TOP 3</strong>
         </div>
         <div id="guildModalTopMembers" class="modal-member-list"></div>
-      </div>
+      </section>
     </div>
   </div>
 
-  <script src="./assets/js/data.js?v=apple-final-002"></script>
-  <script src="./assets/js/common.js?v=apple-final-002"></script>
-  <script src="./assets/js/home.js?v=apple-final-002"></script>
+  <script src="./assets/js/data.js?v=apple-grid-final-003"></script>
+  <script src="./assets/js/common.js?v=apple-grid-final-003"></script>
+  <script src="./assets/js/home.js?v=apple-grid-final-003"></script>
 </body>
 </html>

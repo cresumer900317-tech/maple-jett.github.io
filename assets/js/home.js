@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   renderGuildSummary(data.guilds, data.members || []);
   renderHomeWeeklyTop(data.weeklyTop.power || []);
   renderBoardList("latestNoticeList", (await getNoticePosts()).slice(0, 3));
+  setupGuildModalClose();
 });
 
 function renderApiStatus() {
@@ -120,8 +121,6 @@ function renderGuildSummary(guilds, members) {
       openGuildModal(guildName, guilds, members);
     });
   });
-
-  setupGuildModalClose();
 }
 
 function renderHomeWeeklyTop(rows) {

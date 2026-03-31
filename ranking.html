@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="./assets/css/style.css?v=apple-final-002" />
+  <link rel="stylesheet" href="./assets/css/style.css?v=apple-grid-final-003" />
 </head>
 <body data-page="ranking">
   <div id="app-shell"></div>
@@ -16,26 +16,26 @@
   <main class="page-wrap">
     <section class="container page-hero">
       <p class="eyebrow">Family Ranking</p>
-      <h1>친구패밀리 전체 랭킹</h1>
-      <p>전투력, 레벨, 인기도 기준으로 전체 순위를 가장 읽기 쉬운 밀도로 정리했습니다.</p>
+      <h1 class="page-title">친구패밀리 전체 랭킹</h1>
+      <p class="page-desc">전투력, 레벨, 인기도 기준으로 전체 순위를 읽기 좋은 밀도와 정렬로 제공합니다.</p>
     </section>
 
-    <section class="container ranking-layout section">
-      <aside class="panel ranking-sidebar">
+    <section class="container section-block ranking-layout">
+      <aside class="surface ranking-filter-panel">
         <div class="panel-section">
           <p class="eyebrow">Ranking Filter</p>
-          <h2 class="side-title">필터</h2>
+          <h2 class="section-title section-title-small">필터</h2>
 
-          <div class="tab-stack" id="rankingTabs">
+          <div id="rankingTabs" class="tab-stack">
             <button class="tab-btn is-active" data-tab="power">전투력</button>
             <button class="tab-btn" data-tab="level">레벨</button>
             <button class="tab-btn" data-tab="popularity">인기도</button>
           </div>
         </div>
 
-        <div class="divider"></div>
+        <div class="panel-divider"></div>
 
-        <div class="panel-section" id="rankingSummaryBox">
+        <div class="panel-section">
           <p class="eyebrow">Live Summary</p>
           <div class="mini-summary-list">
             <div class="mini-summary-row">
@@ -54,16 +54,16 @@
         </div>
       </aside>
 
-      <section class="panel ranking-main">
-        <div class="ranking-table-head">
+      <section class="surface ranking-main-panel">
+        <div class="ranking-panel-head">
           <div>
             <p class="eyebrow">Ranking Table</p>
-            <h2>전체 순위표</h2>
+            <h2 class="section-title">전체 순위표</h2>
           </div>
         </div>
 
-        <div class="ranking-scroll-shell">
-          <div class="table-wrap ranking-inner-scroll">
+        <div class="ranking-scroll-frame">
+          <div class="table-wrap ranking-scroll-area">
             <table class="ranking-table">
               <thead>
                 <tr>
@@ -84,8 +84,8 @@
     </section>
   </main>
 
-  <script src="./assets/js/data.js?v=apple-final-002"></script>
-  <script src="./assets/js/common.js?v=apple-final-002"></script>
-  <script src="./assets/js/ranking.js?v=apple-final-002"></script>
+  <script src="./assets/js/data.js?v=apple-grid-final-003"></script>
+  <script src="./assets/js/common.js?v=apple-grid-final-003"></script>
+  <script src="./assets/js/ranking.js?v=apple-grid-final-003"></script>
 </body>
 </html>

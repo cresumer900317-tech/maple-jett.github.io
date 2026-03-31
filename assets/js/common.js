@@ -151,7 +151,7 @@ function normalizeHomeData(data) {
 }
 
 async function getHomeData() {
-  const cacheKey = "friends_family_home_data_v3";
+  const cacheKey = "friends_family_home_data_v4";
   const cached = getCache(cacheKey);
 
   if (cached) {
@@ -177,7 +177,7 @@ async function getHomeData() {
 }
 
 async function getNoticePosts() {
-  const cacheKey = "friends_family_notice_posts_v3";
+  const cacheKey = "friends_family_notice_posts_v4";
   const cached = getCache(cacheKey);
   if (cached) return cached;
 
@@ -194,7 +194,7 @@ async function getNoticePosts() {
 }
 
 async function getTipsPosts() {
-  const cacheKey = "friends_family_tips_posts_v3";
+  const cacheKey = "friends_family_tips_posts_v4";
   const cached = getCache(cacheKey);
   if (cached) return cached;
 
