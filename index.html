@@ -2,216 +2,27 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover"
-  />
-
-  <title>친구패밀리 | 길드 포털</title>
-  <meta
-    name="description"
-    content="친구패밀리 길드 포털 - 전체 랭킹, 주간 성장, 길드 요약, 공지, 꿀팁을 한곳에서 확인"
-  />
-  <meta
-    name="keywords"
-    content="친구패밀리, 길드, 랭킹, 주간성장, 메이플, MGF, 공지, 꿀팁"
-  />
-  <meta name="theme-color" content="#163a70" />
-  <meta name="color-scheme" content="light only" />
-  <meta name="format-detection" content="telephone=no" />
-
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="친구패밀리 | 길드 포털" />
-  <meta
-    property="og:description"
-    content="친구패밀리 길드 포털 - 전체 랭킹, 주간 성장, 길드 요약, 공지, 꿀팁"
-  />
-  <meta property="og:locale" content="ko_KR" />
-  <meta property="og:site_name" content="친구패밀리" />
-
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="친구패밀리 | 길드 포털" />
-  <meta
-    name="twitter:description"
-    content="친구패밀리 길드 포털 - 전체 랭킹, 주간 성장, 길드 요약, 공지, 꿀팁"
-  />
-
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
-  <!-- Pretendard CDN -->
-  <link
-    rel="stylesheet"
-    as="style"
-    crossorigin
-    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css"
-  />
-
-  <link rel="stylesheet" href="./assets/css/style.css?v=mgf-origin-004" />
-
-  <style>
-    .boot-screen {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 32px 16px;
-      background: linear-gradient(180deg, #f7faff 0%, #f3f6fb 100%);
-    }
-
-    .boot-card {
-      width: min(640px, 100%);
-      background: #ffffff;
-      border: 1px solid #d7e1ee;
-      border-radius: 24px;
-      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
-      padding: 28px 24px;
-    }
-
-    .boot-brand {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      margin-bottom: 18px;
-    }
-
-    .boot-title {
-      margin: 0;
-      font-size: clamp(2rem, 4vw, 3rem);
-      line-height: 1.02;
-      letter-spacing: -0.05em;
-      font-weight: 900;
-      color: #0b1b3a;
-    }
-
-    .boot-sub {
-      margin: 0;
-      color: #64748b;
-      font-size: 0.98rem;
-      font-weight: 600;
-    }
-
-    .boot-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 12px;
-      margin-top: 18px;
-    }
-
-    .boot-chip {
-      border: 1px solid #d7e1ee;
-      border-radius: 16px;
-      background: #fbfdff;
-      padding: 16px;
-    }
-
-    .boot-chip-label {
-      color: #7b8ba1;
-      font-size: 0.9rem;
-      margin-bottom: 8px;
-    }
-
-    .boot-chip-value {
-      color: #0f172a;
-      font-size: 1.05rem;
-      font-weight: 800;
-      line-height: 1.3;
-    }
-
-    .boot-loading {
-      margin-top: 18px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: #475569;
-      font-size: 0.95rem;
-      font-weight: 700;
-    }
-
-    .boot-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 999px;
-      background: #2563eb;
-      box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.45);
-      animation: bootPulse 1.4s infinite;
-    }
-
-    @keyframes bootPulse {
-      0% {
-        box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.45);
-      }
-      70% {
-        box-shadow: 0 0 0 10px rgba(37, 99, 235, 0);
-      }
-      100% {
-        box-shadow: 0 0 0 0 rgba(37, 99, 235, 0);
-      }
-    }
-
-    @media (max-width: 760px) {
-      .boot-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .boot-card {
-        padding: 22px 18px;
-        border-radius: 20px;
-      }
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>친구패밀리 | 홈</title>
+  <meta name="description" content="친구패밀리 길드 포털" />
+  <link rel="stylesheet" href="./assets/css/style.css?v=1" />
 </head>
-
 <body data-page="home">
   <div id="app-shell"></div>
-
-  <main id="app-main">
+  <main>
     <div class="container">
-      <section id="home-page" aria-live="polite">
-        <div class="boot-screen">
-          <div class="boot-card">
-            <div class="boot-brand">
-              <h1 class="boot-title">친구패밀리</h1>
-              <p class="boot-sub">랭킹 · 주간 성장 · 길드 요약 · 공지 · 꿀팁</p>
-            </div>
-
-            <div class="boot-grid">
-              <div class="boot-chip">
-                <div class="boot-chip-label">페이지</div>
-                <div class="boot-chip-value">홈 대시보드</div>
-              </div>
-              <div class="boot-chip">
-                <div class="boot-chip-label">데이터 소스</div>
-                <div class="boot-chip-value">Apps Script Web App</div>
-              </div>
-              <div class="boot-chip">
-                <div class="boot-chip-label">상태</div>
-                <div class="boot-chip-value">초기 로딩 중</div>
-              </div>
-            </div>
-
-            <div class="boot-loading">
-              <span class="boot-dot" aria-hidden="true"></span>
-              <span>홈 데이터를 불러오는 중입니다...</span>
-            </div>
-          </div>
+      <section id="home-page" class="panel boot-panel">
+        <h1 class="panel-title">친구패밀리</h1>
+        <p class="panel-subtitle">홈 데이터를 불러오는 중...</p>
+        <div class="boot-grid">
+          <div class="meta-card"><div class="meta-label">페이지</div><div class="meta-value">홈</div></div>
+          <div class="meta-card"><div class="meta-label">데이터 소스</div><div class="meta-value">Apps Script</div></div>
+          <div class="meta-card"><div class="meta-label">상태</div><div class="meta-value">초기화 중</div></div>
         </div>
       </section>
     </div>
   </main>
-
-  <noscript>
-    <div style="padding:24px; text-align:center; color:#b42318; font-weight:700;">
-      이 페이지는 JavaScript가 필요합니다. 브라우저 설정에서 JavaScript를 활성화해 주세요.
-    </div>
-  </noscript>
-
-  <script>
-    window.__APP_VERSION__ = "mgf-origin-004";
-    window.__PAGE_NAME__ = "home";
-  </script>
-
-  <script src="./assets/js/common.js?v=mgf-origin-004"></script>
-  <script src="./assets/js/home.js?v=mgf-origin-004"></script>
+  <script src="./assets/js/common.js?v=1"></script>
+  <script src="./assets/js/home.js?v=1"></script>
 </body>
 </html>

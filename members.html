@@ -1,77 +1,15 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>친구패밀리 | 인원·성장</title>
-  <meta name="description" content="친구패밀리 인원 디렉토리 및 성장 순위" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="./assets/css/style.css?v=mgf-final-001" />
+  <link rel="stylesheet" href="./assets/css/style.css?v=1" />
 </head>
 <body data-page="members">
   <div id="app-shell"></div>
-  <main class="page-wrap">
-    <section class="container page-hero">
-      <p class="eyebrow">Members & Growth</p>
-      <h1 class="page-title">인원·성장</h1>
-      <p class="page-desc">전체 인원 디렉토리와 전투력·레벨·인기도 성장 순위를 한 페이지에서 볼 수 있습니다.</p>
-    </section>
-
-    <section class="container section-block ranking-layout">
-      <aside class="ranking-filter-panel">
-        <div class="panel-section">
-          <h2 class="section-title section-title-small">탭</h2>
-          <div id="membersModeTabs" class="tab-stack">
-            <button class="tab-btn is-active" data-mode="directory">인원 디렉토리</button>
-            <button class="tab-btn" data-mode="powerGrowth">전투력 상승</button>
-            <button class="tab-btn" data-mode="levelGrowth">레벨 상승</button>
-            <button class="tab-btn" data-mode="popularityGrowth">인기도 상승</button>
-            <button class="tab-btn" data-mode="rateGrowth">성장률 상승</button>
-          </div>
-        </div>
-        <div class="panel-divider"></div>
-        <div class="panel-section">
-          <div class="search-stack"><input id="memberSearchInput" class="input" type="text" placeholder="캐릭터명 검색" /></div>
-          <div class="filter-stack" style="margin-top:10px;">
-            <select id="guildFilterSelect" class="input"><option value="ALL">전체 길드</option></select>
-            <select id="sortSelect" class="input">
-              <option value="power">전투력순</option>
-              <option value="level">레벨순</option>
-              <option value="popularity">인기도순</option>
-              <option value="name">이름순</option>
-            </select>
-          </div>
-        </div>
-      </aside>
-
-      <section class="ranking-main-panel">
-        <div class="ranking-panel-head"><div><h2 class="section-title" id="membersPageTitle">인원 디렉토리</h2></div></div>
-        <div class="ranking-scroll-frame">
-          <div class="table-wrap ranking-scroll-area" id="membersScrollArea">
-            <table class="ranking-table" id="membersTable">
-              <thead id="membersTableHead"></thead>
-              <tbody id="membersTableBody"></tbody>
-            </table>
-          </div>
-        </div>
-        <div class="empty-state hidden" id="membersEmptyState">조건에 맞는 캐릭터가 없습니다.</div>
-      </section>
-    </section>
-  </main>
-
-  <div id="memberDetailModal" class="modal hidden" aria-hidden="true">
-    <div class="modal-backdrop" data-close-member-modal="true"></div>
-    <div class="modal-dialog modal-dialog-wide modal-dialog-scroll">
-      <div class="section-header"><div><h3 class="modal-title" id="memberModalTitle">캐릭터 상세</h3></div><button id="memberModalClose" class="modal-close" type="button" aria-label="닫기">✕</button></div>
-      <div id="memberModalMeta" class="modal-meta-grid"></div>
-      <section class="modal-block"><div class="modal-block-head"><strong>주간 상세</strong></div><div id="memberModalWeeklyGrid" class="modal-member-stats"></div></section>
-    </div>
-  </div>
-
-  <script src="./assets/js/data.js?v=mgf-final-001"></script>
-  <script src="./assets/js/common.js?v=mgf-final-001"></script>
-  <script src="./assets/js/members.js?v=mgf-final-001"></script>
+  <main><div class="container"><section id="members-page"></section></div></main>
+  <script src="./assets/js/common.js?v=1"></script>
+  <script src="./assets/js/members.js?v=1"></script>
 </body>
 </html>
