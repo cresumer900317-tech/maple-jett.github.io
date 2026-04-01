@@ -3,63 +3,116 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>친구패밀리 | 전체 랭킹</title>
+  <title>친구패밀리 | 랭킹</title>
+  <meta name="description" content="친구패밀리 전체 랭킹" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="./style.css?v=light-portal-001" />
+  <link rel="stylesheet" href="./assets/css/style.css?v=rank-premium-003" />
 </head>
 <body data-page="ranking">
   <div id="app-shell"></div>
+
   <main class="page-wrap">
     <section class="container page-hero">
-      <div>
-        <h1 class="page-title">전체 랭킹</h1>
-        <p class="page-desc">전투력, 레벨, 인기도 기준으로 전체 인원을 볼 수 있습니다. 검색하면 해당 캐릭터 위치로 자동 이동합니다.</p>
-      </div>
+      <h1 class="page-title">전체 랭킹</h1>
+      <p class="page-desc">전투력, 레벨, 인기도 기준 전체 인원을 빠르게 탐색할 수 있습니다.</p>
     </section>
+
     <section class="container section-block ranking-layout">
       <aside class="surface ranking-filter-panel">
         <div class="panel-section">
-          <h2 class="section-title" style="font-size:18px">정렬 기준</h2>
+          <h2 class="section-title section-title-small">필터</h2>
+
           <div id="rankingTabs" class="tab-stack">
             <button class="tab-btn is-active" data-tab="power">전투력</button>
             <button class="tab-btn" data-tab="level">레벨</button>
             <button class="tab-btn" data-tab="popularity">인기도</button>
           </div>
         </div>
+
         <div class="panel-divider"></div>
+
         <div class="panel-section">
           <div class="search-stack">
             <input id="rankingSearchInput" class="input" type="text" placeholder="캐릭터명 검색" />
-            <button id="rankingSearchButton" class="primary-btn" type="button">해당 위치 찾기</button>
+            <button id="rankingSearchButton" class="primary-btn" type="button">찾기</button>
           </div>
           <p id="rankingSearchStatus" class="helper-text">검색 시 해당 순위로 이동합니다.</p>
         </div>
+
         <div class="panel-divider"></div>
-        <div class="mini-summary-list">
-          <div class="mini-summary-row"><span>기준</span><strong id="rankingMetricLabel">전투력</strong></div>
-          <div class="mini-summary-row"><span>표시 범위</span><strong id="rankingCountLabel">전체</strong></div>
-          <div class="mini-summary-row"><span>반영 상태</span><strong>실시간 / README 설정 필요</strong></div>
+
+        <div class="panel-section">
+          <div class="mini-summary-list">
+            <div class="mini-summary-row">
+              <span>기준</span>
+              <strong id="rankingMetricLabel">전투력</strong>
+            </div>
+            <div class="mini-summary-row">
+              <span>표시 범위</span>
+              <strong id="rankingCountLabel">전체</strong>
+            </div>
+            <div class="mini-summary-row">
+              <span>상태</span>
+              <strong id="rankingApiText">실시간 반영</strong>
+            </div>
+          </div>
         </div>
       </aside>
+
       <section class="surface ranking-main-panel">
-        <div class="ranking-panel-head"><h2 class="section-title">전체 순위표</h2></div>
-        <div class="ranking-scroll-frame"><div class="table-wrap ranking-scroll-area"><table class="ranking-table"><thead><tr><th>순위</th><th>캐릭터</th><th>길드</th><th>Lv</th><th>전투력</th><th>인기도</th><th>상세</th></tr></thead><tbody id="rankingTableBody"></tbody></table></div></div>
+        <div class="ranking-panel-head">
+          <div>
+            <h2 class="section-title">전체 순위표</h2>
+          </div>
+        </div>
+
+        <div class="ranking-scroll-frame">
+          <div class="table-wrap ranking-scroll-area" id="rankingScrollArea">
+            <table class="ranking-table ranking-table-dense">
+              <thead>
+                <tr>
+                  <th>순위</th>
+                  <th>캐릭터</th>
+                  <th>길드</th>
+                  <th>Lv</th>
+                  <th>전투력</th>
+                  <th>인기도</th>
+                  <th>상세</th>
+                </tr>
+              </thead>
+              <tbody id="rankingTableBody"></tbody>
+            </table>
+          </div>
+        </div>
       </section>
     </section>
   </main>
 
   <div id="rankingMemberDetailModal" class="modal hidden" aria-hidden="true">
     <div class="modal-backdrop" data-close-ranking-modal="true"></div>
-    <div class="modal-dialog modal-dialog-wide">
-      <div class="section-header"><h3 class="modal-title" id="rankingMemberModalTitle">캐릭터 상세</h3><button id="rankingMemberModalClose" class="modal-close" type="button">✕</button></div>
+    <div class="modal-dialog modal-dialog-wide modal-dialog-scroll">
+      <div class="section-header">
+        <div>
+          <h3 class="modal-title" id="rankingMemberModalTitle">캐릭터 상세</h3>
+        </div>
+        <button id="rankingMemberModalClose" class="modal-close" type="button" aria-label="닫기">✕</button>
+      </div>
+
       <div id="rankingMemberModalMeta" class="modal-meta-grid"></div>
-      <section class="modal-block"><div class="modal-block-head"><strong>주간 상세</strong></div><div id="rankingMemberModalWeeklyGrid" class="modal-member-stats"></div></section>
+
+      <section class="modal-block">
+        <div class="modal-block-head">
+          <strong>주간 상세</strong>
+        </div>
+        <div id="rankingMemberModalWeeklyGrid" class="modal-member-stats"></div>
+      </section>
     </div>
   </div>
 
-  <script src="./data.js?v=light-portal-001"></script>
-  <script src="./script.js?v=light-portal-001"></script>
+  <script src="./assets/js/data.js?v=rank-premium-003"></script>
+  <script src="./assets/js/common.js?v=rank-premium-003"></script>
+  <script src="./assets/js/ranking.js?v=rank-premium-003"></script>
 </body>
 </html>
