@@ -31,7 +31,7 @@ function renderShell() {
       <div class="container site-header-inner">
         <div class="brand-box">
           <a class="brand-title" href="./index.html">친구패밀리</a>
-          <div class="brand-sub">Guild Intelligence Ranking Service</div>
+          <div class="brand-sub">Guild Portal</div>
         </div>
 
         <nav class="nav-menu">
@@ -179,7 +179,7 @@ function normalizeHomeData(data) {
 }
 
 async function getHomeData() {
-  const cacheKey = "friends_family_home_data_v101";
+  const cacheKey = "friends_family_home_data_v110";
   const cached = getCache(cacheKey);
 
   if (cached) {
@@ -205,7 +205,7 @@ async function getHomeData() {
 }
 
 async function getNoticePosts() {
-  const cacheKey = "friends_family_notice_posts_v101";
+  const cacheKey = "friends_family_notice_posts_v110";
   const cached = getCache(cacheKey);
   if (cached) return cached;
 
@@ -222,7 +222,7 @@ async function getNoticePosts() {
 }
 
 async function getTipsPosts() {
-  const cacheKey = "friends_family_tips_posts_v101";
+  const cacheKey = "friends_family_tips_posts_v110";
   const cached = getCache(cacheKey);
   if (cached) return cached;
 
@@ -256,6 +256,20 @@ function formatDateTime(value) {
   }).format(date);
 }
 
+function formatDateTimeCompact(value) {
+  if (!value) return "-";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "-";
+
+  const yyyy = date.getFullYear();
+  const mm = String(date.getMonth() + 1).padStart(2, "0");
+  const dd = String(date.getDate()).padStart(2, "0");
+  const hh = String(date.getHours()).padStart(2, "0");
+  const mi = String(date.getMinutes()).padStart(2, "0");
+
+  return `${yyyy}.${mm}.${dd} ${hh}:${mi}`;
+}
+
 function formatDateOnly(value) {
   if (!value) return "-";
   const date = new Date(value);
@@ -276,13 +290,6 @@ function formatDecimal(value) {
     minimumFractionDigits: 0,
     maximumFractionDigits: 2
   }).format(Number(value ?? 0));
-}
-
-function formatSignedNumber(value) {
-  const numeric = Number(value ?? 0);
-  if (numeric > 0) return `+${formatNumber(numeric)}`;
-  if (numeric < 0) return `${formatNumber(numeric)}`;
-  return "0";
 }
 
 function formatNullableRank(value) {
@@ -313,6 +320,12 @@ function getDiffClass(value) {
   return "growth-zero";
 }
 
+function getRankTrendClass(direction) {
+  if (direction === "up") return "is-up";
+  if (direction === "down") return "is-down";
+  return "is-same";
+}
+
 function escapeHtml(value) {
   return String(value ?? "")
     .replaceAll("&", "&amp;")
@@ -322,36 +335,18 @@ function escapeHtml(value) {
     .replaceAll("'", "&#39;");
 }
 
-function renderBoardList(containerId, posts) {
-  const root = document.getElementById(containerId);
-  if (!root) return;
-
-  if (!posts.length) {
-    root.innerHTML = `<div class="empty-state">게시글이 없습니다.</div>`;
-    return;
+function renderCharacterAvatar(imageUrl, name) {
+  if (imageUrl) {
+    return `
+      <div class="character-avatar">
+        <img src="${escapeHtml(imageUrl)}" alt="${escapeHtml(name || "캐릭터")}" loading="lazy" />
+      </div>
+    `;
   }
 
-  root.innerHTML = posts.map((post) => `
-    <article class="board-item">
-      <div class="board-top">
-        <span class="board-category">${escapeHtml(post.category || "게시글")}</span>
-        <span class="board-date">${escapeHtml(formatDateOnly(post.createdAt))}</span>
-      </div>
-      <h3 class="board-title">${escapeHtml(post.title || "-")}</h3>
-      <div class="board-content">${escapeHtml(post.content || "")}</div>
-    </article>
-  `).join("");
-}
-function formatDateTimeCompact(value) {
-  if (!value) return "-";
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return "-";
-
-  const yyyy = date.getFullYear();
-  const mm = String(date.getMonth() + 1).padStart(2, "0");
-  const dd = String(date.getDate()).padStart(2, "0");
-  const hh = String(date.getHours()).padStart(2, "0");
-  const mi = String(date.getMinutes()).padStart(2, "0");
-
-  return `${yyyy}.${mm}.${dd} ${hh}:${mi}`;
+  return `
+    <div class="character-avatar">
+      <span class="character-avatar-fallback">NO IMG</span>
+    </div>
+  `;
 }

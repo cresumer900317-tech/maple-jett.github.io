@@ -51,18 +51,38 @@ function renderRankingTable(rows, members) {
 
   tbody.innerHTML = rows.map((row, index) => `
     <tr data-rank-index="${index}">
-      <td><span class="rank-badge ${getRankBadgeClass(row.rank)}">${escapeHtml(String(row.rank ?? "-"))}</span></td>
       <td>
-        <div class="name-cell">
-          <span class="name-main">${escapeHtml(row.name || "-")}</span>
-          <span class="name-sub">전체 ${formatNullableRank(row.overallRank)} / 서버 ${formatNullableRank(row.serverRank)}</span>
+        <span class="rank-badge ${getRankBadgeClass(row.rank)}">${escapeHtml(String(row.rank ?? "-"))}</span>
+      </td>
+
+      <td>
+        <div class="character-cell">
+          ${renderCharacterAvatar(row.imageUrl, row.name)}
+          <div class="character-meta">
+            <div class="character-name-row">
+              <span class="name-main">${escapeHtml(row.name || "-")}</span>
+              <span class="rank-trend ${getRankTrendClass(row.weeklyRankDirection)}">
+                <strong>${escapeHtml(row.weeklyRankDiffText || "―")}</strong>
+              </span>
+            </div>
+            <div class="name-sub-row">
+              <span class="name-sub">전체 ${formatNullableRank(row.overallRank)}</span>
+              <span class="name-sub">서버 ${formatNullableRank(row.serverRank)}</span>
+            </div>
+          </div>
         </div>
       </td>
-      <td><span class="guild-pill ${getGuildClass(row.guild)}">${escapeHtml(row.guild || "길드 없음")}</span></td>
+
+      <td>
+        <span class="guild-pill ${getGuildClass(row.guild)}">${escapeHtml(row.guild || "길드 없음")}</span>
+      </td>
+
       <td>${formatNumber(row.level)}</td>
       <td>${escapeHtml(row.powerText || "0")}</td>
       <td>${formatNumber(row.popularity)}</td>
-      <td><button class="detail-btn" data-member-name="${escapeHtml(row.name || "")}">상세보기</button></td>
+      <td>
+        <button class="detail-btn" data-member-name="${escapeHtml(row.name || "")}">상세보기</button>
+      </td>
     </tr>
   `).join("");
 
@@ -177,6 +197,10 @@ function openRankingMemberModal(member) {
 
   weekly.innerHTML = `
     <div class="modal-member-stat">
+      <span>주간 순위 변화</span>
+      <strong class="${getRankTrendClass(member.weeklyRankDirection)}">${escapeHtml(member.weeklyRankDiffText || "―")}</strong>
+    </div>
+    <div class="modal-member-stat">
       <span>주간 전투력</span>
       <strong class="${getDiffClass(member.weekly?.powerDiffValue)}">${escapeHtml(member.weekly?.powerDiffText || "0")}</strong>
     </div>
@@ -187,10 +211,6 @@ function openRankingMemberModal(member) {
     <div class="modal-member-stat">
       <span>주간 인기도</span>
       <strong class="${getDiffClass(member.weekly?.popularityDiff)}">${escapeHtml(member.weekly?.popularityDiffText || "0")}</strong>
-    </div>
-    <div class="modal-member-stat">
-      <span>주간 성장률</span>
-      <strong>${escapeHtml(member.weekly?.growthRateText || "0%")}</strong>
     </div>
   `;
 
