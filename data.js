@@ -1,1 +1,33 @@
-window.API_URL = window.API_URL || "https://script.google.com/macros/s/AKfycbzBH8keceX7BW4AzWNJ1Kw2pOJs0T8Copyd1T42H4BzpmUaCWJdVmEyT4CwL7gNDYRXKA/exec";
+window.DEFAULT_HOME_DATA = {
+  ok: true,
+  meta: {
+    generatedAt: null,
+    latestSnapshotAt: null,
+    weeklyBaseAt: null,
+    memberCount: 0,
+    weekRange: "-"
+  },
+  summary: {
+    memberCount: 0,
+    avgLevel: 0,
+    avgPowerText: "0",
+    avgPopularity: 0,
+    positiveGrowthMembers: {
+      power: 0,
+      level: 0,
+      popularity: 0
+    }
+  },
+  guilds: [],
+  rankings: {
+    power: [],
+    level: [],
+    popularity: []
+  },
+  weeklyTop: {
+    power: [],
+    level: [],
+    popularity: []
+  },
+  members: []
+};

@@ -1,4 +1,4 @@
-const API_URL = window.API_URL ||
+const API_URL =
   "https://script.google.com/macros/s/AKfycbzBH8keceX7BW4AzWNJ1Kw2pOJs0T8Copyd1T42H4BzpmUaCWJdVmEyT4CwL7gNDYRXKA/exec";
 
 const appState = {
@@ -31,7 +31,7 @@ function renderShell() {
       <div class="container site-header-inner">
         <div class="brand-box">
           <a class="brand-title" href="./index.html">친구패밀리</a>
-          <div class="brand-sub">Ranking Portal</div>
+          <div class="brand-sub">Guild Portal</div>
         </div>
 
         <nav class="nav-menu">
@@ -171,7 +171,7 @@ function normalizeHomeData(data) {
 }
 
 async function getHomeData() {
-  const cacheKey = "friends_family_home_data_v201";
+  const cacheKey = "friends_family_home_data_v140";
   const cached = getCache(cacheKey);
 
   if (cached) {
@@ -196,7 +196,7 @@ async function getHomeData() {
 }
 
 async function getNoticePosts() {
-  const cacheKey = "friends_family_notice_posts_v201";
+  const cacheKey = "friends_family_notice_posts_v140";
   const cached = getCache(cacheKey);
   if (cached) return cached;
 
@@ -213,7 +213,7 @@ async function getNoticePosts() {
 }
 
 async function getTipsPosts() {
-  const cacheKey = "friends_family_tips_posts_v201";
+  const cacheKey = "friends_family_tips_posts_v140";
   const cached = getCache(cacheKey);
   if (cached) return cached;
 
@@ -248,10 +248,6 @@ function formatDateTimeCompact(value) {
   return `${yyyy}.${mm}.${dd} ${hh}:${mi}`;
 }
 
-function formatDateTime(value) {
-  return formatDateTimeCompact(value);
-}
-
 function formatDateOnly(value) {
   if (!value) return "-";
   const date = new Date(value);
@@ -277,13 +273,6 @@ function formatDecimal(value) {
 function formatNullableRank(value) {
   if (value === null || value === undefined || value === "") return "-";
   return `${formatNumber(value)}위`;
-}
-
-function formatSignedNumber(value) {
-  const numeric = Number(value || 0);
-  if (numeric > 0) return `+${formatNumber(numeric)}`;
-  if (numeric < 0) return `-${formatNumber(Math.abs(numeric))}`;
-  return "0";
 }
 
 function getRankBadgeClass(rank) {
@@ -333,39 +322,34 @@ function renderCharacterAvatar(imageUrl, name) {
     `;
   }
 
-  const fallback = String(name || "?").trim().slice(0, 2) || "?";
   return `
     <div class="character-avatar">
-      <span class="character-avatar-fallback">${escapeHtml(fallback)}</span>
+      <span class="character-avatar-fallback">NO IMG</span>
     </div>
   `;
 }
 
+
 function renderBoardList(targetId, posts) {
   const root = document.getElementById(targetId);
   if (!root) return;
-
   const items = Array.isArray(posts) ? posts : [];
   if (!items.length) {
     root.innerHTML = `<div class="empty-state">게시글이 없습니다.</div>`;
     return;
   }
-
   root.innerHTML = items.map((post) => `
-    <article class="board-card">
-      <div class="board-top">
-        <div>
-          <span class="board-category">${escapeHtml(post.category || "게시글")}</span>
-          ${post.isPinned ? `<span class="board-pin">고정</span>` : ""}
+    <article class="board-item">
+      <div class="board-item-top">
+        <div class="board-meta">
+          <span class="board-badge">${escapeHtml(post.category || '게시글')}</span>
+          <span>${escapeHtml(formatDateOnly(post.createdAt))}</span>
+          ${post.isPinned ? '<span class="board-badge">고정</span>' : ''}
         </div>
-        <span class="notice-compact-date">${escapeHtml(formatDateOnly(post.createdAt))}</span>
+        <div class="board-meta">${escapeHtml(post.author || '')}</div>
       </div>
-      <h3 class="board-title">${escapeHtml(post.title || "-")}</h3>
-      <div class="board-content">${escapeHtml(post.content || "")}</div>
-      <div class="board-meta-row">
-        <span>작성자 ${escapeHtml(post.author || "운영진")}</span>
-        <span>ID ${escapeHtml(String(post.id || "-"))}</span>
-      </div>
+      <h3 class="board-item-title">${escapeHtml(post.title || '-')}</h3>
+      <div class="board-item-content">${escapeHtml(post.content || '')}</div>
     </article>
-  `).join("");
+  `).join('');
 }
