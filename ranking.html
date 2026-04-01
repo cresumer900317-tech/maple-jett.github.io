@@ -8,22 +8,22 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="./assets/css/style.css?v=rank-premium-003" />
+  <link rel="stylesheet" href="./assets/css/style.css?v=portal-elite-001" />
 </head>
 <body data-page="ranking">
   <div id="app-shell"></div>
 
   <main class="page-wrap">
-    <section class="container page-hero">
-      <h1 class="page-title">전체 랭킹</h1>
-      <p class="page-desc">전투력, 레벨, 인기도 기준 전체 인원을 빠르게 탐색할 수 있습니다.</p>
+    <section class="container page-hero page-hero-compact">
+      <p class="section-kicker">FULL RANKING</p>
+      <h1 class="page-title">전체 순위표</h1>
+      <p class="page-desc">전투력, 레벨, 인기도 기준으로 전체 길드원을 전부 탐색하고 검색 위치로 바로 이동할 수 있습니다.</p>
     </section>
 
     <section class="container section-block ranking-layout">
-      <aside class="surface ranking-filter-panel">
+      <aside class="surface side-control-panel">
         <div class="panel-section">
-          <h2 class="section-title section-title-small">필터</h2>
-
+          <h2 class="section-title section-title-small">기준 전환</h2>
           <div id="rankingTabs" class="tab-stack">
             <button class="tab-btn is-active" data-tab="power">전투력</button>
             <button class="tab-btn" data-tab="level">레벨</button>
@@ -34,30 +34,20 @@
         <div class="panel-divider"></div>
 
         <div class="panel-section">
+          <h2 class="section-title section-title-small">검색</h2>
           <div class="search-stack">
             <input id="rankingSearchInput" class="input" type="text" placeholder="캐릭터명 검색" />
-            <button id="rankingSearchButton" class="primary-btn" type="button">찾기</button>
+            <button id="rankingSearchButton" class="primary-btn" type="button">순위 찾기</button>
           </div>
-          <p id="rankingSearchStatus" class="helper-text">검색 시 해당 순위로 이동합니다.</p>
+          <p id="rankingSearchStatus" class="helper-text">검색 시 해당 순위로 스크롤 이동합니다.</p>
         </div>
 
         <div class="panel-divider"></div>
 
-        <div class="panel-section">
-          <div class="mini-summary-list">
-            <div class="mini-summary-row">
-              <span>기준</span>
-              <strong id="rankingMetricLabel">전투력</strong>
-            </div>
-            <div class="mini-summary-row">
-              <span>표시 범위</span>
-              <strong id="rankingCountLabel">전체</strong>
-            </div>
-            <div class="mini-summary-row">
-              <span>상태</span>
-              <strong id="rankingApiText">실시간 반영</strong>
-            </div>
-          </div>
+        <div class="panel-section mini-summary-list">
+          <div class="mini-summary-row"><span>기준</span><strong id="rankingMetricLabel">전투력</strong></div>
+          <div class="mini-summary-row"><span>표시 범위</span><strong id="rankingCountLabel">전체</strong></div>
+          <div class="mini-summary-row"><span>상태</span><strong id="rankingApiText">실시간 반영</strong></div>
         </div>
       </aside>
 
@@ -94,25 +84,19 @@
     <div class="modal-backdrop" data-close-ranking-modal="true"></div>
     <div class="modal-dialog modal-dialog-wide modal-dialog-scroll">
       <div class="section-header">
-        <div>
-          <h3 class="modal-title" id="rankingMemberModalTitle">캐릭터 상세</h3>
-        </div>
+        <div><h3 class="modal-title" id="rankingMemberModalTitle">캐릭터 상세</h3></div>
         <button id="rankingMemberModalClose" class="modal-close" type="button" aria-label="닫기">✕</button>
       </div>
-
       <div id="rankingMemberModalMeta" class="modal-meta-grid"></div>
-
       <section class="modal-block">
-        <div class="modal-block-head">
-          <strong>주간 상세</strong>
-        </div>
+        <div class="modal-block-head"><strong>주간 상세</strong></div>
         <div id="rankingMemberModalWeeklyGrid" class="modal-member-stats"></div>
       </section>
     </div>
   </div>
 
-  <script src="./assets/js/data.js?v=rank-premium-003"></script>
-  <script src="./assets/js/common.js?v=rank-premium-003"></script>
-  <script src="./assets/js/ranking.js?v=rank-premium-003"></script>
+  <script src="./assets/js/data.js?v=portal-elite-001"></script>
+  <script src="./assets/js/common.js?v=portal-elite-001"></script>
+  <script src="./assets/js/ranking.js?v=portal-elite-001"></script>
 </body>
 </html>

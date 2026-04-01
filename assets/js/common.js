@@ -20,8 +20,8 @@ function renderShell() {
   const page = document.body.dataset.page || "home";
   const links = `
     ${navLink("./index.html", "home", "홈", page)}
-    ${navLink("./ranking.html", "ranking", "랭킹", page)}
-    ${navLink("./members.html", "members", "인원·성장", page)}
+    ${navLink("./ranking.html", "ranking", "전체랭킹", page)}
+    ${navLink("./members.html#growth", "members", "인원·주간성장", page)}
     ${navLink("./notice.html", "notice", "공지", page)}
     ${navLink("./tips.html", "tips", "꿀팁", page)}
   `;
@@ -31,21 +31,14 @@ function renderShell() {
       <div class="container site-header-inner">
         <div class="brand-box">
           <a class="brand-title" href="./index.html">친구패밀리</a>
-          <div class="brand-sub">Guild Portal</div>
+          <div class="brand-sub">MGF 스타일 랭킹 허브</div>
         </div>
-
-        <nav class="nav-menu">
-          ${links}
-        </nav>
-
+        <nav class="nav-menu">${links}</nav>
         <button id="mobileMenuButton" class="mobile-menu-btn" type="button" aria-label="메뉴">☰</button>
       </div>
     </header>
-
     <div id="mobileDrawer" class="mobile-drawer">
-      <nav class="mobile-drawer-nav">
-        ${links}
-      </nav>
+      <nav class="mobile-drawer-nav">${links}</nav>
     </div>
   `;
 }
@@ -88,9 +81,7 @@ function loadJsonp(baseUrl, mode = "home") {
 
     function cleanup() {
       clearTimeout(timeout);
-      try {
-        delete window[callbackName];
-      } catch (_) {}
+      try { delete window[callbackName]; } catch (_) {}
       if (script.parentNode) script.parentNode.removeChild(script);
     }
 
@@ -127,13 +118,7 @@ function getCache(key) {
 
 function setCache(key, data) {
   try {
-    sessionStorage.setItem(
-      key,
-      JSON.stringify({
-        savedAt: Date.now(),
-        data
-      })
-    );
+    sessionStorage.setItem(key, JSON.stringify({ savedAt: Date.now(), data }));
   } catch (error) {
     console.warn("cache save 실패:", error);
   }
@@ -171,9 +156,8 @@ function normalizeHomeData(data) {
 }
 
 async function getHomeData() {
-  const cacheKey = "friends_family_home_data_v130";
+  const cacheKey = "friends_family_home_data_portal_v1";
   const cached = getCache(cacheKey);
-
   if (cached) {
     appState.source = "api";
     appState.homeData = normalizeHomeData(cached);
@@ -196,7 +180,7 @@ async function getHomeData() {
 }
 
 async function getNoticePosts() {
-  const cacheKey = "friends_family_notice_posts_v130";
+  const cacheKey = "friends_family_notice_posts_portal_v1";
   const cached = getCache(cacheKey);
   if (cached) return cached;
 
@@ -213,7 +197,7 @@ async function getNoticePosts() {
 }
 
 async function getTipsPosts() {
-  const cacheKey = "friends_family_tips_posts_v130";
+  const cacheKey = "friends_family_tips_posts_portal_v1";
   const cached = getCache(cacheKey);
   if (cached) return cached;
 
@@ -229,6 +213,28 @@ async function getTipsPosts() {
   }
 }
 
+function renderBoardList(rootId, posts) {
+  const root = document.getElementById(rootId);
+  if (!root) return;
+
+  if (!posts.length) {
+    root.innerHTML = `<div class="empty-state">게시글이 없습니다.</div>`;
+    return;
+  }
+
+  root.innerHTML = posts.map((post) => `
+    <article class="board-item">
+      <div class="board-item-top">
+        <span class="board-badge">${escapeHtml(post.category || "게시글")}</span>
+        <span class="board-date">${escapeHtml(formatDateOnly(post.createdAt))}</span>
+      </div>
+      <div class="board-title">${post.isPinned ? "📌 " : ""}${escapeHtml(post.title || "-")}</div>
+      <div class="board-content">${escapeHtml(post.content || "")}</div>
+      <div class="board-meta">${escapeHtml(post.author || "운영진")}</div>
+    </article>
+  `).join("");
+}
+
 function setText(id, value) {
   const el = document.getElementById(id);
   if (el) el.textContent = value ?? "-";
@@ -238,25 +244,19 @@ function formatDateTimeCompact(value) {
   if (!value) return "-";
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return "-";
-
   const yyyy = date.getFullYear();
   const mm = String(date.getMonth() + 1).padStart(2, "0");
   const dd = String(date.getDate()).padStart(2, "0");
   const hh = String(date.getHours()).padStart(2, "0");
   const mi = String(date.getMinutes()).padStart(2, "0");
-
   return `${yyyy}.${mm}.${dd} ${hh}:${mi}`;
 }
 
 function formatDateOnly(value) {
   if (!value) return "-";
   const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return value;
-  return new Intl.DateTimeFormat("ko-KR", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit"
-  }).format(date);
+  if (Number.isNaN(date.getTime())) return String(value);
+  return new Intl.DateTimeFormat("ko-KR", { year: "numeric", month: "2-digit", day: "2-digit" }).format(date);
 }
 
 function formatNumber(value) {
@@ -264,10 +264,7 @@ function formatNumber(value) {
 }
 
 function formatDecimal(value) {
-  return new Intl.NumberFormat("ko-KR", {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 2
-  }).format(Number(value ?? 0));
+  return new Intl.NumberFormat("ko-KR", { minimumFractionDigits: 0, maximumFractionDigits: 2 }).format(Number(value ?? 0));
 }
 
 function formatNullableRank(value) {
