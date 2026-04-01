@@ -1,17 +1,157 @@
-const API_URL =
-  "https://script.google.com/macros/s/AKfycbzBH8keceX7BW4AzWNJ1Kw2pOJs0T8Copyd1T42H4BzpmUaCWJdVmEyT4CwL7gNDYRXKA/exec";
+const API_URL = window.API_URL || "https://script.google.com/macros/s/AKfycbzBH8keceX7BW4AzWNJ1Kw2pOJs0T8Copyd1T42H4BzpmUaCWJdVmEyT4CwL7gNDYRXKA/exec";
 
-const appState = {
-  source: "loading",
-  homeData: window.DEFAULT_HOME_DATA || {}
+const GUILD_META = {
+  "친구들": { className: "guild-f1", label: "친구들" },
+  "친구둘": { className: "guild-f2", label: "친구둘" },
+  "친구삼": { className: "guild-f3", label: "친구삼" },
+  "친구넷": { className: "guild-f4", label: "친구넷" },
+  "친구닷": { className: "guild-f5", label: "친구닷" },
+  "길드 없음": { className: "guild-none", label: "길드 없음" }
 };
 
-const CACHE_TTL_MS = 5 * 60 * 1000;
+function getApiUrl(mode) {
+  const url = new URL(API_URL);
+  url.searchParams.set("mode", mode);
+  return url.toString();
+}
 
-document.addEventListener("DOMContentLoaded", () => {
-  renderShell();
-  bindMobileMenu();
-});
+async function fetchApi(mode) {
+  const response = await fetch(getApiUrl(mode), {
+    method: "GET",
+    cache: "no-store"
+  });
+
+  if (!response.ok) {
+    throw new Error(`API 요청 실패: ${response.status}`);
+  }
+
+  const data = await response.json();
+
+  if (!data || data.ok === false) {
+    throw new Error(data?.error || "API 응답이 올바르지 않습니다.");
+  }
+
+  return data;
+}
+
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function formatNumber(value) {
+  const num = Number(value ?? 0);
+  if (!Number.isFinite(num)) return "-";
+  return new Intl.NumberFormat("ko-KR").format(num);
+}
+
+function formatDecimal(value, digits = 2) {
+  const num = Number(value ?? 0);
+  if (!Number.isFinite(num)) return "-";
+  return num.toLocaleString("ko-KR", {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: digits
+  });
+}
+
+function normalizeGuildName(guild) {
+  const text = String(guild || "").trim();
+  return GUILD_META[text] ? text : "길드 없음";
+}
+
+function guildBadgeHtml(guild) {
+  const normalized = normalizeGuildName(guild);
+  const meta = GUILD_META[normalized];
+  return `<span class="guild-badge ${meta.className}">${escapeHtml(meta.label)}</span>`;
+}
+
+function formatDateTime(value) {
+  if (!value) return "-";
+
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return String(value);
+
+  return new Intl.DateTimeFormat("ko-KR", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false
+  }).format(date).replace(/\.\s/g, ".").replace(/\.$/, "");
+}
+
+function compactPowerText(text) {
+  const raw = String(text || "").trim();
+  if (!raw) return "-";
+
+  const parts = raw.split(/\s+/).filter(Boolean);
+  if (parts.length <= 2) return raw;
+  return parts.slice(0, 2).join(" ");
+}
+
+function fullPowerText(text) {
+  const raw = String(text || "").trim();
+  return raw || "-";
+}
+
+function rankTrendHtml(item) {
+  const diff = Number(item?.weeklyRankDiff ?? 0);
+  const direction = item?.weeklyRankDirection || "same";
+
+  if (!diff || direction === "same") {
+    return `<span class="rank-trend neutral">-</span>`;
+  }
+
+  if (direction === "up") {
+    return `<span class="rank-trend up">▲ ${diff}</span>`;
+  }
+
+  if (direction === "down") {
+    return `<span class="rank-trend down">▼ ${diff}</span>`;
+  }
+
+  return `<span class="rank-trend neutral">-</span>`;
+}
+
+function growthTextHtml(value) {
+  const text = String(value ?? "0").trim();
+  const numeric = Number(text.replace("%", "").replace(/[^\d.-]/g, ""));
+
+  if (!Number.isFinite(numeric) || numeric === 0) {
+    return `<span class="metric-neutral">${escapeHtml(text || "0%")}</span>`;
+  }
+
+  if (numeric > 0) {
+    return `<span class="metric-up">${escapeHtml(text)}</span>`;
+  }
+
+  return `<span class="metric-down">${escapeHtml(text)}</span>`;
+}
+
+function signedTextHtml(value) {
+  const text = String(value ?? "0").trim();
+  const numeric = Number(text.replace(/[^\d.-]/g, ""));
+
+  if (!Number.isFinite(numeric) || numeric === 0) {
+    return `<span class="metric-neutral">${escapeHtml(text || "0")}</span>`;
+  }
+
+  if (numeric > 0 || text.startsWith("+")) {
+    return `<span class="metric-up">${escapeHtml(text)}</span>`;
+  }
+
+  return `<span class="metric-down">${escapeHtml(text)}</span>`;
+}
+
+function navLink(href, key, label, currentPage) {
+  const activeClass = currentPage === key ? "is-active" : "";
+  return `<a class="nav-link ${activeClass}" href="${href}">${label}</a>`;
+}
 
 function renderShell() {
   const root = document.getElementById("app-shell");
@@ -20,7 +160,7 @@ function renderShell() {
   const page = document.body.dataset.page || "home";
   const links = `
     ${navLink("./index.html", "home", "홈", page)}
-    ${navLink("./ranking.html", "ranking", "랭킹", page)}
+    ${navLink("./ranking.html", "ranking", "전체랭킹", page)}
     ${navLink("./members.html", "members", "인원·성장", page)}
     ${navLink("./weekly.html", "weekly", "주간 TOP", page)}
     ${navLink("./notice.html", "notice", "공지", page)}
@@ -32,349 +172,147 @@ function renderShell() {
       <div class="container site-header-inner">
         <div class="brand-box">
           <a class="brand-title" href="./index.html">친구패밀리</a>
-          <div class="brand-sub">Guild Portal</div>
+          <div class="brand-sub">MGF 스타일 랭킹 허브</div>
         </div>
 
-        <nav class="nav-menu">
-          ${links}
-        </nav>
+        <nav class="nav-menu">${links}</nav>
 
-        <button id="mobileMenuButton" class="mobile-menu-btn" type="button" aria-label="메뉴">☰</button>
+        <button id="mobileMenuButton" class="mobile-menu-btn" type="button" aria-label="메뉴 열기">
+          ☰
+        </button>
+      </div>
+
+      <div id="mobileNavPanel" class="mobile-nav-panel">
+        <div class="container mobile-nav-links">
+          ${links}
+        </div>
       </div>
     </header>
+  `;
 
-    <div id="mobileDrawer" class="mobile-drawer">
-      <nav class="mobile-drawer-nav">
-        ${links}
-      </nav>
+  const mobileMenuButton = document.getElementById("mobileMenuButton");
+  const mobileNavPanel = document.getElementById("mobileNavPanel");
+
+  if (mobileMenuButton && mobileNavPanel) {
+    mobileMenuButton.addEventListener("click", () => {
+      mobileNavPanel.classList.toggle("is-open");
+    });
+  }
+}
+
+function createPageHeader(title, description = "") {
+  return `
+    <section class="page-hero">
+      <div>
+        <h1 class="page-title">${escapeHtml(title)}</h1>
+        ${description ? `<p class="page-desc">${escapeHtml(description)}</p>` : ""}
+      </div>
+    </section>
+  `;
+}
+
+function createSummaryStatCard(label, value) {
+  return `
+    <div class="summary-stat-card">
+      <div class="summary-stat-label">${escapeHtml(label)}</div>
+      <div class="summary-stat-value">${escapeHtml(value)}</div>
     </div>
   `;
 }
 
-function bindMobileMenu() {
-  document.addEventListener("click", (event) => {
-    const button = document.getElementById("mobileMenuButton");
-    const drawer = document.getElementById("mobileDrawer");
-    if (!button || !drawer) return;
-
-    if (event.target === button) {
-      drawer.classList.toggle("is-open");
-      return;
-    }
-
-    if (!drawer.contains(event.target)) {
-      drawer.classList.remove("is-open");
-    }
-  });
+function createEmptyBox(message = "데이터가 없습니다.") {
+  return `<div class="empty-box">${escapeHtml(message)}</div>`;
 }
 
-function navLink(href, key, label, page) {
-  return `<a class="nav-link ${page === key ? "is-active" : ""}" href="${href}">${label}</a>`;
-}
+function renderNoticeList(posts, options = {}) {
+  const limit = Number(options.limit || 0);
 
-function loadJsonp(baseUrl, mode = "home") {
-  return new Promise((resolve, reject) => {
-    const callbackName = `jsonp_callback_${Date.now()}_${Math.floor(Math.random() * 10000)}`;
-    const script = document.createElement("script");
-    const url = new URL(baseUrl);
-
-    url.searchParams.set("mode", mode);
-    url.searchParams.set("callback", callbackName);
-    url.searchParams.set("_ts", String(Date.now()));
-
-    const timeout = setTimeout(() => {
-      cleanup();
-      reject(new Error("JSONP 요청 시간 초과"));
-    }, 15000);
-
-    function cleanup() {
-      clearTimeout(timeout);
-      try {
-        delete window[callbackName];
-      } catch (_) {}
-      if (script.parentNode) script.parentNode.removeChild(script);
-    }
-
-    window[callbackName] = (data) => {
-      cleanup();
-      resolve(data);
-    };
-
-    script.onerror = () => {
-      cleanup();
-      reject(new Error("JSONP 스크립트 로드 실패"));
-    };
-
-    script.src = url.toString();
-    document.body.appendChild(script);
-  });
-}
-
-function getCache(key) {
-  try {
-    const raw = sessionStorage.getItem(key);
-    if (!raw) return null;
-    const parsed = JSON.parse(raw);
-    if (!parsed || !parsed.savedAt) return null;
-    if (Date.now() - parsed.savedAt > CACHE_TTL_MS) {
-      sessionStorage.removeItem(key);
-      return null;
-    }
-    return parsed.data;
-  } catch {
-    return null;
-  }
-}
-
-function setCache(key, data) {
-  try {
-    sessionStorage.setItem(
-      key,
-      JSON.stringify({
-        savedAt: Date.now(),
-        data
-      })
-    );
-  } catch (error) {
-    console.warn("cache save 실패:", error);
-  }
-}
-
-function normalizeHomeData(data) {
-  return {
-    ok: Boolean(data?.ok),
-    meta: {
-      generatedAt: data?.meta?.generatedAt ?? null,
-      latestSnapshotAt: data?.meta?.latestSnapshotAt ?? null,
-      weeklyBaseAt: data?.meta?.weeklyBaseAt ?? null,
-      memberCount: Number(data?.meta?.memberCount ?? 0),
-      weekRange: data?.meta?.weekRange ?? "-"
-    },
-    summary: {
-      memberCount: Number(data?.summary?.memberCount ?? 0),
-      avgLevel: Number(data?.summary?.avgLevel ?? 0),
-      avgPowerText: data?.summary?.avgPowerText ?? "0",
-      avgPopularity: Number(data?.summary?.avgPopularity ?? 0)
-    },
-    guilds: Array.isArray(data?.guilds) ? data.guilds : [],
-    rankings: {
-      power: Array.isArray(data?.rankings?.power) ? data.rankings.power : [],
-      level: Array.isArray(data?.rankings?.level) ? data.rankings.level : [],
-      popularity: Array.isArray(data?.rankings?.popularity) ? data.rankings.popularity : []
-    },
-    weeklyTop: {
-      power: Array.isArray(data?.weeklyTop?.power) ? data.weeklyTop.power : [],
-      level: Array.isArray(data?.weeklyTop?.level) ? data.weeklyTop.level : [],
-      popularity: Array.isArray(data?.weeklyTop?.popularity) ? data.weeklyTop.popularity : []
-    },
-    members: Array.isArray(data?.members) ? data.members : []
-  };
-}
-
-async function getHomeData() {
-  const cacheKey = "friends_family_home_data_v140";
-  const cached = getCache(cacheKey);
-
-  if (cached) {
-    appState.source = "api";
-    appState.homeData = normalizeHomeData(cached);
-    return appState.homeData;
+  if (!Array.isArray(posts) || posts.length === 0) {
+    return createEmptyBox("공지 데이터가 없습니다.");
   }
 
-  try {
-    const data = await loadJsonp(API_URL, "home");
-    if (!data?.ok) throw new Error(data?.error || "API 응답 오류");
-    setCache(cacheKey, data);
-    appState.source = "api";
-    appState.homeData = normalizeHomeData(data);
-    return appState.homeData;
-  } catch (error) {
-    console.error("홈 데이터 로딩 실패:", error);
-    appState.source = "fallback";
-    appState.homeData = normalizeHomeData(window.DEFAULT_HOME_DATA || {});
-    return appState.homeData;
+  const rows = limit > 0 ? posts.slice(0, limit) : posts;
+
+  return `
+    <div class="board-list">
+      ${rows.map((post) => `
+        <article class="board-item">
+          <div class="board-item-top">
+            <span class="board-category">${escapeHtml(post.category || "공지")}</span>
+            ${post.isPinned ? `<span class="board-pin">고정</span>` : ""}
+          </div>
+          <h3 class="board-title">${escapeHtml(post.title || "")}</h3>
+          <p class="board-content">${escapeHtml(post.content || "")}</p>
+          <div class="board-meta">
+            <span>${escapeHtml(post.author || "")}</span>
+            <span>${escapeHtml(post.createdAt || "")}</span>
+          </div>
+        </article>
+      `).join("")}
+    </div>
+  `;
+}
+
+function renderTipsList(posts, options = {}) {
+  const limit = Number(options.limit || 0);
+
+  if (!Array.isArray(posts) || posts.length === 0) {
+    return createEmptyBox("꿀팁 데이터가 없습니다.");
   }
+
+  const rows = limit > 0 ? posts.slice(0, limit) : posts;
+
+  return `
+    <div class="board-list">
+      ${rows.map((post) => `
+        <article class="board-item">
+          <div class="board-item-top">
+            <span class="board-category">${escapeHtml(post.category || "팁")}</span>
+            ${post.isPinned ? `<span class="board-pin">추천</span>` : ""}
+          </div>
+          <h3 class="board-title">${escapeHtml(post.title || "")}</h3>
+          <p class="board-content">${escapeHtml(post.content || "")}</p>
+          <div class="board-meta">
+            <span>${escapeHtml(post.author || "")}</span>
+            <span>${escapeHtml(post.createdAt || "")}</span>
+          </div>
+        </article>
+      `).join("")}
+    </div>
+  `;
 }
 
-async function getNoticePosts() {
-  const cacheKey = "friends_family_notice_posts_v140";
-  const cached = getCache(cacheKey);
-  if (cached) return cached;
-
-  try {
-    const data = await loadJsonp(API_URL, "notice");
-    if (!data?.ok) throw new Error("notice API error");
-    const posts = Array.isArray(data.posts) ? data.posts : [];
-    setCache(cacheKey, posts);
-    return posts;
-  } catch (error) {
-    console.warn("공지 fallback 사용:", error);
-    return window.DEFAULT_NOTICE_POSTS || [];
-  }
+function renderLoading(targetId, message = "불러오는 중...") {
+  const el = document.getElementById(targetId);
+  if (!el) return;
+  el.innerHTML = `<div class="loading-box">${escapeHtml(message)}</div>`;
 }
 
-async function getTipsPosts() {
-  const cacheKey = "friends_family_tips_posts_v140";
-  const cached = getCache(cacheKey);
-  if (cached) return cached;
-
-  try {
-    const data = await loadJsonp(API_URL, "tips");
-    if (!data?.ok) throw new Error("tips API error");
-    const posts = Array.isArray(data.posts) ? data.posts : [];
-    setCache(cacheKey, posts);
-    return posts;
-  } catch (error) {
-    console.warn("꿀팁 fallback 사용:", error);
-    return window.DEFAULT_TIPS_POSTS || [];
-  }
+function renderError(targetId, error) {
+  const el = document.getElementById(targetId);
+  if (!el) return;
+  el.innerHTML = `<div class="error-box">${escapeHtml(error?.message || "오류가 발생했습니다.")}</div>`;
 }
 
-function setText(id, value) {
-  const el = document.getElementById(id);
-  if (el) el.textContent = value ?? "-";
-}
+function characterAvatarHtml(item) {
+  const imageUrl = String(item?.imageUrl || "").trim();
+  const name = String(item?.name || "").trim();
+  const fallback = name ? escapeHtml(name.slice(0, 1)) : "?";
 
-function formatDateTimeCompact(value) {
-  if (!value) return "-";
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return "-";
-
-  const yyyy = date.getFullYear();
-  const mm = String(date.getMonth() + 1).padStart(2, "0");
-  const dd = String(date.getDate()).padStart(2, "0");
-  const hh = String(date.getHours()).padStart(2, "0");
-  const mi = String(date.getMinutes()).padStart(2, "0");
-
-  return `${yyyy}.${mm}.${dd} ${hh}:${mi}`;
-}
-
-function formatDateTime(value) {
-  return formatDateTimeCompact(value);
-}
-
-function formatDateOnly(value) {
-  if (!value) return "-";
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return value;
-  return new Intl.DateTimeFormat("ko-KR", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit"
-  }).format(date);
-}
-
-function formatNumber(value) {
-  return new Intl.NumberFormat("ko-KR").format(Number(value ?? 0));
-}
-
-function formatDecimal(value) {
-  return new Intl.NumberFormat("ko-KR", {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 2
-  }).format(Number(value ?? 0));
-}
-
-
-function compactPowerText(text, units = 2) {
-  const value = String(text || '').trim();
-  if (!value) return '0';
-  const tokens = value.match(/\d+[경조억만]/g);
-  if (!tokens || !tokens.length) return value;
-  return tokens.slice(0, units).join(' ');
-}
-
-function formatNullableRank(value) {
-  if (value === null || value === undefined || value === "") return "-";
-  return `${formatNumber(value)}위`;
-}
-
-function formatSignedNumber(value) {
-  const numeric = Number(value || 0);
-  if (numeric > 0) return `+${formatNumber(numeric)}`;
-  if (numeric < 0) return `-${formatNumber(Math.abs(numeric))}`;
-  return "0";
-}
-
-function getRankBadgeClass(rank) {
-  if (rank === 1) return "is-gold";
-  if (rank === 2) return "is-silver";
-  if (rank === 3) return "is-bronze";
-  return "";
-}
-
-function getGuildClass(guild) {
-  if (guild === "친구들") return "is-친구들";
-  if (guild === "친구둘") return "is-친구둘";
-  if (guild === "친구삼") return "is-친구삼";
-  if (guild === "친구넷") return "is-친구넷";
-  if (guild === "친구닷") return "is-친구닷";
-  return "is-default";
-}
-
-function getDiffClass(value) {
-  const numeric = Number(value || 0);
-  if (numeric > 0) return "growth-positive";
-  if (numeric < 0) return "growth-negative";
-  return "growth-zero";
-}
-
-function getRankTrendClass(direction) {
-  if (direction === "up") return "is-up";
-  if (direction === "down") return "is-down";
-  return "is-same";
-}
-
-function escapeHtml(value) {
-  return String(value ?? "")
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#39;");
-}
-
-function renderCharacterAvatar(imageUrl, name) {
-  if (imageUrl) {
-    return `
-      <div class="character-avatar">
-        <img src="${escapeHtml(imageUrl)}" alt="${escapeHtml(name || "캐릭터")}" loading="lazy" />
-      </div>
-    `;
+  if (!imageUrl) {
+    return `<div class="character-avatar no-image">${fallback}</div>`;
   }
 
   return `
     <div class="character-avatar">
-      <span class="character-avatar-fallback">NO IMG</span>
+      <img
+        src="${imageUrl}"
+        alt="${escapeHtml(name)}"
+        loading="lazy"
+        referrerpolicy="no-referrer"
+        onerror="this.parentElement.classList.add('no-image'); this.remove();"
+      />
+      <span class="avatar-fallback">${fallback}</span>
     </div>
   `;
-}
-
-function renderBoardList(targetId, posts) {
-  const root = document.getElementById(targetId);
-  if (!root) return;
-
-  const items = Array.isArray(posts) ? posts : [];
-  if (!items.length) {
-    root.innerHTML = `<div class="empty-state">게시글이 없습니다.</div>`;
-    return;
-  }
-
-  root.innerHTML = items.map((post) => `
-    <article class="board-card">
-      <div class="board-top">
-        <div>
-          <span class="board-category">${escapeHtml(post.category || "게시글")}</span>
-          ${post.isPinned ? `<span class="board-pin">고정</span>` : ""}
-        </div>
-        <span class="notice-compact-date">${escapeHtml(formatDateOnly(post.createdAt))}</span>
-      </div>
-      <h3 class="board-title">${escapeHtml(post.title || "-")}</h3>
-      <div class="board-content">${escapeHtml(post.content || "")}</div>
-      <div class="board-meta-row">
-        <span>작성자 ${escapeHtml(post.author || "운영진")}</span>
-        <span>ID ${escapeHtml(String(post.id || "-"))}</span>
-      </div>
-    </article>
-  `).join("");
 }
