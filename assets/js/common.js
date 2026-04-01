@@ -316,3 +316,30 @@ function characterAvatarHtml(item) {
     </div>
   `;
 }
+async function getHomeData() {
+  return await fetchApi("home");
+}
+
+async function getRankingData() {
+  return await fetchApi("ranking");
+}
+
+async function getWeeklyData() {
+  return await fetchApi("weekly");
+}
+
+async function getGuildsData() {
+  return await fetchApi("guilds");
+}
+
+async function getNoticeData() {
+  return await fetchApi("notice");
+}
+
+async function getTipsData() {
+  return await fetchApi("tips");
+}
+
+async function getHealthData() {
+  return await fetchApi("health");
+}
