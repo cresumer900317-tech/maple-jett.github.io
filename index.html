@@ -8,149 +8,101 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="./assets/css/style.css?v=portal-elite-001" />
+  <link rel="stylesheet" href="./style.css?v=light-portal-001" />
 </head>
 <body data-page="home">
   <div id="app-shell"></div>
-
   <main class="page-wrap">
-    <section class="container home-hero-grid">
-      <section class="surface hero-main-panel">
-        <div class="hero-badges">
-          <span class="hero-badge">FAMILY PORTAL</span>
-          <span class="hero-badge hero-badge-soft">MAPLE RANKING HUB</span>
+    <section class="container home-top-grid">
+      <section class="surface hero-main">
+        <div class="hero-chip-row">
+          <span class="hero-chip">MAPLE RANKING PORTAL</span>
+          <span class="hero-chip">밝은 톤 / 고가독성</span>
+          <span class="hero-chip">서버 순위 기준 주간 변화</span>
         </div>
-
-        <h1 class="hero-title">친구패밀리 랭킹 포털</h1>
-        <p class="hero-desc">
-          MGF.GG처럼 첫 화면에서 바로 랭킹, 주간 성장, 길드 현황, 공지와 팁을 빠르게 훑어볼 수 있는 고밀도 포털 구조로 재구성했습니다.
-        </p>
-
-        <div class="hero-info-strip">
-          <article class="hero-info-card">
-            <span>마지막 갱신</span>
-            <strong id="latestSnapshotAt">불러오는 중...</strong>
-          </article>
-          <article class="hero-info-card">
-            <span>주간 기준</span>
-            <strong id="weeklyBaseAt">불러오는 중...</strong>
-          </article>
-          <article class="hero-info-card">
-            <span>주간 범위</span>
-            <strong id="weekRange">불러오는 중...</strong>
-          </article>
+        <h1 class="hero-title">친구패밀리</h1>
+        <p class="hero-desc">홈이 비어 보이지 않도록, 메인에서 바로 랭킹·주간 성장·길드 요약이 보이는 포털형 구조로 재정리했습니다. 어두운 색을 줄이고 정렬선과 가독성을 우선으로 맞춘 라이트 UI 버전입니다.</p>
+        <div class="hero-meta-grid">
+          <article class="metric-card"><span class="metric-label">마지막 갱신</span><strong class="metric-value" id="latestSnapshotAt">-</strong></article>
+          <article class="metric-card"><span class="metric-label">주간 기준</span><strong class="metric-value" id="weeklyBaseAt">-</strong></article>
+          <article class="metric-card"><span class="metric-label">주간 범위</span><strong class="metric-value" id="weekRange">-</strong></article>
+        </div>
+        <div class="quick-links">
+          <a class="quick-link" href="./ranking.html">전체 랭킹 보기</a>
+          <a class="quick-link" href="./members.html#growth">주간 성장 보기</a>
+          <a class="quick-link" href="./notice.html">공지 보기</a>
         </div>
       </section>
-
-      <aside class="surface hero-side-panel">
-        <div class="section-header section-header-tight">
-          <div>
-            <p class="section-kicker">SYSTEM</p>
-            <h2 class="section-title">운영 상태</h2>
-          </div>
-          <div id="apiStatus" class="status-badge is-loading">LOADING</div>
+      <aside class="surface hero-side">
+        <div class="section-header">
+          <h2 class="section-title">운영 현황</h2>
+          <div id="apiStatus" class="status-badge">DEMO</div>
         </div>
         <div id="summaryCards" class="summary-grid"></div>
       </aside>
     </section>
 
-    <section class="container content-grid-2col">
-      <section class="surface board-panel">
+    <section class="container section-block home-board-grid">
+      <section class="surface panel-board">
         <div class="section-header">
-          <div>
-            <p class="section-kicker">LIVE RANK</p>
-            <h2 class="section-title">전체 전투력 TOP 10</h2>
-          </div>
-          <a class="section-link" href="./ranking.html">전체 순위표</a>
+          <h2 class="section-title">길드별 요약</h2>
         </div>
-
-        <div class="table-wrap compact-table-wrap">
-          <table class="ranking-table ranking-table-compact">
-            <thead>
-              <tr>
-                <th>순위</th>
-                <th>캐릭터</th>
-                <th>길드</th>
-                <th>Lv</th>
-                <th>전투력</th>
-              </tr>
-            </thead>
-            <tbody id="homeRankingPreviewBody"></tbody>
-          </table>
-        </div>
+        <div id="guildGrid" class="guild-summary-grid"></div>
       </section>
-
-      <section class="surface board-panel">
+      <section class="surface panel-board">
         <div class="section-header">
-          <div>
-            <p class="section-kicker">WEEKLY BOOST</p>
-            <h2 class="section-title">주간 전투력 상승 TOP 10</h2>
-          </div>
-          <a class="section-link" href="./members.html#growth">주간 성장 보기</a>
+          <h2 class="section-title">최근 공지</h2>
+          <a class="section-link" href="./notice.html">공지 전체</a>
         </div>
+        <div id="homeNoticeCompact" class="notice-compact-list"></div>
+      </section>
+    </section>
 
-        <div id="homeWeeklyPowerList" class="spotlight-list"></div>
+    <section class="container section-block top-panels">
+      <section class="surface panel-board">
+        <div class="section-header">
+          <h2 class="section-title">주간 전투력 상승 TOP 5</h2>
+          <a class="section-link" href="./members.html#growth">성장 페이지</a>
+        </div>
+        <div id="homeTopPower"></div>
+      </section>
+      <section class="surface panel-board">
+        <div class="section-header">
+          <h2 class="section-title">주간 레벨 상승 TOP 5</h2>
+          <a class="section-link" href="./members.html#growth">성장 페이지</a>
+        </div>
+        <div id="homeTopLevel"></div>
       </section>
     </section>
 
     <section class="container section-block">
       <div class="section-header">
-        <div>
-          <p class="section-kicker">GUILD OVERVIEW</p>
-          <h2 class="section-title">길드 전술 보드</h2>
-        </div>
+        <h2 class="section-title">전체 랭킹 미리보기</h2>
+        <a class="section-link" href="./ranking.html">전체 보기</a>
       </div>
-      <div id="guildGrid" class="guild-summary-grid"></div>
-    </section>
-
-    <section class="container content-grid-2col section-block">
-      <section class="surface board-panel">
-        <div class="section-header">
-          <div>
-            <p class="section-kicker">NOTICE</p>
-            <h2 class="section-title">최근 공지</h2>
-          </div>
-          <a class="section-link" href="./notice.html">전체 보기</a>
+      <section class="surface panel-table">
+        <div class="table-wrap home-preview-scroll">
+          <table class="ranking-table">
+            <thead>
+              <tr><th>순위</th><th>캐릭터</th><th>길드</th><th>Lv</th><th>전투력</th></tr>
+            </thead>
+            <tbody id="homeRankingPreviewBody"></tbody>
+          </table>
         </div>
-        <div id="homeNoticeCompact" class="board-compact-list"></div>
-      </section>
-
-      <section class="surface board-panel">
-        <div class="section-header">
-          <div>
-            <p class="section-kicker">TIPS</p>
-            <h2 class="section-title">최근 꿀팁</h2>
-          </div>
-          <a class="section-link" href="./tips.html">전체 보기</a>
-        </div>
-        <div id="homeTipsCompact" class="board-compact-list"></div>
       </section>
     </section>
   </main>
 
   <div id="guildDetailModal" class="modal hidden" aria-hidden="true">
     <div class="modal-backdrop" data-close-modal="true"></div>
-    <div class="modal-dialog modal-dialog-scroll">
-      <div class="section-header">
-        <div>
-          <h3 class="modal-title" id="guildModalTitle">길드 상세</h3>
-        </div>
-        <button id="guildModalClose" class="modal-close" type="button" aria-label="닫기">✕</button>
-      </div>
-
+    <div class="modal-dialog">
+      <div class="section-header"><h3 class="modal-title" id="guildModalTitle">길드 상세</h3><button id="guildModalClose" class="modal-close" type="button">✕</button></div>
       <div id="guildModalMeta" class="modal-meta-grid"></div>
-
-      <section class="modal-block">
-        <div class="modal-block-head">
-          <strong>핵심 인원 TOP 3</strong>
-        </div>
-        <div id="guildModalTopMembers" class="modal-member-list"></div>
-      </section>
+      <section class="modal-block"><div class="modal-block-head"><strong>핵심 멤버</strong></div><div id="guildModalTopMembers"></div></section>
     </div>
   </div>
 
-  <script src="./assets/js/data.js?v=portal-elite-001"></script>
-  <script src="./assets/js/common.js?v=portal-elite-001"></script>
-  <script src="./assets/js/home.js?v=portal-elite-001"></script>
+  <script src="./data.js?v=light-portal-001"></script>
+  <script src="./script.js?v=light-portal-001"></script>
 </body>
 </html>

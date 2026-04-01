@@ -4,26 +4,24 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>친구패밀리 | 인원·성장</title>
-  <meta name="description" content="친구패밀리 인원 디렉토리 및 성장 순위" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="./assets/css/style.css?v=portal-elite-001" />
+  <link rel="stylesheet" href="./style.css?v=light-portal-001" />
 </head>
 <body data-page="members">
   <div id="app-shell"></div>
-
   <main class="page-wrap">
-    <section class="container page-hero page-hero-compact">
-      <p class="section-kicker">MEMBERS & GROWTH</p>
-      <h1 class="page-title">인원 디렉토리 · 주간 성장</h1>
-      <p class="page-desc">전체 인원 목록과 전투력 상승, 레벨 상승, 인기도 상승, 성장률 상승을 하나의 보드에서 전환해 볼 수 있습니다.</p>
+    <section class="container page-hero">
+      <div>
+        <h1 class="page-title">인원·성장</h1>
+        <p class="page-desc">길드원 전체 목록과 전투력·레벨·인기도·성장률 상승 내역을 한 화면에서 전환해 볼 수 있게 정리했습니다.</p>
+      </div>
     </section>
-
-    <section class="container section-block ranking-layout" id="growth">
-      <aside class="surface side-control-panel">
+    <section class="container section-block ranking-layout">
+      <aside class="surface ranking-filter-panel">
         <div class="panel-section">
-          <h2 class="section-title section-title-small">보기 방식</h2>
+          <h2 class="section-title" style="font-size:18px">보기 모드</h2>
           <div id="membersModeTabs" class="tab-stack">
             <button class="tab-btn is-active" data-mode="directory">인원 디렉토리</button>
             <button class="tab-btn" data-mode="powerGrowth">전투력 상승</button>
@@ -32,15 +30,10 @@
             <button class="tab-btn" data-mode="rateGrowth">성장률 상승</button>
           </div>
         </div>
-
         <div class="panel-divider"></div>
-
         <div class="panel-section">
-          <h2 class="section-title section-title-small">필터</h2>
-          <div class="search-stack">
-            <input id="memberSearchInput" class="input" type="text" placeholder="캐릭터명 검색" />
-          </div>
-          <div class="filter-stack">
+          <div class="search-stack"><input id="memberSearchInput" class="input" type="text" placeholder="캐릭터명 검색" /></div>
+          <div class="filter-stack" style="margin-top:10px">
             <select id="guildFilterSelect" class="input"><option value="ALL">전체 길드</option></select>
             <select id="sortSelect" class="input">
               <option value="power">전투력순</option>
@@ -51,43 +44,23 @@
           </div>
         </div>
       </aside>
-
       <section class="surface ranking-main-panel">
-        <div class="ranking-panel-head">
-          <div><h2 class="section-title" id="membersPageTitle">인원 디렉토리</h2></div>
-        </div>
-
-        <div class="ranking-scroll-frame">
-          <div class="table-wrap ranking-scroll-area" id="membersScrollArea">
-            <table class="ranking-table ranking-table-dense" id="membersTable">
-              <thead id="membersTableHead"></thead>
-              <tbody id="membersTableBody"></tbody>
-            </table>
-          </div>
-        </div>
-
-        <div class="empty-state hidden" id="membersEmptyState">조건에 맞는 캐릭터가 없습니다.</div>
+        <div class="ranking-panel-head"><h2 class="section-title" id="membersPageTitle">인원 디렉토리</h2></div>
+        <div class="ranking-scroll-frame"><div class="table-wrap ranking-scroll-area"><table class="ranking-table"><thead id="membersTableHead"></thead><tbody id="membersTableBody"></tbody></table></div></div>
       </section>
     </section>
   </main>
 
   <div id="memberDetailModal" class="modal hidden" aria-hidden="true">
     <div class="modal-backdrop" data-close-member-modal="true"></div>
-    <div class="modal-dialog modal-dialog-wide modal-dialog-scroll">
-      <div class="section-header">
-        <div><h3 class="modal-title" id="memberModalTitle">캐릭터 상세</h3></div>
-        <button id="memberModalClose" class="modal-close" type="button" aria-label="닫기">✕</button>
-      </div>
+    <div class="modal-dialog modal-dialog-wide">
+      <div class="section-header"><h3 class="modal-title" id="memberModalTitle">캐릭터 상세</h3><button id="memberModalClose" class="modal-close" type="button">✕</button></div>
       <div id="memberModalMeta" class="modal-meta-grid"></div>
-      <section class="modal-block">
-        <div class="modal-block-head"><strong>주간 상세</strong></div>
-        <div id="memberModalWeeklyGrid" class="modal-member-stats"></div>
-      </section>
+      <section class="modal-block"><div class="modal-block-head"><strong>주간 상세</strong></div><div id="memberModalWeeklyGrid" class="modal-member-stats"></div></section>
     </div>
   </div>
 
-  <script src="./assets/js/data.js?v=portal-elite-001"></script>
-  <script src="./assets/js/common.js?v=portal-elite-001"></script>
-  <script src="./assets/js/members.js?v=portal-elite-001"></script>
+  <script src="./data.js?v=light-portal-001"></script>
+  <script src="./script.js?v=light-portal-001"></script>
 </body>
 </html>
