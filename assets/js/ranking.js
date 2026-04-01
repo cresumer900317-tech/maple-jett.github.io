@@ -51,10 +51,7 @@ function renderRankingTable(rows, members) {
 
   tbody.innerHTML = rows.map((row, index) => `
     <tr data-rank-index="${index}">
-      <td>
-        <span class="rank-badge ${getRankBadgeClass(row.rank)}">${escapeHtml(String(row.rank ?? "-"))}</span>
-      </td>
-
+      <td><span class="rank-badge ${getRankBadgeClass(row.rank)}">${escapeHtml(String(row.rank ?? "-"))}</span></td>
       <td>
         <div class="character-cell">
           ${renderCharacterAvatar(row.imageUrl, row.name)}
@@ -72,17 +69,11 @@ function renderRankingTable(rows, members) {
           </div>
         </div>
       </td>
-
-      <td>
-        <span class="guild-pill ${getGuildClass(row.guild)}">${escapeHtml(row.guild || "길드 없음")}</span>
-      </td>
-
+      <td><span class="guild-pill ${getGuildClass(row.guild)}">${escapeHtml(row.guild || "길드 없음")}</span></td>
       <td>${formatNumber(row.level)}</td>
       <td>${escapeHtml(row.powerText || "0")}</td>
       <td>${formatNumber(row.popularity)}</td>
-      <td>
-        <button class="detail-btn" data-member-name="${escapeHtml(row.name || "")}">상세보기</button>
-      </td>
+      <td><button class="detail-btn" data-member-name="${escapeHtml(row.name || "")}">상세보기</button></td>
     </tr>
   `).join("");
 

@@ -113,15 +113,12 @@ function getCache(key) {
   try {
     const raw = sessionStorage.getItem(key);
     if (!raw) return null;
-
     const parsed = JSON.parse(raw);
     if (!parsed || !parsed.savedAt) return null;
-
     if (Date.now() - parsed.savedAt > CACHE_TTL_MS) {
       sessionStorage.removeItem(key);
       return null;
     }
-
     return parsed.data;
   } catch {
     return null;
@@ -156,12 +153,7 @@ function normalizeHomeData(data) {
       memberCount: Number(data?.summary?.memberCount ?? 0),
       avgLevel: Number(data?.summary?.avgLevel ?? 0),
       avgPowerText: data?.summary?.avgPowerText ?? "0",
-      avgPopularity: Number(data?.summary?.avgPopularity ?? 0),
-      positiveGrowthMembers: {
-        power: Number(data?.summary?.positiveGrowthMembers?.power ?? 0),
-        level: Number(data?.summary?.positiveGrowthMembers?.level ?? 0),
-        popularity: Number(data?.summary?.positiveGrowthMembers?.popularity ?? 0)
-      }
+      avgPopularity: Number(data?.summary?.avgPopularity ?? 0)
     },
     guilds: Array.isArray(data?.guilds) ? data.guilds : [],
     rankings: {
@@ -179,7 +171,7 @@ function normalizeHomeData(data) {
 }
 
 async function getHomeData() {
-  const cacheKey = "friends_family_home_data_v110";
+  const cacheKey = "friends_family_home_data_v120";
   const cached = getCache(cacheKey);
 
   if (cached) {
@@ -191,7 +183,6 @@ async function getHomeData() {
   try {
     const data = await loadJsonp(API_URL, "home");
     if (!data?.ok) throw new Error(data?.error || "API 응답 오류");
-
     setCache(cacheKey, data);
     appState.source = "api";
     appState.homeData = normalizeHomeData(data);
@@ -205,7 +196,7 @@ async function getHomeData() {
 }
 
 async function getNoticePosts() {
-  const cacheKey = "friends_family_notice_posts_v110";
+  const cacheKey = "friends_family_notice_posts_v120";
   const cached = getCache(cacheKey);
   if (cached) return cached;
 
@@ -222,7 +213,7 @@ async function getNoticePosts() {
 }
 
 async function getTipsPosts() {
-  const cacheKey = "friends_family_tips_posts_v110";
+  const cacheKey = "friends_family_tips_posts_v120";
   const cached = getCache(cacheKey);
   if (cached) return cached;
 
@@ -241,19 +232,6 @@ async function getTipsPosts() {
 function setText(id, value) {
   const el = document.getElementById(id);
   if (el) el.textContent = value ?? "-";
-}
-
-function formatDateTime(value) {
-  if (!value) return "-";
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return "-";
-  return new Intl.DateTimeFormat("ko-KR", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit"
-  }).format(date);
 }
 
 function formatDateTimeCompact(value) {
