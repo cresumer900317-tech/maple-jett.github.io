@@ -10,6 +10,7 @@ const CACHE_TTL_MS = 5 * 60 * 1000;
 
 document.addEventListener("DOMContentLoaded", () => {
   renderShell();
+  bindMobileMenu();
 });
 
 function renderShell() {
@@ -17,25 +18,53 @@ function renderShell() {
   if (!root) return;
 
   const page = document.body.dataset.page || "home";
+  const links = `
+    ${navLink("./index.html", "home", "홈", page)}
+    ${navLink("./ranking.html", "ranking", "랭킹", page)}
+    ${navLink("./members.html", "members", "인원·성장", page)}
+    ${navLink("./notice.html", "notice", "공지", page)}
+    ${navLink("./tips.html", "tips", "꿀팁", page)}
+  `;
 
   root.innerHTML = `
     <header class="site-header-bar">
       <div class="container site-header-inner">
         <div class="brand-box">
           <a class="brand-title" href="./index.html">친구패밀리</a>
-          <div class="brand-sub">Premium Maple Guild Portal</div>
+          <div class="brand-sub">Guild Intelligence Ranking Service</div>
         </div>
 
         <nav class="nav-menu">
-          ${navLink("./index.html", "home", "홈", page)}
-          ${navLink("./ranking.html", "ranking", "랭킹", page)}
-          ${navLink("./members.html", "members", "인원·성장", page)}
-          ${navLink("./notice.html", "notice", "공지", page)}
-          ${navLink("./tips.html", "tips", "꿀팁", page)}
+          ${links}
         </nav>
+
+        <button id="mobileMenuButton" class="mobile-menu-btn" type="button" aria-label="메뉴">☰</button>
       </div>
     </header>
+
+    <div id="mobileDrawer" class="mobile-drawer">
+      <nav class="mobile-drawer-nav">
+        ${links}
+      </nav>
+    </div>
   `;
+}
+
+function bindMobileMenu() {
+  document.addEventListener("click", (event) => {
+    const button = document.getElementById("mobileMenuButton");
+    const drawer = document.getElementById("mobileDrawer");
+    if (!button || !drawer) return;
+
+    if (event.target === button) {
+      drawer.classList.toggle("is-open");
+      return;
+    }
+
+    if (!drawer.contains(event.target)) {
+      drawer.classList.remove("is-open");
+    }
+  });
 }
 
 function navLink(href, key, label, page) {
@@ -150,7 +179,7 @@ function normalizeHomeData(data) {
 }
 
 async function getHomeData() {
-  const cacheKey = "friends_family_home_data_v100";
+  const cacheKey = "friends_family_home_data_v101";
   const cached = getCache(cacheKey);
 
   if (cached) {
@@ -176,7 +205,7 @@ async function getHomeData() {
 }
 
 async function getNoticePosts() {
-  const cacheKey = "friends_family_notice_posts_v100";
+  const cacheKey = "friends_family_notice_posts_v101";
   const cached = getCache(cacheKey);
   if (cached) return cached;
 
@@ -193,7 +222,7 @@ async function getNoticePosts() {
 }
 
 async function getTipsPosts() {
-  const cacheKey = "friends_family_tips_posts_v100";
+  const cacheKey = "friends_family_tips_posts_v101";
   const cached = getCache(cacheKey);
   if (cached) return cached;
 
@@ -266,6 +295,15 @@ function getRankBadgeClass(rank) {
   if (rank === 2) return "is-silver";
   if (rank === 3) return "is-bronze";
   return "";
+}
+
+function getGuildClass(guild) {
+  if (guild === "친구들") return "is-친구들";
+  if (guild === "친구둘") return "is-친구둘";
+  if (guild === "친구삼") return "is-친구삼";
+  if (guild === "친구넷") return "is-친구넷";
+  if (guild === "친구닷") return "is-친구닷";
+  return "is-default";
 }
 
 function getDiffClass(value) {

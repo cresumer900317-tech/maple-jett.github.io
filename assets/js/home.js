@@ -7,10 +7,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   renderApiStatus();
   renderSummary(data.summary);
-  renderHomeRankingPreview(data.rankings.power || []);
   renderGuildSummary(data.guilds || [], data.members || []);
-  renderHomeWeeklyTop(data.weeklyTop.power || []);
-  renderBoardList("latestNoticeList", (await getNoticePosts()).slice(0, 3));
+  renderHomeRankingPreview(data.rankings.power || []);
+  renderNoticeCompact(await getNoticePosts());
   setupGuildModalClose();
 });
 
@@ -47,17 +46,34 @@ function renderSummary(summary) {
   `).join("");
 }
 
+function renderNoticeCompact(posts) {
+  const root = document.getElementById("homeNoticeCompact");
+  if (!root) return;
+
+  const items = posts.slice(0, 3);
+  if (!items.length) {
+    root.innerHTML = `<div class="empty-state">공지 데이터가 없습니다.</div>`;
+    return;
+  }
+
+  root.innerHTML = items.map((post) => `
+    <article class="notice-compact-item">
+      <div class="notice-compact-top">
+        <span class="notice-compact-badge">${escapeHtml(post.category || "공지")}</span>
+        <span class="notice-compact-date">${escapeHtml(formatDateOnly(post.createdAt))}</span>
+      </div>
+      <div class="notice-compact-title">${escapeHtml(post.title || "-")}</div>
+    </article>
+  `).join("");
+}
+
 function renderHomeRankingPreview(rows) {
   const tbody = document.getElementById("homeRankingPreviewBody");
   if (!tbody) return;
 
-  const preview = rows.slice(0, 12);
+  const preview = rows.slice(0, 30);
   if (!preview.length) {
-    tbody.innerHTML = `
-      <tr>
-        <td colspan="6"><div class="empty-state">랭킹 데이터가 없습니다.</div></td>
-      </tr>
-    `;
+    tbody.innerHTML = `<tr><td colspan="5"><div class="empty-state">랭킹 데이터가 없습니다.</div></td></tr>`;
     return;
   }
 
@@ -67,13 +83,11 @@ function renderHomeRankingPreview(rows) {
       <td>
         <div class="name-cell">
           <span class="name-main">${escapeHtml(row.name || "-")}</span>
-          <span class="name-sub">전체 ${formatNullableRank(row.overallRank)} / 서버 ${formatNullableRank(row.serverRank)}</span>
         </div>
       </td>
-      <td><span class="guild-pill">${escapeHtml(row.guild || "길드 없음")}</span></td>
+      <td><span class="guild-pill ${getGuildClass(row.guild)}">${escapeHtml(row.guild || "길드 없음")}</span></td>
       <td>${formatNumber(row.level)}</td>
       <td>${escapeHtml(row.powerText || "0")}</td>
-      <td class="${getDiffClass(row.weeklyPowerDiffValue)}">${escapeHtml(row.weeklyPowerDiffText || "0")}</td>
     </tr>
   `).join("");
 }
@@ -90,10 +104,10 @@ function renderGuildSummary(guilds, members) {
   }
 
   root.innerHTML = visibleGuilds.map((guild) => `
-    <article class="guild-summary-card" data-guild-name="${escapeHtml(guild.guild || "")}">
+    <article class="guild-summary-card ${getGuildClass(guild.guild)}" data-guild-name="${escapeHtml(guild.guild || "")}">
       <div class="guild-summary-head">
         <h3>${escapeHtml(guild.guild || "-")}</h3>
-        <span class="guild-summary-tag">상세 보기</span>
+        <span class="guild-summary-tag">상세보기</span>
       </div>
 
       <div class="guild-summary-stats">
@@ -123,42 +137,6 @@ function renderGuildSummary(guilds, members) {
       openGuildModal(guildName, visibleGuilds, members);
     });
   });
-}
-
-function renderHomeWeeklyTop(rows) {
-  const root = document.getElementById("homeWeeklyTop");
-  if (!root) return;
-
-  const top3 = rows.slice(0, 3);
-  if (!top3.length) {
-    root.innerHTML = `<div class="empty-state">주간 TOP 데이터가 없습니다.</div>`;
-    return;
-  }
-
-  root.innerHTML = top3.map((row, index) => {
-    const cls = getRankBadgeClass(index + 1);
-    const medal = index === 0 ? "🥇" : index === 1 ? "🥈" : "🥉";
-
-    return `
-      <article class="weekly-card">
-        <div class="weekly-card-rank ${cls}">${medal}</div>
-        <h3>${escapeHtml(row.name || "-")}</h3>
-        <div class="sub-text">${escapeHtml(row.guild || "길드 없음")}</div>
-        <div class="weekly-card-list">
-          <div class="weekly-card-row">
-            <div class="left">
-              <strong>${escapeHtml(row.diffText || "0")}</strong>
-              <span class="sub-text">${escapeHtml(`${row.powerText || "-"} · ${row.growthRateText || "0%"}`)}</span>
-            </div>
-            <div class="right">
-              <div>전체 ${formatNullableRank(row.overallRank)}</div>
-              <div>서버 ${formatNullableRank(row.serverRank)}</div>
-            </div>
-          </div>
-        </div>
-      </article>
-    `;
-  }).join("");
 }
 
 function openGuildModal(guildName, guilds, members) {
@@ -198,36 +176,39 @@ function openGuildModal(guildName, guilds, members) {
   if (!guildMembers.length) {
     list.innerHTML = `<div class="empty-state">핵심 인원 데이터가 없습니다.</div>`;
   } else {
-    list.innerHTML = guildMembers.map((member, index) => `
-      <article class="modal-member-card">
-        <div class="modal-member-top">
-          <div>
-            <h4 class="modal-member-name">${escapeHtml(member.name || "-")}</h4>
-            <div class="modal-member-sub">${escapeHtml(member.realGuild || guildName)}</div>
+    list.innerHTML = guildMembers.map((member, index) => {
+      const medalClass = getRankBadgeClass(index + 1);
+      return `
+        <article class="modal-member-card ${getGuildClass(guildName)}">
+          <div class="modal-member-top">
+            <div>
+              <h4 class="modal-member-name">${escapeHtml(member.name || "-")}</h4>
+              <div class="modal-member-sub">${escapeHtml(member.realGuild || guildName)}</div>
+            </div>
+            <span class="modal-member-rank ${medalClass}">TOP ${index + 1}</span>
           </div>
-          <span class="modal-member-rank">TOP ${index + 1}</span>
-        </div>
 
-        <div class="modal-member-stats">
-          <div class="modal-member-stat">
-            <span>레벨</span>
-            <strong>${formatNumber(member.level)}</strong>
+          <div class="modal-member-stats">
+            <div class="modal-member-stat">
+              <span>레벨</span>
+              <strong>${formatNumber(member.level)}</strong>
+            </div>
+            <div class="modal-member-stat">
+              <span>전투력</span>
+              <strong>${escapeHtml(member.powerText || "0")}</strong>
+            </div>
+            <div class="modal-member-stat">
+              <span>인기도</span>
+              <strong>${formatNumber(member.popularity)}</strong>
+            </div>
+            <div class="modal-member-stat">
+              <span>주간 성장률</span>
+              <strong>${escapeHtml(member.weekly?.growthRateText || "0%")}</strong>
+            </div>
           </div>
-          <div class="modal-member-stat">
-            <span>전투력</span>
-            <strong>${escapeHtml(member.powerText || "0")}</strong>
-          </div>
-          <div class="modal-member-stat">
-            <span>인기도</span>
-            <strong>${formatNumber(member.popularity)}</strong>
-          </div>
-          <div class="modal-member-stat">
-            <span>주간 성장률</span>
-            <strong>${escapeHtml(member.weekly?.growthRateText || "0%")}</strong>
-          </div>
-        </div>
-      </article>
-    `).join("");
+        </article>
+      `;
+    }).join("");
   }
 
   modal.classList.remove("hidden");

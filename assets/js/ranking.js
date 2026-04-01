@@ -2,11 +2,13 @@ document.addEventListener("DOMContentLoaded", async () => {
   const data = await getHomeData();
   const state = {
     tab: "power",
-    rows: data.rankings.power || []
+    rows: data.rankings.power || [],
+    members: data.members || []
   };
 
-  renderRankingTable(state.rows, state.tab);
+  renderRankingTable(state.rows, state.tab, state.members);
   updateRankingSidebar("전투력", state.rows.length);
+  setupRankingModalClose();
 
   const tabs = document.getElementById("rankingTabs");
   const searchInput = document.getElementById("rankingSearchInput");
@@ -21,7 +23,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     state.tab = button.dataset.tab;
     state.rows = data.rankings[state.tab] || [];
-    renderRankingTable(state.rows, state.tab);
+    renderRankingTable(state.rows, state.tab, state.members);
     updateRankingSidebar(getMetricLabel(state.tab), state.rows.length);
     resetSearchStatus();
   });
@@ -38,7 +40,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 });
 
-function renderRankingTable(rows, tab = "power") {
+function renderRankingTable(rows, tab, members) {
   const tbody = document.getElementById("rankingTableBody");
   if (!tbody) return;
 
@@ -47,38 +49,31 @@ function renderRankingTable(rows, tab = "power") {
     return;
   }
 
-  tbody.innerHTML = rows.map((row, index) => {
-    const metricText =
-      tab === "power"
-        ? row.weeklyPowerDiffText || "0"
-        : tab === "level"
-          ? formatSignedNumber(row.weeklyLevelDiff)
-          : formatSignedNumber(row.weeklyPopularityDiff);
+  tbody.innerHTML = rows.map((row, index) => `
+    <tr data-rank-index="${index}">
+      <td><span class="rank-badge ${getRankBadgeClass(row.rank)}">${escapeHtml(String(row.rank ?? "-"))}</span></td>
+      <td>
+        <div class="name-cell">
+          <span class="name-main">${escapeHtml(row.name || "-")}</span>
+          <span class="name-sub">전체 ${formatNullableRank(row.overallRank)} / 서버 ${formatNullableRank(row.serverRank)}</span>
+        </div>
+      </td>
+      <td><span class="guild-pill ${getGuildClass(row.guild)}">${escapeHtml(row.guild || "길드 없음")}</span></td>
+      <td>${formatNumber(row.level)}</td>
+      <td>${escapeHtml(row.powerText || "0")}</td>
+      <td>${formatNumber(row.popularity)}</td>
+      <td><button class="detail-btn" data-member-name="${escapeHtml(row.name || "")}">상세보기</button></td>
+    </tr>
+  `).join("");
 
-    const metricValue =
-      tab === "power"
-        ? Number(row.weeklyPowerDiffValue || 0)
-        : tab === "level"
-          ? Number(row.weeklyLevelDiff || 0)
-          : Number(row.weeklyPopularityDiff || 0);
-
-    return `
-      <tr data-rank-index="${index}" data-name="${escapeHtml(String(row.name || "").toLowerCase())}">
-        <td><span class="rank-badge ${getRankBadgeClass(row.rank)}">${escapeHtml(String(row.rank ?? "-"))}</span></td>
-        <td>
-          <div class="name-cell">
-            <span class="name-main">${escapeHtml(row.name || "-")}</span>
-            <span class="name-sub">전체 ${formatNullableRank(row.overallRank)} / 서버 ${formatNullableRank(row.serverRank)}</span>
-          </div>
-        </td>
-        <td><span class="guild-pill">${escapeHtml(row.guild || "길드 없음")}</span></td>
-        <td>${formatNumber(row.level)}</td>
-        <td>${escapeHtml(row.powerText || "0")}</td>
-        <td>${formatNumber(row.popularity)}</td>
-        <td class="${getDiffClass(metricValue)}">${escapeHtml(metricText)}</td>
-      </tr>
-    `;
-  }).join("");
+  tbody.querySelectorAll(".detail-btn").forEach((btn) => {
+    btn.addEventListener("click", (event) => {
+      event.stopPropagation();
+      const name = btn.dataset.memberName || "";
+      const member = members.find((m) => String(m.name || "") === name);
+      if (member) openRankingMemberModal(member);
+    });
+  });
 }
 
 function performRankingSearch(rows) {
@@ -111,11 +106,7 @@ function performRankingSearch(rows) {
     return;
   }
 
-  const rowsEls = [...tbody.querySelectorAll("tr")];
-  rowsEls.forEach((rowEl, index) => {
-    if (index === matchIndex) rowEl.classList.add("is-target");
-    if (index >= matchIndex - 2 && index <= matchIndex + 2) rowEl.classList.add("is-context");
-  });
+  targetRow.classList.add("is-target");
 
   const offsetTop = targetRow.offsetTop - scrollArea.clientHeight / 2 + targetRow.clientHeight * 2;
   scrollArea.scrollTo({
@@ -123,19 +114,19 @@ function performRankingSearch(rows) {
     behavior: "smooth"
   });
 
-  status.textContent = `검색 결과: ${rows[matchIndex].name} · ${matchIndex + 1}위 근처로 이동했습니다.`;
+  status.textContent = `검색 결과: ${rows[matchIndex].name} · ${matchIndex + 1}위`;
 }
 
 function clearRankingHighlights() {
   document.querySelectorAll("#rankingTableBody tr").forEach((tr) => {
-    tr.classList.remove("is-target", "is-context");
+    tr.classList.remove("is-target");
   });
 }
 
 function resetSearchStatus() {
   const status = document.getElementById("rankingSearchStatus");
   const input = document.getElementById("rankingSearchInput");
-  if (status) status.textContent = "검색하면 해당 순위 근처로 이동합니다.";
+  if (status) status.textContent = "검색 시 해당 순위 위치로 이동합니다.";
   if (input) input.value = "";
   clearRankingHighlights();
 }
@@ -154,4 +145,80 @@ function getMetricLabel(tab) {
   if (tab === "level") return "레벨";
   if (tab === "popularity") return "인기도";
   return "전투력";
+}
+
+function openRankingMemberModal(member) {
+  const modal = document.getElementById("rankingMemberDetailModal");
+  const title = document.getElementById("rankingMemberModalTitle");
+  const meta = document.getElementById("rankingMemberModalMeta");
+  const weekly = document.getElementById("rankingMemberModalWeeklyGrid");
+  if (!modal || !title || !meta || !weekly) return;
+
+  title.textContent = member.name || "-";
+
+  meta.innerHTML = `
+    <div class="modal-meta-card">
+      <span>길드</span>
+      <strong>${escapeHtml(member.guild || "길드 없음")}</strong>
+    </div>
+    <div class="modal-meta-card">
+      <span>레벨</span>
+      <strong>${formatNumber(member.level)}</strong>
+    </div>
+    <div class="modal-meta-card">
+      <span>전투력</span>
+      <strong>${escapeHtml(member.powerText || "0")}</strong>
+    </div>
+    <div class="modal-meta-card">
+      <span>인기도</span>
+      <strong>${formatNumber(member.popularity)}</strong>
+    </div>
+  `;
+
+  weekly.innerHTML = `
+    <div class="modal-member-stat">
+      <span>주간 전투력</span>
+      <strong class="${getDiffClass(member.weekly?.powerDiffValue)}">${escapeHtml(member.weekly?.powerDiffText || "0")}</strong>
+    </div>
+    <div class="modal-member-stat">
+      <span>주간 레벨</span>
+      <strong class="${getDiffClass(member.weekly?.levelDiff)}">${escapeHtml(member.weekly?.levelDiffText || "0")}</strong>
+    </div>
+    <div class="modal-member-stat">
+      <span>주간 인기도</span>
+      <strong class="${getDiffClass(member.weekly?.popularityDiff)}">${escapeHtml(member.weekly?.popularityDiffText || "0")}</strong>
+    </div>
+    <div class="modal-member-stat">
+      <span>주간 성장률</span>
+      <strong>${escapeHtml(member.weekly?.growthRateText || "0%")}</strong>
+    </div>
+  `;
+
+  modal.classList.remove("hidden");
+  modal.setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden";
+}
+
+function closeRankingMemberModal() {
+  const modal = document.getElementById("rankingMemberDetailModal");
+  if (!modal) return;
+  modal.classList.add("hidden");
+  modal.setAttribute("aria-hidden", "true");
+  document.body.style.overflow = "";
+}
+
+function setupRankingModalClose() {
+  const closeBtn = document.getElementById("rankingMemberModalClose");
+  const modal = document.getElementById("rankingMemberDetailModal");
+  if (!modal) return;
+
+  closeBtn?.addEventListener("click", closeRankingMemberModal);
+
+  modal.querySelectorAll("[data-close-ranking-modal='true']").forEach((el) => {
+    el.addEventListener("click", closeRankingMemberModal);
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeRankingMemberModal();
+  });
 }

@@ -4,29 +4,29 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>친구패밀리 | 홈</title>
-  <meta name="description" content="친구패밀리 프리미엄 랭킹 포털" />
+  <meta name="description" content="친구패밀리 프리미엄 길드 포털" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="./assets/css/style.css?v=rank-premium-001" />
+  <link rel="stylesheet" href="./assets/css/style.css?v=rank-premium-002" />
 </head>
 <body data-page="home">
   <div id="app-shell"></div>
 
   <main class="page-wrap">
-    <section class="container hero-grid">
+    <section class="container home-top-grid">
       <section class="surface hero-panel hero-main">
         <div class="hero-topline">
-          <span class="hero-badge">MAPLE FAMILY</span>
-          <span class="hero-badge is-purple">RANKING PORTAL</span>
-          <span class="hero-badge is-soft">PREMIUM BUILD</span>
+          <span class="hero-badge">FRIENDS FAMILY</span>
+          <span class="hero-badge is-purple">GUILD INTELLIGENCE</span>
+          <span class="hero-badge is-soft">LIVE RANK TRACKER</span>
         </div>
 
-        <p class="eyebrow">FRIENDS FAMILY RANKING SERVICE</p>
+        <p class="eyebrow">PREMIUM MAPLE GUILD INTELLIGENCE</p>
         <h1 class="hero-title">친구패밀리 통합 랭킹 포털</h1>
         <p class="hero-desc">
-          친구들 · 친구둘 · 친구삼 · 친구넷 · 친구닷 전체 데이터를 기반으로
-          랭킹, 길드 요약, 인원 디렉토리, 주간 성장, 공지, 꿀팁을 한 번에 관리하는 프리미엄 길드 포털
+          친구들 · 친구둘 · 친구삼 · 친구넷 · 친구닷의 랭킹, 성장, 공지, 길드 데이터를
+          빠르고 밀도 있게 확인하는 친구패밀리 전용 포털
         </p>
 
         <div class="hero-meta-grid">
@@ -56,68 +56,55 @@
 
         <div id="summaryCards" class="summary-grid"></div>
       </aside>
+
+      <aside class="surface hero-panel hero-notice">
+        <div class="section-header section-header-tight">
+          <div>
+            <p class="eyebrow">LATEST NOTICE</p>
+            <h2 class="section-title">최근 공지</h2>
+          </div>
+          <a class="section-link" href="./notice.html">전체 보기</a>
+        </div>
+
+        <div id="homeNoticeCompact" class="notice-compact-list"></div>
+      </aside>
+    </section>
+
+    <section class="container section-block">
+      <div class="section-header">
+        <div>
+          <p class="eyebrow">Guild Summary</p>
+          <h2 class="section-title">길드별 요약</h2>
+        </div>
+      </div>
+      <div id="guildGrid" class="guild-summary-grid"></div>
     </section>
 
     <section class="container section-block">
       <div class="section-header">
         <div>
           <p class="eyebrow">Ranking Preview</p>
-          <h2 class="section-title">전체 랭킹 TOP 12</h2>
+          <h2 class="section-title">전체 랭킹 TOP 30</h2>
         </div>
         <a class="section-link" href="./ranking.html">전체 순위표 보기</a>
       </div>
 
       <section class="surface panel-table">
-        <div class="table-wrap">
+        <div class="table-wrap home-preview-scroll">
           <table class="ranking-table ranking-table-compact">
             <thead>
               <tr>
                 <th>순위</th>
                 <th>캐릭터</th>
                 <th>길드</th>
-                <th>레벨</th>
+                <th>Lv</th>
                 <th>전투력</th>
-                <th>주간 변화</th>
               </tr>
             </thead>
             <tbody id="homeRankingPreviewBody"></tbody>
           </table>
         </div>
       </section>
-    </section>
-
-    <section class="container home-split section-block">
-      <section class="surface panel-section">
-        <div class="section-header section-header-tight">
-          <div>
-            <p class="eyebrow">Guild Summary</p>
-            <h2 class="section-title">길드별 요약</h2>
-          </div>
-        </div>
-        <div id="guildGrid" class="guild-summary-grid"></div>
-      </section>
-
-      <section class="surface panel-section">
-        <div class="section-header section-header-tight">
-          <div>
-            <p class="eyebrow">Weekly Top</p>
-            <h2 class="section-title">주간 TOP 3</h2>
-          </div>
-          <a class="section-link" href="./members.html#growth">인원·성장 보기</a>
-        </div>
-        <div id="homeWeeklyTop" class="weekly-card-grid"></div>
-      </section>
-    </section>
-
-    <section class="container section-block">
-      <div class="section-header">
-        <div>
-          <p class="eyebrow">Latest Notice</p>
-          <h2 class="section-title">최신 공지</h2>
-        </div>
-        <a class="section-link" href="./notice.html">공지 전체 보기</a>
-      </div>
-      <div id="latestNoticeList" class="board-list board-list-home"></div>
     </section>
   </main>
 
@@ -143,8 +130,8 @@
     </div>
   </div>
 
-  <script src="./assets/js/data.js?v=rank-premium-001"></script>
-  <script src="./assets/js/common.js?v=rank-premium-001"></script>
-  <script src="./assets/js/home.js?v=rank-premium-001"></script>
+  <script src="./assets/js/data.js?v=rank-premium-002"></script>
+  <script src="./assets/js/common.js?v=rank-premium-002"></script>
+  <script src="./assets/js/home.js?v=rank-premium-002"></script>
 </body>
 </html>

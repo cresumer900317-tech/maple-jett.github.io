@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const data = await getHomeData();
 
   const state = {
-    mode: window.location.hash === "#growth" ? "growth" : "directory",
+    mode: "directory",
     members: data.members || [],
     search: "",
     guild: "ALL",
@@ -29,7 +29,6 @@ function bindMembersEvents(state) {
     button.classList.add("is-active");
 
     state.mode = button.dataset.mode;
-    window.location.hash = state.mode === "growth" ? "growth" : "";
     renderMembersPage(state);
   });
 
@@ -84,14 +83,14 @@ function renderMembersPage(state) {
         <th>순위</th>
         <th>캐릭터</th>
         <th>길드</th>
-        <th>레벨</th>
+        <th>Lv</th>
         <th>전투력</th>
         <th>인기도</th>
-        <th>주간 성장률</th>
+        <th>상세</th>
       </tr>
     `;
     tableBody.innerHTML = rows.map((member) => `
-      <tr class="clickable-row" data-member-name="${escapeHtml(member.name || "")}">
+      <tr>
         <td><span class="rank-badge">${formatNumber(member.familyRankByPower)}</span></td>
         <td>
           <div class="name-cell">
@@ -99,29 +98,29 @@ function renderMembersPage(state) {
             <span class="name-sub">${escapeHtml(member.realGuild || member.guild || "길드 없음")}</span>
           </div>
         </td>
-        <td><span class="guild-pill">${escapeHtml(member.guild || "길드 없음")}</span></td>
+        <td><span class="guild-pill ${getGuildClass(member.guild)}">${escapeHtml(member.guild || "길드 없음")}</span></td>
         <td>${formatNumber(member.level)}</td>
         <td>${escapeHtml(member.powerText || "0")}</td>
         <td>${formatNumber(member.popularity)}</td>
-        <td>${escapeHtml(member.weekly?.growthRateText || "0%")}</td>
+        <td><button class="detail-btn" data-member-name="${escapeHtml(member.name || "")}">상세보기</button></td>
       </tr>
     `).join("");
   } else {
-    rows.sort((a, b) => Number(b.weekly?.powerDiffValue || 0) - Number(a.weekly?.powerDiffValue || 0));
-    title.textContent = "주간 성장";
+    const config = getGrowthConfig(state.mode);
+    rows.sort(config.sorter);
+    title.textContent = config.title;
     tableHead.innerHTML = `
       <tr>
         <th>순위</th>
         <th>캐릭터</th>
         <th>길드</th>
-        <th>전투력 상승</th>
-        <th>레벨 상승</th>
-        <th>인기도 상승</th>
+        <th>${config.valueLabel}</th>
         <th>성장률</th>
+        <th>상세</th>
       </tr>
     `;
     tableBody.innerHTML = rows.map((member, index) => `
-      <tr class="clickable-row" data-member-name="${escapeHtml(member.name || "")}">
+      <tr>
         <td><span class="rank-badge ${getRankBadgeClass(index + 1)}">${index + 1}</span></td>
         <td>
           <div class="name-cell">
@@ -129,11 +128,10 @@ function renderMembersPage(state) {
             <span class="name-sub">${escapeHtml(member.realGuild || member.guild || "길드 없음")}</span>
           </div>
         </td>
-        <td><span class="guild-pill">${escapeHtml(member.guild || "길드 없음")}</span></td>
-        <td class="${getDiffClass(member.weekly?.powerDiffValue)}">${escapeHtml(member.weekly?.powerDiffText || "0")}</td>
-        <td class="${getDiffClass(member.weekly?.levelDiff)}">${escapeHtml(member.weekly?.levelDiffText || "0")}</td>
-        <td class="${getDiffClass(member.weekly?.popularityDiff)}">${escapeHtml(member.weekly?.popularityDiffText || "0")}</td>
+        <td><span class="guild-pill ${getGuildClass(member.guild)}">${escapeHtml(member.guild || "길드 없음")}</span></td>
+        <td class="${config.classGetter(member)}">${escapeHtml(config.valueGetter(member))}</td>
         <td>${escapeHtml(member.weekly?.growthRateText || "0%")}</td>
+        <td><button class="detail-btn" data-member-name="${escapeHtml(member.name || "")}">상세보기</button></td>
       </tr>
     `).join("");
   }
@@ -144,13 +142,53 @@ function renderMembersPage(state) {
     empty.classList.add("hidden");
   }
 
-  tableBody.querySelectorAll(".clickable-row").forEach((row) => {
-    row.addEventListener("click", () => {
-      const name = row.dataset.memberName || "";
+  tableBody.querySelectorAll(".detail-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const name = btn.dataset.memberName || "";
       const member = state.members.find((m) => String(m.name || "") === name);
       if (member) openMemberModal(member);
     });
   });
+}
+
+function getGrowthConfig(mode) {
+  if (mode === "levelGrowth") {
+    return {
+      title: "레벨 상승 순위",
+      valueLabel: "레벨 상승",
+      valueGetter: (m) => m.weekly?.levelDiffText || "0",
+      classGetter: (m) => getDiffClass(m.weekly?.levelDiff),
+      sorter: (a, b) => Number(b.weekly?.levelDiff || 0) - Number(a.weekly?.levelDiff || 0)
+    };
+  }
+
+  if (mode === "popularityGrowth") {
+    return {
+      title: "인기도 상승 순위",
+      valueLabel: "인기도 상승",
+      valueGetter: (m) => m.weekly?.popularityDiffText || "0",
+      classGetter: (m) => getDiffClass(m.weekly?.popularityDiff),
+      sorter: (a, b) => Number(b.weekly?.popularityDiff || 0) - Number(a.weekly?.popularityDiff || 0)
+    };
+  }
+
+  if (mode === "rateGrowth") {
+    return {
+      title: "성장률 상승 순위",
+      valueLabel: "성장률",
+      valueGetter: (m) => m.weekly?.growthRateText || "0%",
+      classGetter: () => "",
+      sorter: (a, b) => parseGrowthRate(b.weekly?.growthRateText) - parseGrowthRate(a.weekly?.growthRateText)
+    };
+  }
+
+  return {
+    title: "전투력 상승 순위",
+    valueLabel: "전투력 상승",
+    valueGetter: (m) => m.weekly?.powerDiffText || "0",
+    classGetter: (m) => getDiffClass(m.weekly?.powerDiffValue),
+    sorter: (a, b) => Number(b.weekly?.powerDiffValue || 0) - Number(a.weekly?.powerDiffValue || 0)
+  };
 }
 
 function compareMembers(a, b, sortKey) {
@@ -158,6 +196,11 @@ function compareMembers(a, b, sortKey) {
   if (sortKey === "popularity") return Number(b.popularity || 0) - Number(a.popularity || 0);
   if (sortKey === "name") return String(a.name || "").localeCompare(String(b.name || ""), "ko");
   return Number(b.powerValue || 0) - Number(a.powerValue || 0);
+}
+
+function parseGrowthRate(text) {
+  const n = String(text || "0").replace("%", "").replaceAll(",", "").trim();
+  return Number(n) || 0;
 }
 
 function openMemberModal(member) {
@@ -191,15 +234,15 @@ function openMemberModal(member) {
   weekly.innerHTML = `
     <div class="modal-member-stat">
       <span>주간 전투력</span>
-      <strong>${escapeHtml(member.weekly?.powerDiffText || "0")}</strong>
+      <strong class="${getDiffClass(member.weekly?.powerDiffValue)}">${escapeHtml(member.weekly?.powerDiffText || "0")}</strong>
     </div>
     <div class="modal-member-stat">
       <span>주간 레벨</span>
-      <strong>${escapeHtml(member.weekly?.levelDiffText || "0")}</strong>
+      <strong class="${getDiffClass(member.weekly?.levelDiff)}">${escapeHtml(member.weekly?.levelDiffText || "0")}</strong>
     </div>
     <div class="modal-member-stat">
       <span>주간 인기도</span>
-      <strong>${escapeHtml(member.weekly?.popularityDiffText || "0")}</strong>
+      <strong class="${getDiffClass(member.weekly?.popularityDiff)}">${escapeHtml(member.weekly?.popularityDiffText || "0")}</strong>
     </div>
     <div class="modal-member-stat">
       <span>주간 성장률</span>
