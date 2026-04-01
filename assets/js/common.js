@@ -29,8 +29,7 @@ function renderShell() {
         <nav class="nav-menu">
           ${navLink("./index.html", "home", "홈", page)}
           ${navLink("./ranking.html", "ranking", "랭킹", page)}
-          ${navLink("./members.html", "members", "길드원", page)}
-          ${navLink("./weekly.html", "weekly", "주간성장", page)}
+          ${navLink("./members.html", "members", "인원·성장", page)}
           ${navLink("./notice.html", "notice", "공지", page)}
           ${navLink("./tips.html", "tips", "꿀팁", page)}
         </nav>
@@ -151,7 +150,7 @@ function normalizeHomeData(data) {
 }
 
 async function getHomeData() {
-  const cacheKey = "friends_family_home_data_v4";
+  const cacheKey = "friends_family_home_data_v100";
   const cached = getCache(cacheKey);
 
   if (cached) {
@@ -177,7 +176,7 @@ async function getHomeData() {
 }
 
 async function getNoticePosts() {
-  const cacheKey = "friends_family_notice_posts_v4";
+  const cacheKey = "friends_family_notice_posts_v100";
   const cached = getCache(cacheKey);
   if (cached) return cached;
 
@@ -194,7 +193,7 @@ async function getNoticePosts() {
 }
 
 async function getTipsPosts() {
-  const cacheKey = "friends_family_tips_posts_v4";
+  const cacheKey = "friends_family_tips_posts_v100";
   const cached = getCache(cacheKey);
   if (cached) return cached;
 

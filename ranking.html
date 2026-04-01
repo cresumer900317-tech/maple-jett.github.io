@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="./assets/css/style.css?v=apple-grid-final-003" />
+  <link rel="stylesheet" href="./assets/css/style.css?v=rank-premium-001" />
 </head>
 <body data-page="ranking">
   <div id="app-shell"></div>
@@ -17,7 +17,10 @@
     <section class="container page-hero">
       <p class="eyebrow">Family Ranking</p>
       <h1 class="page-title">친구패밀리 전체 랭킹</h1>
-      <p class="page-desc">전투력, 레벨, 인기도 기준으로 전체 순위를 읽기 좋은 밀도와 정렬로 제공합니다.</p>
+      <p class="page-desc">
+        전투력, 레벨, 인기도 전체 순위를 모두 표시합니다.
+        검색하면 해당 캐릭터가 있는 순위 구간으로 자동 이동합니다.
+      </p>
     </section>
 
     <section class="container section-block ranking-layout">
@@ -36,6 +39,17 @@
         <div class="panel-divider"></div>
 
         <div class="panel-section">
+          <p class="eyebrow">Search</p>
+          <div class="search-stack">
+            <input id="rankingSearchInput" class="input" type="text" placeholder="캐릭터명 검색" />
+            <button id="rankingSearchButton" class="primary-btn" type="button">찾기</button>
+          </div>
+          <p id="rankingSearchStatus" class="helper-text">검색하면 해당 순위 근처로 이동합니다.</p>
+        </div>
+
+        <div class="panel-divider"></div>
+
+        <div class="panel-section">
           <p class="eyebrow">Live Summary</p>
           <div class="mini-summary-list">
             <div class="mini-summary-row">
@@ -44,7 +58,7 @@
             </div>
             <div class="mini-summary-row">
               <span>표시 범위</span>
-              <strong>TOP 50</strong>
+              <strong id="rankingCountLabel">전체</strong>
             </div>
             <div class="mini-summary-row">
               <span>상태</span>
@@ -63,7 +77,7 @@
         </div>
 
         <div class="ranking-scroll-frame">
-          <div class="table-wrap ranking-scroll-area">
+          <div class="table-wrap ranking-scroll-area" id="rankingScrollArea">
             <table class="ranking-table">
               <thead>
                 <tr>
@@ -84,8 +98,8 @@
     </section>
   </main>
 
-  <script src="./assets/js/data.js?v=apple-grid-final-003"></script>
-  <script src="./assets/js/common.js?v=apple-grid-final-003"></script>
-  <script src="./assets/js/ranking.js?v=apple-grid-final-003"></script>
+  <script src="./assets/js/data.js?v=rank-premium-001"></script>
+  <script src="./assets/js/common.js?v=rank-premium-001"></script>
+  <script src="./assets/js/ranking.js?v=rank-premium-001"></script>
 </body>
 </html>

@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   renderApiStatus();
   renderSummary(data.summary);
   renderHomeRankingPreview(data.rankings.power || []);
-  renderGuildSummary(data.guilds, data.members || []);
+  renderGuildSummary(data.guilds || [], data.members || []);
   renderHomeWeeklyTop(data.weeklyTop.power || []);
   renderBoardList("latestNoticeList", (await getNoticePosts()).slice(0, 3));
   setupGuildModalClose();
@@ -51,7 +51,7 @@ function renderHomeRankingPreview(rows) {
   const tbody = document.getElementById("homeRankingPreviewBody");
   if (!tbody) return;
 
-  const preview = rows.slice(0, 10);
+  const preview = rows.slice(0, 12);
   if (!preview.length) {
     tbody.innerHTML = `
       <tr>
@@ -82,15 +82,17 @@ function renderGuildSummary(guilds, members) {
   const root = document.getElementById("guildGrid");
   if (!root) return;
 
-  if (!guilds.length) {
+  const visibleGuilds = guilds.filter((g) => String(g.guild || "") !== "길드 없음");
+
+  if (!visibleGuilds.length) {
     root.innerHTML = `<div class="empty-state">길드 요약 데이터가 없습니다.</div>`;
     return;
   }
 
-  root.innerHTML = guilds.map((guild) => `
-    <article class="guild-summary-card" data-guild-name="${escapeHtml(guild.guild || "길드 없음")}">
+  root.innerHTML = visibleGuilds.map((guild) => `
+    <article class="guild-summary-card" data-guild-name="${escapeHtml(guild.guild || "")}">
       <div class="guild-summary-head">
-        <h3>${escapeHtml(guild.guild || "길드 없음")}</h3>
+        <h3>${escapeHtml(guild.guild || "-")}</h3>
         <span class="guild-summary-tag">상세 보기</span>
       </div>
 
@@ -117,8 +119,8 @@ function renderGuildSummary(guilds, members) {
 
   root.querySelectorAll(".guild-summary-card").forEach((card) => {
     card.addEventListener("click", () => {
-      const guildName = card.dataset.guildName || "길드 없음";
-      openGuildModal(guildName, guilds, members);
+      const guildName = card.dataset.guildName || "";
+      openGuildModal(guildName, visibleGuilds, members);
     });
   });
 }
@@ -166,9 +168,9 @@ function openGuildModal(guildName, guilds, members) {
   const list = document.getElementById("guildModalTopMembers");
   if (!modal || !title || !meta || !list) return;
 
-  const guildInfo = guilds.find((g) => String(g.guild || "길드 없음") === guildName);
+  const guildInfo = guilds.find((g) => String(g.guild || "") === guildName);
   const guildMembers = [...members]
-    .filter((m) => String(m.guild || "길드 없음") === guildName)
+    .filter((m) => String(m.guild || "") === guildName)
     .sort((a, b) => Number(b.powerValue || 0) - Number(a.powerValue || 0))
     .slice(0, 3);
 

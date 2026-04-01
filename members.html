@@ -3,43 +3,52 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>친구패밀리 | 길드원 목록</title>
-  <meta name="description" content="친구패밀리 길드원 목록" />
+  <title>친구패밀리 | 인원·주간성장</title>
+  <meta name="description" content="친구패밀리 인원 디렉토리 및 주간 성장" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="./assets/css/style.css?v=apple-final-002" />
+  <link rel="stylesheet" href="./assets/css/style.css?v=rank-premium-001" />
 </head>
 <body data-page="members">
   <div id="app-shell"></div>
 
   <main class="page-wrap">
     <section class="container page-hero">
-      <p class="eyebrow">Members Archive</p>
-      <h1>길드원 목록</h1>
-      <p>길드원 데이터는 카드 아카이브처럼 보고, 랭킹은 랭킹 페이지에서 별도로 보는 구조로 분리했습니다.</p>
+      <p class="eyebrow">Roster & Growth</p>
+      <h1 class="page-title">인원·주간성장</h1>
+      <p class="page-desc">
+        길드원 목록과 주간 성장을 한 페이지에서 전환하며 보고,
+        각 캐릭터는 클릭해서 상세 정보를 확인하는 구조입니다.
+      </p>
     </section>
 
-    <section class="container section">
-      <div class="section-head members-head">
-        <div>
-          <p class="eyebrow">Members Filter</p>
-          <h2>조건 검색</h2>
+    <section class="container section-block ranking-layout">
+      <aside class="surface ranking-filter-panel">
+        <div class="panel-section">
+          <p class="eyebrow">View Mode</p>
+          <h2 class="section-title section-title-small">탭</h2>
+
+          <div id="membersModeTabs" class="tab-stack">
+            <button class="tab-btn is-active" data-mode="directory">인원 디렉토리</button>
+            <button class="tab-btn" data-mode="growth">주간 성장</button>
+          </div>
         </div>
 
-        <div class="toolbar">
-          <div class="search-box">
-            <input type="text" id="memberSearchInput" placeholder="캐릭터명 검색" autocomplete="off" />
+        <div class="panel-divider"></div>
+
+        <div class="panel-section">
+          <p class="eyebrow">Filter</p>
+          <div class="search-stack">
+            <input id="memberSearchInput" class="input" type="text" placeholder="캐릭터명 검색" />
           </div>
 
-          <div class="select-box">
-            <select id="guildFilterSelect">
+          <div class="filter-stack">
+            <select id="guildFilterSelect" class="input select">
               <option value="ALL">전체 길드</option>
             </select>
-          </div>
 
-          <div class="select-box">
-            <select id="sortSelect">
+            <select id="sortSelect" class="input select">
               <option value="power">전투력순</option>
               <option value="level">레벨순</option>
               <option value="popularity">인기도순</option>
@@ -47,15 +56,54 @@
             </select>
           </div>
         </div>
-      </div>
+      </aside>
 
-      <div class="members-grid" id="membersGrid"></div>
-      <div class="empty-state hidden" id="membersEmptyState">조건에 맞는 캐릭터가 없습니다.</div>
+      <section class="surface ranking-main-panel">
+        <div class="ranking-panel-head">
+          <div>
+            <p class="eyebrow">Roster Table</p>
+            <h2 class="section-title" id="membersPageTitle">인원 디렉토리</h2>
+          </div>
+        </div>
+
+        <div class="ranking-scroll-frame">
+          <div class="table-wrap ranking-scroll-area" id="membersScrollArea">
+            <table class="ranking-table" id="membersTable">
+              <thead id="membersTableHead"></thead>
+              <tbody id="membersTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="empty-state hidden" id="membersEmptyState">조건에 맞는 캐릭터가 없습니다.</div>
+      </section>
     </section>
   </main>
 
-  <script src="./assets/js/data.js?v=apple-final-002"></script>
-  <script src="./assets/js/common.js?v=apple-final-002"></script>
-  <script src="./assets/js/members.js?v=apple-final-002"></script>
+  <div id="memberDetailModal" class="modal hidden" aria-hidden="true">
+    <div class="modal-backdrop" data-close-member-modal="true"></div>
+    <div class="modal-dialog modal-dialog-wide">
+      <div class="section-header">
+        <div>
+          <p class="eyebrow">Character Detail</p>
+          <h3 class="modal-title" id="memberModalTitle">캐릭터 상세</h3>
+        </div>
+        <button id="memberModalClose" class="modal-close" type="button" aria-label="닫기">✕</button>
+      </div>
+
+      <div id="memberModalMeta" class="modal-meta-grid"></div>
+
+      <section class="modal-block">
+        <div class="modal-block-head">
+          <strong>주간 상세</strong>
+        </div>
+        <div id="memberModalWeeklyGrid" class="modal-member-stats"></div>
+      </section>
+    </div>
+  </div>
+
+  <script src="./assets/js/data.js?v=rank-premium-001"></script>
+  <script src="./assets/js/common.js?v=rank-premium-001"></script>
+  <script src="./assets/js/members.js?v=rank-premium-001"></script>
 </body>
 </html>
