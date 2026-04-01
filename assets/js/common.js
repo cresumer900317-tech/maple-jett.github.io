@@ -1,4 +1,4 @@
-const API_URL = window.API_URL || "https://script.google.com/macros/s/AKfycbzBH8keceX7BW4AzWNJ1Kw2pOJs0T8Copyd1T42H4BzpmUaCWJdVmEyT4CwL7gNDYRXKA/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbzBH8keceX7BW4AzWNJ1Kw2pOJs0T8Copyd1T42H4BzpmUaCWJdVmEyT4CwL7gNDYRXKA/exec";
 
 const GUILD_META = {
   "친구들": { className: "guild-f1", label: "친구들" },
@@ -34,6 +34,34 @@ async function fetchApi(mode) {
   return data;
 }
 
+async function getHomeData() {
+  return await fetchApi("home");
+}
+
+async function getRankingData() {
+  return await fetchApi("ranking");
+}
+
+async function getWeeklyData() {
+  return await fetchApi("weekly");
+}
+
+async function getGuildsData() {
+  return await fetchApi("guilds");
+}
+
+async function getNoticeData() {
+  return await fetchApi("notice");
+}
+
+async function getTipsData() {
+  return await fetchApi("tips");
+}
+
+async function getHealthData() {
+  return await fetchApi("health");
+}
+
 function escapeHtml(value) {
   return String(value ?? "")
     .replace(/&/g, "&amp;")
@@ -58,17 +86,6 @@ function formatDecimal(value, digits = 2) {
   });
 }
 
-function normalizeGuildName(guild) {
-  const text = String(guild || "").trim();
-  return GUILD_META[text] ? text : "길드 없음";
-}
-
-function guildBadgeHtml(guild) {
-  const normalized = normalizeGuildName(guild);
-  const meta = GUILD_META[normalized];
-  return `<span class="guild-badge ${meta.className}">${escapeHtml(meta.label)}</span>`;
-}
-
 function formatDateTime(value) {
   if (!value) return "-";
 
@@ -88,7 +105,6 @@ function formatDateTime(value) {
 function compactPowerText(text) {
   const raw = String(text || "").trim();
   if (!raw) return "-";
-
   const parts = raw.split(/\s+/).filter(Boolean);
   if (parts.length <= 2) return raw;
   return parts.slice(0, 2).join(" ");
@@ -99,53 +115,15 @@ function fullPowerText(text) {
   return raw || "-";
 }
 
-function rankTrendHtml(item) {
-  const diff = Number(item?.weeklyRankDiff ?? 0);
-  const direction = item?.weeklyRankDirection || "same";
-
-  if (!diff || direction === "same") {
-    return `<span class="rank-trend neutral">-</span>`;
-  }
-
-  if (direction === "up") {
-    return `<span class="rank-trend up">▲ ${diff}</span>`;
-  }
-
-  if (direction === "down") {
-    return `<span class="rank-trend down">▼ ${diff}</span>`;
-  }
-
-  return `<span class="rank-trend neutral">-</span>`;
+function normalizeGuildName(guild) {
+  const text = String(guild || "").trim();
+  return GUILD_META[text] ? text : "길드 없음";
 }
 
-function growthTextHtml(value) {
-  const text = String(value ?? "0").trim();
-  const numeric = Number(text.replace("%", "").replace(/[^\d.-]/g, ""));
-
-  if (!Number.isFinite(numeric) || numeric === 0) {
-    return `<span class="metric-neutral">${escapeHtml(text || "0%")}</span>`;
-  }
-
-  if (numeric > 0) {
-    return `<span class="metric-up">${escapeHtml(text)}</span>`;
-  }
-
-  return `<span class="metric-down">${escapeHtml(text)}</span>`;
-}
-
-function signedTextHtml(value) {
-  const text = String(value ?? "0").trim();
-  const numeric = Number(text.replace(/[^\d.-]/g, ""));
-
-  if (!Number.isFinite(numeric) || numeric === 0) {
-    return `<span class="metric-neutral">${escapeHtml(text || "0")}</span>`;
-  }
-
-  if (numeric > 0 || text.startsWith("+")) {
-    return `<span class="metric-up">${escapeHtml(text)}</span>`;
-  }
-
-  return `<span class="metric-down">${escapeHtml(text)}</span>`;
+function guildBadgeHtml(guild) {
+  const normalized = normalizeGuildName(guild);
+  const meta = GUILD_META[normalized];
+  return `<span class="guild-badge ${meta.className}">${escapeHtml(meta.label)}</span>`;
 }
 
 function navLink(href, key, label, currentPage) {
@@ -200,28 +178,20 @@ function renderShell() {
   }
 }
 
-function createPageHeader(title, description = "") {
-  return `
-    <section class="page-hero">
-      <div>
-        <h1 class="page-title">${escapeHtml(title)}</h1>
-        ${description ? `<p class="page-desc">${escapeHtml(description)}</p>` : ""}
-      </div>
-    </section>
-  `;
-}
-
-function createSummaryStatCard(label, value) {
-  return `
-    <div class="summary-stat-card">
-      <div class="summary-stat-label">${escapeHtml(label)}</div>
-      <div class="summary-stat-value">${escapeHtml(value)}</div>
-    </div>
-  `;
-}
-
 function createEmptyBox(message = "데이터가 없습니다.") {
   return `<div class="empty-box">${escapeHtml(message)}</div>`;
+}
+
+function renderLoading(targetId, message = "불러오는 중...") {
+  const el = document.getElementById(targetId);
+  if (!el) return;
+  el.innerHTML = `<div class="loading-box">${escapeHtml(message)}</div>`;
+}
+
+function renderError(targetId, error) {
+  const el = document.getElementById(targetId);
+  if (!el) return;
+  el.innerHTML = `<div class="error-box">${escapeHtml(error?.message || "오류가 발생했습니다.")}</div>`;
 }
 
 function renderNoticeList(posts, options = {}) {
@@ -282,25 +252,13 @@ function renderTipsList(posts, options = {}) {
   `;
 }
 
-function renderLoading(targetId, message = "불러오는 중...") {
-  const el = document.getElementById(targetId);
-  if (!el) return;
-  el.innerHTML = `<div class="loading-box">${escapeHtml(message)}</div>`;
-}
-
-function renderError(targetId, error) {
-  const el = document.getElementById(targetId);
-  if (!el) return;
-  el.innerHTML = `<div class="error-box">${escapeHtml(error?.message || "오류가 발생했습니다.")}</div>`;
-}
-
 function characterAvatarHtml(item) {
   const imageUrl = String(item?.imageUrl || "").trim();
   const name = String(item?.name || "").trim();
   const fallback = name ? escapeHtml(name.slice(0, 1)) : "?";
 
   if (!imageUrl) {
-    return `<div class="character-avatar no-image">${fallback}</div>`;
+    return `<div class="character-avatar no-image"><span class="avatar-fallback">${fallback}</span></div>`;
   }
 
   return `
@@ -316,30 +274,52 @@ function characterAvatarHtml(item) {
     </div>
   `;
 }
-async function getHomeData() {
-  return await fetchApi("home");
+
+function rankTrendHtml(item) {
+  const diff = Number(item?.weeklyRankDiff ?? 0);
+  const direction = item?.weeklyRankDirection || "same";
+
+  if (!diff || direction === "same") {
+    return `<span class="rank-trend neutral">-</span>`;
+  }
+
+  if (direction === "up") {
+    return `<span class="rank-trend up">▲ ${diff}</span>`;
+  }
+
+  if (direction === "down") {
+    return `<span class="rank-trend down">▼ ${diff}</span>`;
+  }
+
+  return `<span class="rank-trend neutral">-</span>`;
 }
 
-async function getRankingData() {
-  return await fetchApi("ranking");
+function growthTextHtml(value) {
+  const text = String(value ?? "0").trim();
+  const numeric = Number(text.replace("%", "").replace(/[^\d.-]/g, ""));
+
+  if (!Number.isFinite(numeric) || numeric === 0) {
+    return `<span class="metric-neutral">${escapeHtml(text || "0%")}</span>`;
+  }
+
+  if (numeric > 0) {
+    return `<span class="metric-up">${escapeHtml(text)}</span>`;
+  }
+
+  return `<span class="metric-down">${escapeHtml(text)}</span>`;
 }
 
-async function getWeeklyData() {
-  return await fetchApi("weekly");
-}
+function signedTextHtml(value) {
+  const text = String(value ?? "0").trim();
+  const numeric = Number(text.replace(/[^\d.-]/g, ""));
 
-async function getGuildsData() {
-  return await fetchApi("guilds");
-}
+  if (!Number.isFinite(numeric) || numeric === 0) {
+    return `<span class="metric-neutral">${escapeHtml(text || "0")}</span>`;
+  }
 
-async function getNoticeData() {
-  return await fetchApi("notice");
-}
+  if (numeric > 0 || text.startsWith("+")) {
+    return `<span class="metric-up">${escapeHtml(text)}</span>`;
+  }
 
-async function getTipsData() {
-  return await fetchApi("tips");
-}
-
-async function getHealthData() {
-  return await fetchApi("health");
+  return `<span class="metric-down">${escapeHtml(text)}</span>`;
 }
