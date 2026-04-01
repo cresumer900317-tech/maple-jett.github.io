@@ -52,6 +52,7 @@ function renderRankingTable(rows, members) {
   tbody.innerHTML = rows.map((row, index) => `
     <tr data-rank-index="${index}">
       <td><span class="rank-badge ${getRankBadgeClass(row.rank)}">${escapeHtml(String(row.rank ?? "-"))}</span></td>
+
       <td>
         <div class="character-cell">
           ${renderCharacterAvatar(row.imageUrl, row.name)}
@@ -63,12 +64,12 @@ function renderRankingTable(rows, members) {
               </span>
             </div>
             <div class="name-sub-row">
-              <span class="name-sub">전체 ${formatNullableRank(row.overallRank)}</span>
               <span class="name-sub">서버 ${formatNullableRank(row.serverRank)}</span>
             </div>
           </div>
         </div>
       </td>
+
       <td><span class="guild-pill ${getGuildClass(row.guild)}">${escapeHtml(row.guild || "길드 없음")}</span></td>
       <td>${formatNumber(row.level)}</td>
       <td>${escapeHtml(row.powerText || "0")}</td>
@@ -173,6 +174,10 @@ function openRankingMemberModal(member) {
       <strong>${escapeHtml(member.guild || "길드 없음")}</strong>
     </div>
     <div class="modal-meta-card">
+      <span>서버 순위</span>
+      <strong>${formatNullableRank(member.serverRank)}</strong>
+    </div>
+    <div class="modal-meta-card">
       <span>레벨</span>
       <strong>${formatNumber(member.level)}</strong>
     </div>
@@ -180,15 +185,11 @@ function openRankingMemberModal(member) {
       <span>전투력</span>
       <strong>${escapeHtml(member.powerText || "0")}</strong>
     </div>
-    <div class="modal-meta-card">
-      <span>인기도</span>
-      <strong>${formatNumber(member.popularity)}</strong>
-    </div>
   `;
 
   weekly.innerHTML = `
     <div class="modal-member-stat">
-      <span>주간 순위 변화</span>
+      <span>주간 서버 순위 변화</span>
       <strong class="${getRankTrendClass(member.weeklyRankDirection)}">${escapeHtml(member.weeklyRankDiffText || "―")}</strong>
     </div>
     <div class="modal-member-stat">

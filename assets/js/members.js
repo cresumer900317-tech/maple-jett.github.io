@@ -104,6 +104,7 @@ function renderMembersPage(state) {
               </div>
               <div class="name-sub-row">
                 <span class="name-sub">${escapeHtml(member.realGuild || member.guild || "길드 없음")}</span>
+                <span class="name-sub">서버 ${formatNullableRank(member.serverRank)}</span>
               </div>
             </div>
           </div>
@@ -125,7 +126,7 @@ function renderMembersPage(state) {
         <th>캐릭터</th>
         <th>길드</th>
         <th>${config.valueLabel}</th>
-        <th>순위 변화</th>
+        <th>서버 순위 변화</th>
         <th>상세</th>
       </tr>
     `;
@@ -141,6 +142,7 @@ function renderMembersPage(state) {
               </div>
               <div class="name-sub-row">
                 <span class="name-sub">${escapeHtml(member.realGuild || member.guild || "길드 없음")}</span>
+                <span class="name-sub">서버 ${formatNullableRank(member.serverRank)}</span>
               </div>
             </div>
           </div>
@@ -235,6 +237,10 @@ function openMemberModal(member) {
       <strong>${escapeHtml(member.guild || "길드 없음")}</strong>
     </div>
     <div class="modal-meta-card">
+      <span>서버 순위</span>
+      <strong>${formatNullableRank(member.serverRank)}</strong>
+    </div>
+    <div class="modal-meta-card">
       <span>레벨</span>
       <strong>${formatNumber(member.level)}</strong>
     </div>
@@ -242,15 +248,11 @@ function openMemberModal(member) {
       <span>전투력</span>
       <strong>${escapeHtml(member.powerText || "0")}</strong>
     </div>
-    <div class="modal-meta-card">
-      <span>인기도</span>
-      <strong>${formatNumber(member.popularity)}</strong>
-    </div>
   `;
 
   weekly.innerHTML = `
     <div class="modal-member-stat">
-      <span>주간 순위 변화</span>
+      <span>주간 서버 순위 변화</span>
       <strong class="${getRankTrendClass(member.weeklyRankDirection)}">${escapeHtml(member.weeklyRankDiffText || "―")}</strong>
     </div>
     <div class="modal-member-stat">
