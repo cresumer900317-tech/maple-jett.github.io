@@ -1,4 +1,4 @@
-const API_URL =
+const API_URL = window.API_URL ||
   "https://script.google.com/macros/s/AKfycbzBH8keceX7BW4AzWNJ1Kw2pOJs0T8Copyd1T42H4BzpmUaCWJdVmEyT4CwL7gNDYRXKA/exec";
 
 const appState = {
@@ -171,7 +171,7 @@ function normalizeHomeData(data) {
 }
 
 async function getHomeData() {
-  const cacheKey = "friends_family_home_data_v140";
+  const cacheKey = "friends_family_home_data_v201";
   const cached = getCache(cacheKey);
 
   if (cached) {
@@ -196,7 +196,7 @@ async function getHomeData() {
 }
 
 async function getNoticePosts() {
-  const cacheKey = "friends_family_notice_posts_v140";
+  const cacheKey = "friends_family_notice_posts_v201";
   const cached = getCache(cacheKey);
   if (cached) return cached;
 
@@ -213,7 +213,7 @@ async function getNoticePosts() {
 }
 
 async function getTipsPosts() {
-  const cacheKey = "friends_family_tips_posts_v140";
+  const cacheKey = "friends_family_tips_posts_v201";
   const cached = getCache(cacheKey);
   if (cached) return cached;
 
@@ -333,9 +333,10 @@ function renderCharacterAvatar(imageUrl, name) {
     `;
   }
 
+  const fallback = String(name || "?").trim().slice(0, 2) || "?";
   return `
     <div class="character-avatar">
-      <span class="character-avatar-fallback">NO IMG</span>
+      <span class="character-avatar-fallback">${escapeHtml(fallback)}</span>
     </div>
   `;
 }
