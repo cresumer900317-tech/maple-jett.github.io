@@ -4,11 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>친구패밀리 | 홈</title>
-  <meta name="description" content="친구패밀리 프리미엄 길드 포털" />
+  <meta name="description" content="친구패밀리 길드 포털" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="./assets/css/style.css?v=rank-premium-002" />
+  <link rel="stylesheet" href="./assets/css/style.css?v=rank-premium-003" />
 </head>
 <body data-page="home">
   <div id="app-shell"></div>
@@ -16,31 +16,23 @@
   <main class="page-wrap">
     <section class="container home-top-grid">
       <section class="surface hero-panel hero-main">
-        <div class="hero-topline">
-          <span class="hero-badge">FRIENDS FAMILY</span>
-          <span class="hero-badge is-purple">GUILD INTELLIGENCE</span>
-          <span class="hero-badge is-soft">LIVE RANK TRACKER</span>
-        </div>
-
-        <p class="eyebrow">PREMIUM MAPLE GUILD INTELLIGENCE</p>
-        <h1 class="hero-title">친구패밀리 통합 랭킹 포털</h1>
-        <p class="hero-desc">
-          친구들 · 친구둘 · 친구삼 · 친구넷 · 친구닷의 랭킹, 성장, 공지, 길드 데이터를
-          빠르고 밀도 있게 확인하는 친구패밀리 전용 포털
+        <h1 class="hero-title">친구패밀리</h1>
+        <p class="hero-desc hero-desc-compact">
+          친구들 · 친구둘 · 친구삼 · 친구넷 · 친구닷의 랭킹, 성장, 공지 데이터를 한곳에서 확인하는 길드 포털
         </p>
 
         <div class="hero-meta-grid">
           <article class="metric-card">
             <span class="metric-label">마지막 갱신</span>
-            <strong class="metric-value" id="latestSnapshotAt">불러오는 중...</strong>
+            <strong class="metric-value nowrap" id="latestSnapshotAt">불러오는 중...</strong>
           </article>
           <article class="metric-card">
             <span class="metric-label">주간 기준</span>
-            <strong class="metric-value" id="weeklyBaseAt">불러오는 중...</strong>
+            <strong class="metric-value nowrap" id="weeklyBaseAt">불러오는 중...</strong>
           </article>
           <article class="metric-card">
             <span class="metric-label">주간 범위</span>
-            <strong class="metric-value" id="weekRange">불러오는 중...</strong>
+            <strong class="metric-value nowrap" id="weekRange">불러오는 중...</strong>
           </article>
         </div>
       </section>
@@ -48,7 +40,6 @@
       <aside class="surface hero-panel hero-side">
         <div class="section-header section-header-tight">
           <div>
-            <p class="eyebrow">SYSTEM STATUS</p>
             <h2 class="section-title">운영 현황</h2>
           </div>
           <div id="apiStatus" class="status-badge is-loading">LOADING</div>
@@ -60,7 +51,6 @@
       <aside class="surface hero-panel hero-notice">
         <div class="section-header section-header-tight">
           <div>
-            <p class="eyebrow">LATEST NOTICE</p>
             <h2 class="section-title">최근 공지</h2>
           </div>
           <a class="section-link" href="./notice.html">전체 보기</a>
@@ -73,7 +63,6 @@
     <section class="container section-block">
       <div class="section-header">
         <div>
-          <p class="eyebrow">Guild Summary</p>
           <h2 class="section-title">길드별 요약</h2>
         </div>
       </div>
@@ -83,7 +72,6 @@
     <section class="container section-block">
       <div class="section-header">
         <div>
-          <p class="eyebrow">Ranking Preview</p>
           <h2 class="section-title">전체 랭킹 TOP 30</h2>
         </div>
         <a class="section-link" href="./ranking.html">전체 순위표 보기</a>
@@ -110,10 +98,9 @@
 
   <div id="guildDetailModal" class="modal hidden" aria-hidden="true">
     <div class="modal-backdrop" data-close-modal="true"></div>
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-scroll">
       <div class="section-header">
         <div>
-          <p class="eyebrow">Guild Detail</p>
           <h3 class="modal-title" id="guildModalTitle">길드 상세</h3>
         </div>
         <button id="guildModalClose" class="modal-close" type="button" aria-label="닫기">✕</button>
@@ -130,8 +117,8 @@
     </div>
   </div>
 
-  <script src="./assets/js/data.js?v=rank-premium-002"></script>
-  <script src="./assets/js/common.js?v=rank-premium-002"></script>
-  <script src="./assets/js/home.js?v=rank-premium-002"></script>
+  <script src="./assets/js/data.js?v=rank-premium-003"></script>
+  <script src="./assets/js/common.js?v=rank-premium-003"></script>
+  <script src="./assets/js/home.js?v=rank-premium-003"></script>
 </body>
 </html>

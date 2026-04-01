@@ -1,9 +1,9 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const data = await getHomeData();
 
-  setText("latestSnapshotAt", formatDateTime(data.meta.latestSnapshotAt));
-  setText("weeklyBaseAt", formatDateTime(data.meta.weeklyBaseAt));
-  setText("weekRange", data.meta.weekRange || "-");
+  setText("latestSnapshotAt", formatDateTimeCompact(data.meta.latestSnapshotAt));
+  setText("weeklyBaseAt", formatDateTimeCompact(data.meta.weeklyBaseAt));
+  setText("weekRange", (data.meta.weekRange || "-").replace(" ~ ", " ~ "));
 
   renderApiStatus();
   renderSummary(data.summary);
@@ -80,11 +80,7 @@ function renderHomeRankingPreview(rows) {
   tbody.innerHTML = preview.map((row) => `
     <tr>
       <td><span class="rank-badge ${getRankBadgeClass(row.rank)}">${escapeHtml(String(row.rank ?? "-"))}</span></td>
-      <td>
-        <div class="name-cell">
-          <span class="name-main">${escapeHtml(row.name || "-")}</span>
-        </div>
-      </td>
+      <td><div class="name-cell"><span class="name-main">${escapeHtml(row.name || "-")}</span></div></td>
       <td><span class="guild-pill ${getGuildClass(row.guild)}">${escapeHtml(row.guild || "길드 없음")}</span></td>
       <td>${formatNumber(row.level)}</td>
       <td>${escapeHtml(row.powerText || "0")}</td>

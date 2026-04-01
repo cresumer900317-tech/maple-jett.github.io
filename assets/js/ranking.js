@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     members: data.members || []
   };
 
-  renderRankingTable(state.rows, state.tab, state.members);
+  renderRankingTable(state.rows, state.members);
   updateRankingSidebar("전투력", state.rows.length);
   setupRankingModalClose();
 
@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     state.tab = button.dataset.tab;
     state.rows = data.rankings[state.tab] || [];
-    renderRankingTable(state.rows, state.tab, state.members);
+    renderRankingTable(state.rows, state.members);
     updateRankingSidebar(getMetricLabel(state.tab), state.rows.length);
     resetSearchStatus();
   });
@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 });
 
-function renderRankingTable(rows, tab, members) {
+function renderRankingTable(rows, members) {
   const tbody = document.getElementById("rankingTableBody");
   if (!tbody) return;
 
@@ -126,7 +126,7 @@ function clearRankingHighlights() {
 function resetSearchStatus() {
   const status = document.getElementById("rankingSearchStatus");
   const input = document.getElementById("rankingSearchInput");
-  if (status) status.textContent = "검색 시 해당 순위 위치로 이동합니다.";
+  if (status) status.textContent = "검색 시 해당 순위로 이동합니다.";
   if (input) input.value = "";
   clearRankingHighlights();
 }

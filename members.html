@@ -8,24 +8,20 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="./assets/css/style.css?v=rank-premium-002" />
+  <link rel="stylesheet" href="./assets/css/style.css?v=rank-premium-003" />
 </head>
 <body data-page="members">
   <div id="app-shell"></div>
 
   <main class="page-wrap">
     <section class="container page-hero">
-      <p class="eyebrow">Roster & Growth</p>
       <h1 class="page-title">인원·성장</h1>
-      <p class="page-desc">
-        전체 인원 디렉토리와 전투력, 레벨, 인기도, 성장률 상승 순위를 한 페이지에서 전환해 볼 수 있습니다.
-      </p>
+      <p class="page-desc">전체 인원 디렉토리와 성장 순위를 한 페이지에서 빠르게 전환해서 볼 수 있습니다.</p>
     </section>
 
     <section class="container section-block ranking-layout">
       <aside class="surface ranking-filter-panel">
         <div class="panel-section">
-          <p class="eyebrow">View Mode</p>
           <h2 class="section-title section-title-small">탭</h2>
 
           <div id="membersModeTabs" class="tab-stack">
@@ -40,7 +36,6 @@
         <div class="panel-divider"></div>
 
         <div class="panel-section">
-          <p class="eyebrow">Filter</p>
           <div class="search-stack">
             <input id="memberSearchInput" class="input" type="text" placeholder="캐릭터명 검색" />
           </div>
@@ -63,7 +58,6 @@
       <section class="surface ranking-main-panel">
         <div class="ranking-panel-head">
           <div>
-            <p class="eyebrow">Roster Table</p>
             <h2 class="section-title" id="membersPageTitle">인원 디렉토리</h2>
           </div>
         </div>
@@ -84,10 +78,9 @@
 
   <div id="memberDetailModal" class="modal hidden" aria-hidden="true">
     <div class="modal-backdrop" data-close-member-modal="true"></div>
-    <div class="modal-dialog modal-dialog-wide">
+    <div class="modal-dialog modal-dialog-wide modal-dialog-scroll">
       <div class="section-header">
         <div>
-          <p class="eyebrow">Character Detail</p>
           <h3 class="modal-title" id="memberModalTitle">캐릭터 상세</h3>
         </div>
         <button id="memberModalClose" class="modal-close" type="button" aria-label="닫기">✕</button>
@@ -104,8 +97,8 @@
     </div>
   </div>
 
-  <script src="./assets/js/data.js?v=rank-premium-002"></script>
-  <script src="./assets/js/common.js?v=rank-premium-002"></script>
-  <script src="./assets/js/members.js?v=rank-premium-002"></script>
+  <script src="./assets/js/data.js?v=rank-premium-003"></script>
+  <script src="./assets/js/common.js?v=rank-premium-003"></script>
+  <script src="./assets/js/members.js?v=rank-premium-003"></script>
 </body>
 </html>
