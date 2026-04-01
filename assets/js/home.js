@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   setText("latestSnapshotAt", formatDateTimeCompact(data.meta.latestSnapshotAt));
   setText("weeklyBaseAt", formatDateTimeCompact(data.meta.weeklyBaseAt));
-  setText("weekRange", (data.meta.weekRange || "-").replace(" ~ ", " ~ "));
+  setText("weekRange", data.meta.weekRange || "-");
 
   renderApiStatus();
   renderSummary(data.summary);
@@ -32,9 +32,9 @@ function renderSummary(summary) {
   if (!root) return;
 
   const cards = [
-    ["총 인원", formatNumber(summary.memberCount)],
+    ["총 인원", `${formatNumber(summary.memberCount)}명`],
     ["평균 레벨", formatDecimal(summary.avgLevel)],
-    ["평균 전투력", summary.avgPowerText || "0"],
+    ["평균 전투력", compactPowerText(summary.avgPowerText || "0")],
     ["평균 인기도", formatDecimal(summary.avgPopularity)]
   ];
 
@@ -80,7 +80,21 @@ function renderHomeRankingPreview(rows) {
   tbody.innerHTML = preview.map((row) => `
     <tr>
       <td><span class="rank-badge ${getRankBadgeClass(row.rank)}">${escapeHtml(String(row.rank ?? "-"))}</span></td>
-      <td><div class="name-cell"><span class="name-main">${escapeHtml(row.name || "-")}</span></div></td>
+      <td>
+        <div class="character-cell">
+          ${renderCharacterAvatar(row.imageUrl, row.name)}
+          <div class="character-meta">
+            <div class="character-name-row">
+              <span class="name-main">${escapeHtml(row.name || "-")}</span>
+              <span class="rank-trend ${getRankTrendClass(row.weeklyRankDirection)}"><strong>${escapeHtml(row.weeklyRankDiffText || "―")}</strong></span>
+            </div>
+            <div class="name-sub-row">
+              <span class="name-sub">서버 ${formatNullableRank(row.serverRank)}</span>
+              <span class="name-sub">전체 ${formatNullableRank(row.overallRank)}</span>
+            </div>
+          </div>
+        </div>
+      </td>
       <td><span class="guild-pill ${getGuildClass(row.guild)}">${escapeHtml(row.guild || "길드 없음")}</span></td>
       <td>${formatNumber(row.level)}</td>
       <td>${escapeHtml(row.powerText || "0")}</td>
@@ -99,40 +113,55 @@ function renderGuildSummary(guilds, members) {
     return;
   }
 
-  root.innerHTML = visibleGuilds.map((guild) => `
-    <article class="guild-summary-card ${getGuildClass(guild.guild)}" data-guild-name="${escapeHtml(guild.guild || "")}">
-      <div class="guild-summary-head">
-        <h3>${escapeHtml(guild.guild || "-")}</h3>
-        <span class="guild-summary-tag">상세보기</span>
-      </div>
+  root.innerHTML = `
+    <section class="surface panel-table guild-summary-table-wrap">
+      <table class="guild-summary-table">
+        <thead>
+          <tr>
+            <th>길드</th>
+            <th>인원</th>
+            <th>평균 레벨</th>
+            <th>평균 전투력</th>
+            <th>평균 인기도</th>
+            <th>상세</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${visibleGuilds.map((guild) => `
+            <tr>
+              <td>
+                <div class="guild-name-cell">
+                  <span class="guild-dot" style="background:${getGuildColor(guild.guild)}"></span>
+                  <strong>${escapeHtml(guild.guild || "-")}</strong>
+                </div>
+              </td>
+              <td>${formatNumber(guild.memberCount)}</td>
+              <td>${formatDecimal(guild.avgLevel)}</td>
+              <td>${escapeHtml(compactPowerText(guild.avgPowerText || "0"))}</td>
+              <td>${formatDecimal(guild.avgPopularity)}</td>
+              <td><button type="button" class="guild-detail-btn" data-guild-name="${escapeHtml(guild.guild || "")}">상세보기</button></td>
+            </tr>
+          `).join("")}
+        </tbody>
+      </table>
+    </section>
+  `;
 
-      <div class="guild-summary-stats">
-        <div class="stat-tile">
-          <span>인원수</span>
-          <strong>${formatNumber(guild.memberCount)}</strong>
-        </div>
-        <div class="stat-tile">
-          <span>평균 레벨</span>
-          <strong>${formatDecimal(guild.avgLevel)}</strong>
-        </div>
-        <div class="stat-tile">
-          <span>평균 전투력</span>
-          <strong>${escapeHtml(guild.avgPowerText || "0")}</strong>
-        </div>
-        <div class="stat-tile">
-          <span>평균 인기도</span>
-          <strong>${formatDecimal(guild.avgPopularity)}</strong>
-        </div>
-      </div>
-    </article>
-  `).join("");
-
-  root.querySelectorAll(".guild-summary-card").forEach((card) => {
-    card.addEventListener("click", () => {
-      const guildName = card.dataset.guildName || "";
+  root.querySelectorAll(".guild-detail-btn").forEach((button) => {
+    button.addEventListener("click", () => {
+      const guildName = button.dataset.guildName || "";
       openGuildModal(guildName, visibleGuilds, members);
     });
   });
+}
+
+function getGuildColor(guild) {
+  if (guild === "친구들") return "#2c6df2";
+  if (guild === "친구둘") return "#1f9d59";
+  if (guild === "친구삼") return "#7c4dff";
+  if (guild === "친구넷") return "#ef7d18";
+  if (guild === "친구닷") return "#df256d";
+  return "#768498";
 }
 
 function openGuildModal(guildName, guilds, members) {
@@ -146,27 +175,15 @@ function openGuildModal(guildName, guilds, members) {
   const guildMembers = [...members]
     .filter((m) => String(m.guild || "") === guildName)
     .sort((a, b) => Number(b.powerValue || 0) - Number(a.powerValue || 0))
-    .slice(0, 3);
+    .slice(0, 5);
 
   title.textContent = guildName;
 
   meta.innerHTML = `
-    <div class="modal-meta-card">
-      <span>인원수</span>
-      <strong>${formatNumber(guildInfo?.memberCount || 0)}</strong>
-    </div>
-    <div class="modal-meta-card">
-      <span>평균 레벨</span>
-      <strong>${formatDecimal(guildInfo?.avgLevel || 0)}</strong>
-    </div>
-    <div class="modal-meta-card">
-      <span>평균 전투력</span>
-      <strong>${escapeHtml(guildInfo?.avgPowerText || "0")}</strong>
-    </div>
-    <div class="modal-meta-card">
-      <span>평균 인기도</span>
-      <strong>${formatDecimal(guildInfo?.avgPopularity || 0)}</strong>
-    </div>
+    <div class="modal-meta-card"><span>인원수</span><strong>${formatNumber(guildInfo?.memberCount || 0)}명</strong></div>
+    <div class="modal-meta-card"><span>평균 레벨</span><strong>${formatDecimal(guildInfo?.avgLevel || 0)}</strong></div>
+    <div class="modal-meta-card"><span>평균 전투력</span><strong>${escapeHtml(compactPowerText(guildInfo?.avgPowerText || "0"))}</strong></div>
+    <div class="modal-meta-card"><span>평균 인기도</span><strong>${formatDecimal(guildInfo?.avgPopularity || 0)}</strong></div>
   `;
 
   if (!guildMembers.length) {
@@ -179,28 +196,15 @@ function openGuildModal(guildName, guilds, members) {
           <div class="modal-member-top">
             <div>
               <h4 class="modal-member-name">${escapeHtml(member.name || "-")}</h4>
-              <div class="modal-member-sub">${escapeHtml(member.realGuild || guildName)}</div>
+              <div class="modal-member-sub">서버 ${formatNullableRank(member.serverRank)} · ${escapeHtml(member.realGuild || guildName)}</div>
             </div>
             <span class="modal-member-rank ${medalClass}">TOP ${index + 1}</span>
           </div>
-
           <div class="modal-member-stats">
-            <div class="modal-member-stat">
-              <span>레벨</span>
-              <strong>${formatNumber(member.level)}</strong>
-            </div>
-            <div class="modal-member-stat">
-              <span>전투력</span>
-              <strong>${escapeHtml(member.powerText || "0")}</strong>
-            </div>
-            <div class="modal-member-stat">
-              <span>인기도</span>
-              <strong>${formatNumber(member.popularity)}</strong>
-            </div>
-            <div class="modal-member-stat">
-              <span>주간 성장률</span>
-              <strong>${escapeHtml(member.weekly?.growthRateText || "0%")}</strong>
-            </div>
+            <div class="modal-member-stat"><span>레벨</span><strong>${formatNumber(member.level)}</strong></div>
+            <div class="modal-member-stat"><span>전투력</span><strong>${escapeHtml(compactPowerText(member.powerText || "0", 3))}</strong></div>
+            <div class="modal-member-stat"><span>인기도</span><strong>${formatNumber(member.popularity)}</strong></div>
+            <div class="modal-member-stat"><span>주간 성장률</span><strong>${escapeHtml(member.weekly?.growthRateText || "0%")}</strong></div>
           </div>
         </article>
       `;
@@ -226,11 +230,7 @@ function setupGuildModalClose() {
   if (!modal) return;
 
   closeBtn?.addEventListener("click", closeGuildModal);
-
-  modal.querySelectorAll("[data-close-modal='true']").forEach((el) => {
-    el.addEventListener("click", closeGuildModal);
-  });
-
+  modal.querySelectorAll("[data-close-modal='true']").forEach((el) => el.addEventListener("click", closeGuildModal));
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") closeGuildModal();
   });

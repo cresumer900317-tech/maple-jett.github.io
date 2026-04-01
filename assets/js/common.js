@@ -22,6 +22,7 @@ function renderShell() {
     ${navLink("./index.html", "home", "홈", page)}
     ${navLink("./ranking.html", "ranking", "랭킹", page)}
     ${navLink("./members.html", "members", "인원·성장", page)}
+    ${navLink("./weekly.html", "weekly", "주간 TOP", page)}
     ${navLink("./notice.html", "notice", "공지", page)}
     ${navLink("./tips.html", "tips", "꿀팁", page)}
   `;
@@ -248,6 +249,10 @@ function formatDateTimeCompact(value) {
   return `${yyyy}.${mm}.${dd} ${hh}:${mi}`;
 }
 
+function formatDateTime(value) {
+  return formatDateTimeCompact(value);
+}
+
 function formatDateOnly(value) {
   if (!value) return "-";
   const date = new Date(value);
@@ -270,9 +275,25 @@ function formatDecimal(value) {
   }).format(Number(value ?? 0));
 }
 
+
+function compactPowerText(text, units = 2) {
+  const value = String(text || '').trim();
+  if (!value) return '0';
+  const tokens = value.match(/\d+[경조억만]/g);
+  if (!tokens || !tokens.length) return value;
+  return tokens.slice(0, units).join(' ');
+}
+
 function formatNullableRank(value) {
   if (value === null || value === undefined || value === "") return "-";
   return `${formatNumber(value)}위`;
+}
+
+function formatSignedNumber(value) {
+  const numeric = Number(value || 0);
+  if (numeric > 0) return `+${formatNumber(numeric)}`;
+  if (numeric < 0) return `-${formatNumber(Math.abs(numeric))}`;
+  return "0";
 }
 
 function getRankBadgeClass(rank) {
@@ -329,27 +350,31 @@ function renderCharacterAvatar(imageUrl, name) {
   `;
 }
 
-
 function renderBoardList(targetId, posts) {
   const root = document.getElementById(targetId);
   if (!root) return;
+
   const items = Array.isArray(posts) ? posts : [];
   if (!items.length) {
     root.innerHTML = `<div class="empty-state">게시글이 없습니다.</div>`;
     return;
   }
+
   root.innerHTML = items.map((post) => `
-    <article class="board-item">
-      <div class="board-item-top">
-        <div class="board-meta">
-          <span class="board-badge">${escapeHtml(post.category || '게시글')}</span>
-          <span>${escapeHtml(formatDateOnly(post.createdAt))}</span>
-          ${post.isPinned ? '<span class="board-badge">고정</span>' : ''}
+    <article class="board-card">
+      <div class="board-top">
+        <div>
+          <span class="board-category">${escapeHtml(post.category || "게시글")}</span>
+          ${post.isPinned ? `<span class="board-pin">고정</span>` : ""}
         </div>
-        <div class="board-meta">${escapeHtml(post.author || '')}</div>
+        <span class="notice-compact-date">${escapeHtml(formatDateOnly(post.createdAt))}</span>
       </div>
-      <h3 class="board-item-title">${escapeHtml(post.title || '-')}</h3>
-      <div class="board-item-content">${escapeHtml(post.content || '')}</div>
+      <h3 class="board-title">${escapeHtml(post.title || "-")}</h3>
+      <div class="board-content">${escapeHtml(post.content || "")}</div>
+      <div class="board-meta-row">
+        <span>작성자 ${escapeHtml(post.author || "운영진")}</span>
+        <span>ID ${escapeHtml(String(post.id || "-"))}</span>
+      </div>
     </article>
-  `).join('');
+  `).join("");
 }
