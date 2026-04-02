@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("home-page").innerHTML = `
       <section class="hero-card home-hero">
         <div class="hero-copy">
-          <div class="eyebrow">CHINGU FAMILY</div>
+          <div class="eyebrow">함께해서 즐거운</div>
           <h1 class="hero-title">친구패밀리</h1>
           <p class="hero-desc">길드 현황, 통합 랭킹, 주간 성장, 서버 순위 변화를 한 화면에서 관리하는 패밀리 대시보드</p>
         </div>
