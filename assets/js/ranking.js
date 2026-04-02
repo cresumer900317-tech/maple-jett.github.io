@@ -7,30 +7,37 @@ document.addEventListener("DOMContentLoaded", async () => {
   renderLoading("ranking-page", "랭킹 데이터를 불러오는 중...");
 
   try {
-    const data = await getRankingData();
-    root.innerHTML = renderRankingPage(data);
-    bindRankingEvents(data);
+    const rows = await loadRankingRows();
+    root.innerHTML = renderRankingPage(rows);
+    bindRankingEvents();
   } catch (error) {
     console.error(error);
     renderError("ranking-page", error);
   }
 });
 
-function renderRankingPage(data) {
-  const rankings = Array.isArray(data?.rankings?.power) ? data.rankings.power : [];
-  const updatedAt = data?.latestSnapshotAt || data?.updatedAt || null;
+async function loadRankingRows() {
+  const response = await fetch("./data/ranking.json?v=2", { cache: "no-store" });
+  if (!response.ok) {
+    throw new Error(`ranking.json 로드 실패: ${response.status}`);
+  }
 
+  const data = await response.json();
+  return Array.isArray(data) ? data : [];
+}
+
+function renderRankingPage(rows) {
   return `
     <section class="section-card">
       <div class="section-header">
         <div>
-          <h1 class="section-title">전체 순위표</h1>
-          <p class="section-subtitle">길드원 서버 순위 기준 정렬</p>
+          <h1 class="section-title">서버 순위표</h1>
+          <p class="section-subtitle">Python이 생성한 ranking.json 기준 정렬</p>
         </div>
       </div>
 
       <div class="table-toolbar">
-        <div class="value-soft">마지막 갱신 ${escapeHtml(formatDateTime(updatedAt))}</div>
+        <div class="value-soft">총 ${escapeHtml(formatNumber(rows.length))}명</div>
 
         <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
           <label class="search-box">
@@ -53,15 +60,12 @@ function renderRankingPage(data) {
               <th class="col-rank">순위</th>
               <th class="col-character">캐릭터</th>
               <th class="col-guild">길드</th>
-              <th class="col-lv">Lv</th>
               <th class="col-power">전투력</th>
-              <th class="col-pop">인기도</th>
-              <th class="col-diff">순위 변화</th>
-              <th class="col-action">상세</th>
+              <th class="col-diff">주간 변화</th>
             </tr>
           </thead>
           <tbody id="rankingTableBody">
-            ${renderRankingRows(rankings)}
+            ${renderRankingRows(rows)}
           </tbody>
         </table>
       </div>
@@ -73,15 +77,13 @@ function renderRankingRows(rows) {
   if (!Array.isArray(rows) || rows.length === 0) {
     return `
       <tr>
-        <td colspan="8">
-          ${createEmptyBox("랭킹 데이터가 없습니다.")}
-        </td>
+        <td colspan="5">${createEmptyBox("랭킹 데이터가 없습니다.")}</td>
       </tr>
     `;
   }
 
   return rows.map((item, index) => {
-    const displayRank = Number(item.serverRank || index + 1);
+    const rank = Number(item.rank || index + 1);
     const medalClass =
       index === 0 ? "top1" :
       index === 1 ? "top2" :
@@ -89,58 +91,39 @@ function renderRankingRows(rows) {
 
     return `
       <tr data-character-row="${escapeHtml(String(item.name || "").toLowerCase())}">
-        <td class="col-rank">
-          <span class="rank-medal ${medalClass}">${escapeHtml(String(displayRank))}</span>
-        </td>
-
+        <td class="col-rank"><span class="rank-medal ${medalClass}">${escapeHtml(String(rank))}</span></td>
         <td class="col-character">
           <div class="character-cell">
-            ${characterAvatarHtml(item)}
-
+            <div class="character-avatar-wrap">
+              <img
+                class="character-avatar"
+                src="${escapeHtml(item.image || "")}" 
+                alt="${escapeHtml(item.name || "캐릭터 이미지")}" 
+                loading="lazy"
+                decoding="async"
+                referrerpolicy="no-referrer"
+                onerror="this.style.display='none'"
+              />
+            </div>
             <div class="character-main">
               <div class="character-name-row">
                 <span class="character-name">${escapeHtml(item.name || "-")}</span>
               </div>
-
               <div class="character-sub">
-                <span class="emphasis-rank">서버 ${escapeHtml(String(item.serverRank || "-"))}위</span>
-                ${item.weeklyRankDiffText ? rankTrendHtml(item) : `<span class="rank-trend neutral">-</span>`}
+                <span>${escapeHtml(item.job || "-")}</span>
               </div>
             </div>
           </div>
         </td>
-
-        <td class="col-guild">
-          ${guildBadgeHtml(item.guild || "길드 없음")}
-        </td>
-
-        <td class="col-lv">
-          <span class="value-strong">Lv ${escapeHtml(String(item.level || "-"))}</span>
-        </td>
-
-        <td class="col-power">
-          <span class="value-strong">${escapeHtml(fullPowerText(item.powerText || "-"))}</span>
-        </td>
-
-        <td class="col-pop">
-          <span class="value-strong">${escapeHtml(formatNumber(item.popularity || 0))}</span>
-        </td>
-
-        <td class="col-diff">
-          ${rankTrendHtml(item)}
-        </td>
-
-        <td class="col-action">
-          <button class="detail-btn" type="button" onclick='openRankingDetail(${safeJson(item)})'>
-            상세보기
-          </button>
-        </td>
+        <td class="col-guild">${guildBadgeHtml(item.guild || "길드 없음")}</td>
+        <td class="col-power"><span class="value-strong">${escapeHtml(formatNumber(item.power || 0))}</span></td>
+        <td class="col-diff"><span class="value-strong">+${escapeHtml(formatNumber(item.weekly_diff || 0))}</span></td>
       </tr>
     `;
   }).join("");
 }
 
-function bindRankingEvents(data) {
+function bindRankingEvents() {
   const input = document.getElementById("rankingSearchInput");
   const resetButton = document.getElementById("rankingResetButton");
   const body = document.getElementById("rankingTableBody");
@@ -187,36 +170,4 @@ function bindRankingEvents(data) {
       input.focus();
     });
   }
-}
-
-function openRankingDetail(item) {
-  const name = item?.name || "-";
-  const guild = item?.guild || "길드 없음";
-  const level = item?.level || "-";
-  const power = item?.powerText || "-";
-  const popularity = item?.popularity || 0;
-  const serverRank = item?.serverRank || "-";
-  const rankDiff = item?.weeklyRankDiffText || "-";
-  const growth = item?.weeklyGrowthRateText || "-";
-
-  alert(
-    [
-      `캐릭터명: ${name}`,
-      `길드: ${guild}`,
-      `서버 순위: ${serverRank}위`,
-      `레벨: Lv ${level}`,
-      `전투력: ${power}`,
-      `인기도: ${formatNumber(popularity)}`,
-      `주간 순위 변화: ${rankDiff}`,
-      `주간 성장률: ${growth}`
-    ].join("\n")
-  );
-}
-
-function safeJson(value) {
-  return JSON.stringify(value)
-    .replace(/</g, "\\u003c")
-    .replace(/>/g, "\\u003e")
-    .replace(/&/g, "\\u0026")
-    .replace(/'/g, "\\u0027");
 }
