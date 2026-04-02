@@ -1,0 +1,38 @@
+[
+  {
+    "rank": 1,
+    "name": "퍼푸치노",
+    "job": "전사",
+    "power": 152300,
+    "guild": "친구팸",
+    "image": "https://mgf.gg/ranking/ranking_image.php?n=%ED%8D%BC%ED%91%B8%EC%B9%98%EB%85%B8",
+    "weekly_diff": 1200
+  },
+  {
+    "rank": 2,
+    "name": "루미엘",
+    "job": "법사",
+    "power": 149800,
+    "guild": "친구팸",
+    "image": "https://mgf.gg/ranking/ranking_image.php?n=%EB%A3%A8%EB%AF%B8%EC%97%98",
+    "weekly_diff": 900
+  },
+  {
+    "rank": 3,
+    "name": "세이라",
+    "job": "궁수",
+    "power": 141200,
+    "guild": "친구팸",
+    "image": "https://mgf.gg/ranking/ranking_image.php?n=%EC%84%B8%EC%9D%B4%EB%9D%BC",
+    "weekly_diff": 1500
+  },
+  {
+    "rank": 4,
+    "name": "카인",
+    "job": "도적",
+    "power": 138000,
+    "guild": "친구팸",
+    "image": "https://mgf.gg/ranking/ranking_image.php?n=%EC%B9%B4%EC%9D%B8",
+    "weekly_diff": 300
+  }
+]
