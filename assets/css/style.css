@@ -35,3 +35,54 @@
   .rank-power{font-size:1rem}
   .meta-grid.four{grid-template-columns:1fr}
 }
+.character-avatar{
+  width:128px !important;
+  height:128px !important;
+  border-radius:22px;
+}
+
+.character-avatar img{
+  transform:scale(3.2) !important;
+  object-position:center 30% !important;
+}
+.rank-chip{
+  width:72px !important;
+  height:72px !important;
+  font-size:1.6rem !important;
+  border-radius:20px;
+}
+
+/* 금 */
+.rank-chip.medal-gold{
+  background:linear-gradient(180deg,#ffe59a 0%,#d9a928 100%);
+  box-shadow:0 6px 20px rgba(217,169,40,.35);
+}
+
+/* 은 */
+.rank-chip.medal-silver{
+  background:linear-gradient(180deg,#f1f5f9 0%,#b8c4d3 100%);
+}
+
+/* 동 */
+.rank-chip.medal-bronze{
+  background:linear-gradient(180deg,#ffd8bd 0%,#c97a45 100%);
+}
+.rank-subline{
+  font-size:0.95rem;
+  gap:10px;
+}
+
+/* 직업 */
+.rank-subline .job-text{
+  font-weight:600 !important;
+  color:#64748b !important; /* 회색 */
+}
+
+/* 레벨 */
+.rank-subline .level-text{
+  font-weight:900 !important;
+  color:#1e293b !important; /* 진한 네이비 */
+}
+.card-topline{
+  grid-template-columns: minmax(0,1fr) 150px !important;
+}
