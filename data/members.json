@@ -52,23 +52,6 @@
   },
   {
     "rank": 4,
-    "guildRank": 1,
-    "name": "개군보",
-    "job": "신궁",
-    "power": 150237264290000,
-    "powerText": "150조 2372억 6429만",
-    "guild": "친구넷",
-    "image": "",
-    "weeklyDiff": 0,
-    "level": 104,
-    "overallRank": 0,
-    "serverRank": 48,
-    "popularity": 385,
-    "detailUrl": "https://mgf.gg/contents/character.php?n=%EA%B0%9C%EA%B5%B0%EB%B3%B4",
-    "isMaster": false
-  },
-  {
-    "rank": 5,
     "guildRank": 4,
     "name": "새우탕z",
     "job": "보우마스터",
@@ -85,7 +68,7 @@
     "isMaster": false
   },
   {
-    "rank": 6,
+    "rank": 5,
     "guildRank": 5,
     "name": "ykm21cc",
     "job": "아크메이지(썬,콜)",
@@ -102,7 +85,7 @@
     "isMaster": false
   },
   {
-    "rank": 7,
+    "rank": 6,
     "guildRank": 6,
     "name": "칭구야",
     "job": "아크메이지(불,독)",
@@ -119,7 +102,7 @@
     "isMaster": false
   },
   {
-    "rank": 8,
+    "rank": 7,
     "guildRank": 7,
     "name": "껌정색",
     "job": "다크나이트",
@@ -136,7 +119,7 @@
     "isMaster": false
   },
   {
-    "rank": 9,
+    "rank": 8,
     "guildRank": 8,
     "name": "ggggg",
     "job": "히어로",
@@ -153,7 +136,7 @@
     "isMaster": false
   },
   {
-    "rank": 10,
+    "rank": 9,
     "guildRank": 9,
     "name": "다헐",
     "job": "섀도어",
@@ -170,7 +153,7 @@
     "isMaster": false
   },
   {
-    "rank": 11,
+    "rank": 10,
     "guildRank": 10,
     "name": "신림동물개",
     "job": "아크메이지(썬,콜)",
@@ -187,7 +170,7 @@
     "isMaster": false
   },
   {
-    "rank": 12,
+    "rank": 11,
     "guildRank": 11,
     "name": "리피트",
     "job": "섀도어",
@@ -204,7 +187,7 @@
     "isMaster": false
   },
   {
-    "rank": 13,
+    "rank": 12,
     "guildRank": 12,
     "name": "Malgogi",
     "job": "아크메이지(썬,콜)",
@@ -221,7 +204,7 @@
     "isMaster": false
   },
   {
-    "rank": 14,
+    "rank": 13,
     "guildRank": 13,
     "name": "이남선",
     "job": "섀도어",
@@ -238,24 +221,7 @@
     "isMaster": false
   },
   {
-    "rank": 15,
-    "guildRank": 2,
-    "name": "애정해",
-    "job": "다크나이트",
-    "power": 8817033240000,
-    "powerText": "8조 8170억 3324만",
-    "guild": "친구넷",
-    "image": "",
-    "weeklyDiff": 0,
-    "level": 101,
-    "overallRank": 0,
-    "serverRank": 210,
-    "popularity": 106,
-    "detailUrl": "https://mgf.gg/contents/character.php?n=%EC%95%A0%EC%A0%95%ED%95%B4",
-    "isMaster": false
-  },
-  {
-    "rank": 16,
+    "rank": 14,
     "guildRank": 14,
     "name": "마근혜슘",
     "job": "섀도어",
@@ -272,7 +238,7 @@
     "isMaster": false
   },
   {
-    "rank": 17,
+    "rank": 15,
     "guildRank": 15,
     "name": "친구닷",
     "job": "다크나이트",
@@ -289,7 +255,7 @@
     "isMaster": true
   },
   {
-    "rank": 18,
+    "rank": 16,
     "guildRank": 16,
     "name": "v지훈왕자v",
     "job": "아크메이지(썬,콜)",
@@ -306,7 +272,7 @@
     "isMaster": false
   },
   {
-    "rank": 19,
+    "rank": 17,
     "guildRank": 17,
     "name": "조은거임",
     "job": "신궁",
@@ -323,7 +289,7 @@
     "isMaster": false
   },
   {
-    "rank": 20,
+    "rank": 18,
     "guildRank": 18,
     "name": "냉동붕어",
     "job": "섀도어",
@@ -340,7 +306,7 @@
     "isMaster": false
   },
   {
-    "rank": 21,
+    "rank": 19,
     "guildRank": 19,
     "name": "앙순아",
     "job": "섀도어",
@@ -357,7 +323,7 @@
     "isMaster": false
   },
   {
-    "rank": 22,
+    "rank": 20,
     "guildRank": 1,
     "name": "두단",
     "job": "아크메이지(썬,콜)",
@@ -374,7 +340,7 @@
     "isMaster": false
   },
   {
-    "rank": 23,
+    "rank": 21,
     "guildRank": 20,
     "name": "관저동멋쟁이",
     "job": "섀도어",
@@ -391,7 +357,7 @@
     "isMaster": false
   },
   {
-    "rank": 24,
+    "rank": 22,
     "guildRank": 21,
     "name": "네모인간",
     "job": "섀도어",
@@ -408,7 +374,7 @@
     "isMaster": false
   },
   {
-    "rank": 25,
+    "rank": 23,
     "guildRank": 22,
     "name": "보우모모",
     "job": "보우마스터",
@@ -425,7 +391,7 @@
     "isMaster": false
   },
   {
-    "rank": 26,
+    "rank": 24,
     "guildRank": 23,
     "name": "Silas",
     "job": "섀도어",
@@ -442,7 +408,7 @@
     "isMaster": false
   },
   {
-    "rank": 27,
+    "rank": 25,
     "guildRank": 24,
     "name": "뿡풍",
     "job": "섀도어",
@@ -459,7 +425,7 @@
     "isMaster": false
   },
   {
-    "rank": 28,
+    "rank": 26,
     "guildRank": 25,
     "name": "친구둘리",
     "job": "섀도어",
@@ -476,7 +442,7 @@
     "isMaster": false
   },
   {
-    "rank": 29,
+    "rank": 27,
     "guildRank": 26,
     "name": "후비",
     "job": "섀도어",
@@ -493,7 +459,7 @@
     "isMaster": false
   },
   {
-    "rank": 30,
+    "rank": 28,
     "guildRank": 2,
     "name": "징어튀김",
     "job": "아크메이지(썬,콜)",
@@ -510,7 +476,7 @@
     "isMaster": false
   },
   {
-    "rank": 31,
+    "rank": 29,
     "guildRank": 27,
     "name": "갓친",
     "job": "아크메이지(불,독)",
@@ -527,7 +493,7 @@
     "isMaster": false
   },
   {
-    "rank": 32,
+    "rank": 30,
     "guildRank": 28,
     "name": "예끔이",
     "job": "섀도어",
@@ -544,7 +510,7 @@
     "isMaster": false
   },
   {
-    "rank": 33,
+    "rank": 31,
     "guildRank": 29,
     "name": "진성규",
     "job": "섀도어",
@@ -561,7 +527,7 @@
     "isMaster": false
   },
   {
-    "rank": 34,
+    "rank": 32,
     "guildRank": 1,
     "name": "쩨돌",
     "job": "히어로",
@@ -578,7 +544,7 @@
     "isMaster": false
   },
   {
-    "rank": 35,
+    "rank": 33,
     "guildRank": 30,
     "name": "잘좀해봐",
     "job": "섀도어",
@@ -595,7 +561,7 @@
     "isMaster": false
   },
   {
-    "rank": 36,
+    "rank": 34,
     "guildRank": 3,
     "name": "비비디디",
     "job": "나이트로드",
@@ -612,7 +578,7 @@
     "isMaster": false
   },
   {
-    "rank": 37,
+    "rank": 35,
     "guildRank": 2,
     "name": "백작남",
     "job": "아크메이지(썬,콜)",
@@ -629,7 +595,7 @@
     "isMaster": false
   },
   {
-    "rank": 38,
+    "rank": 36,
     "guildRank": 4,
     "name": "주눅몽",
     "job": "신궁",
@@ -646,7 +612,7 @@
     "isMaster": false
   },
   {
-    "rank": 39,
+    "rank": 37,
     "guildRank": 3,
     "name": "endstate",
     "job": "아크메이지(썬,콜)",
@@ -663,7 +629,7 @@
     "isMaster": false
   },
   {
-    "rank": 40,
+    "rank": 38,
     "guildRank": 5,
     "name": "김수호랑이",
     "job": "섀도어",
@@ -680,7 +646,7 @@
     "isMaster": false
   },
   {
-    "rank": 41,
+    "rank": 39,
     "guildRank": 4,
     "name": "표묘",
     "job": "보우마스터",
@@ -697,7 +663,7 @@
     "isMaster": false
   },
   {
-    "rank": 42,
+    "rank": 40,
     "guildRank": 5,
     "name": "블랙불",
     "job": "아크메이지(썬,콜)",
@@ -714,7 +680,7 @@
     "isMaster": false
   },
   {
-    "rank": 43,
+    "rank": 41,
     "guildRank": 6,
     "name": "형원쓰",
     "job": "아크메이지(썬,콜)",
@@ -731,7 +697,7 @@
     "isMaster": false
   },
   {
-    "rank": 44,
+    "rank": 42,
     "guildRank": 6,
     "name": "도그윤",
     "job": "아크메이지(썬,콜)",
@@ -748,7 +714,7 @@
     "isMaster": false
   },
   {
-    "rank": 45,
+    "rank": 43,
     "guildRank": 7,
     "name": "이쿠요잇",
     "job": "섀도어",
@@ -765,7 +731,7 @@
     "isMaster": false
   },
   {
-    "rank": 46,
+    "rank": 44,
     "guildRank": 8,
     "name": "인더빛",
     "job": "팔라딘",
@@ -782,7 +748,7 @@
     "isMaster": false
   },
   {
-    "rank": 47,
+    "rank": 45,
     "guildRank": 9,
     "name": "이속버프",
     "job": "아크메이지(썬,콜)",
@@ -799,7 +765,7 @@
     "isMaster": false
   },
   {
-    "rank": 48,
+    "rank": 46,
     "guildRank": 7,
     "name": "민서리",
     "job": "섀도어",
@@ -816,7 +782,7 @@
     "isMaster": false
   },
   {
-    "rank": 49,
+    "rank": 47,
     "guildRank": 8,
     "name": "앙무",
     "job": "아크메이지(썬,콜)",
@@ -833,7 +799,7 @@
     "isMaster": false
   },
   {
-    "rank": 50,
+    "rank": 48,
     "guildRank": 9,
     "name": "키키켜켜쿄쿄",
     "job": "아크메이지(썬,콜)",
@@ -850,7 +816,7 @@
     "isMaster": false
   },
   {
-    "rank": 51,
+    "rank": 49,
     "guildRank": 10,
     "name": "중경전도사",
     "job": "섀도어",
@@ -867,7 +833,7 @@
     "isMaster": false
   },
   {
-    "rank": 52,
+    "rank": 50,
     "guildRank": 10,
     "name": "머쉬룸존맛",
     "job": "섀도어",
@@ -884,7 +850,7 @@
     "isMaster": false
   },
   {
-    "rank": 53,
+    "rank": 51,
     "guildRank": 11,
     "name": "꼬꼬미묘",
     "job": "아크메이지(썬,콜)",
@@ -901,7 +867,7 @@
     "isMaster": false
   },
   {
-    "rank": 54,
+    "rank": 52,
     "guildRank": 11,
     "name": "카오팡",
     "job": "나이트로드",
@@ -918,7 +884,7 @@
     "isMaster": false
   },
   {
-    "rank": 55,
+    "rank": 53,
     "guildRank": 12,
     "name": "뼝규",
     "job": "섀도어",
@@ -935,7 +901,7 @@
     "isMaster": false
   },
   {
-    "rank": 56,
+    "rank": 54,
     "guildRank": 12,
     "name": "귀찬우디",
     "job": "섀도어",
@@ -952,7 +918,7 @@
     "isMaster": false
   },
   {
-    "rank": 57,
+    "rank": 55,
     "guildRank": 13,
     "name": "임차돌",
     "job": "비숍",
@@ -969,7 +935,7 @@
     "isMaster": false
   },
   {
-    "rank": 58,
+    "rank": 56,
     "guildRank": 13,
     "name": "옳잖",
     "job": "섀도어",
@@ -986,7 +952,7 @@
     "isMaster": false
   },
   {
-    "rank": 59,
+    "rank": 57,
     "guildRank": 14,
     "name": "노대규",
     "job": "다크나이트",
@@ -1003,7 +969,7 @@
     "isMaster": false
   },
   {
-    "rank": 60,
+    "rank": 58,
     "guildRank": 14,
     "name": "정어l겐",
     "job": "섀도어",
@@ -1020,7 +986,7 @@
     "isMaster": false
   },
   {
-    "rank": 61,
+    "rank": 59,
     "guildRank": 15,
     "name": "시크릿성듀듀",
     "job": "비숍",
@@ -1037,7 +1003,7 @@
     "isMaster": false
   },
   {
-    "rank": 62,
+    "rank": 60,
     "guildRank": 16,
     "name": "아이언맨사냥",
     "job": "섀도어",
@@ -1054,7 +1020,7 @@
     "isMaster": false
   },
   {
-    "rank": 63,
+    "rank": 61,
     "guildRank": 17,
     "name": "셧셧",
     "job": "팔라딘",
@@ -1071,7 +1037,7 @@
     "isMaster": false
   },
   {
-    "rank": 64,
+    "rank": 62,
     "guildRank": 15,
     "name": "우디클라",
     "job": "아크메이지(썬,콜)",
@@ -1088,7 +1054,7 @@
     "isMaster": false
   },
   {
-    "rank": 65,
+    "rank": 63,
     "guildRank": 16,
     "name": "면쁘",
     "job": "아크메이지(불,독)",
@@ -1105,7 +1071,7 @@
     "isMaster": false
   },
   {
-    "rank": 66,
+    "rank": 64,
     "guildRank": 18,
     "name": "최강지존뱅뱅",
     "job": "아크메이지(썬,콜)",
@@ -1122,7 +1088,7 @@
     "isMaster": false
   },
   {
-    "rank": 67,
+    "rank": 65,
     "guildRank": 3,
     "name": "시크릿성쥬쥬",
     "job": "아크메이지(썬,콜)",
@@ -1139,7 +1105,7 @@
     "isMaster": false
   },
   {
-    "rank": 68,
+    "rank": 66,
     "guildRank": 4,
     "name": "너구리z",
     "job": "섀도어",
@@ -1156,7 +1122,7 @@
     "isMaster": false
   },
   {
-    "rank": 69,
+    "rank": 67,
     "guildRank": 5,
     "name": "개그콘서트",
     "job": "보우마스터",
@@ -1173,7 +1139,7 @@
     "isMaster": false
   },
   {
-    "rank": 70,
+    "rank": 68,
     "guildRank": 19,
     "name": "쪼록센세",
     "job": "히어로",
@@ -1190,7 +1156,7 @@
     "isMaster": false
   },
   {
-    "rank": 71,
+    "rank": 69,
     "guildRank": 17,
     "name": "호잉7",
     "job": "섀도어",
@@ -1207,7 +1173,7 @@
     "isMaster": false
   },
   {
-    "rank": 72,
+    "rank": 70,
     "guildRank": 20,
     "name": "교정기아프다",
     "job": "아크메이지(썬,콜)",
@@ -1224,7 +1190,7 @@
     "isMaster": false
   },
   {
-    "rank": 73,
+    "rank": 71,
     "guildRank": 21,
     "name": "낚찌뽀끔",
     "job": "다크나이트",
@@ -1241,7 +1207,7 @@
     "isMaster": false
   },
   {
-    "rank": 74,
+    "rank": 72,
     "guildRank": 6,
     "name": "왕뚜껑z",
     "job": "아크메이지(불,독)",
@@ -1258,7 +1224,7 @@
     "isMaster": false
   },
   {
-    "rank": 75,
+    "rank": 73,
     "guildRank": 22,
     "name": "라댜",
     "job": "비숍",
@@ -1275,7 +1241,7 @@
     "isMaster": false
   },
   {
-    "rank": 76,
+    "rank": 74,
     "guildRank": 18,
     "name": "마캐",
     "job": "팔라딘",
@@ -1292,7 +1258,7 @@
     "isMaster": false
   },
   {
-    "rank": 77,
+    "rank": 75,
     "guildRank": 19,
     "name": "v명주공주v",
     "job": "섀도어",
@@ -1309,7 +1275,7 @@
     "isMaster": false
   },
   {
-    "rank": 78,
+    "rank": 76,
     "guildRank": 23,
     "name": "박영규",
     "job": "보우마스터",
@@ -1326,7 +1292,7 @@
     "isMaster": false
   },
   {
-    "rank": 79,
+    "rank": 77,
     "guildRank": 20,
     "name": "최까봉",
     "job": "보우마스터",
@@ -1343,7 +1309,7 @@
     "isMaster": false
   },
   {
-    "rank": 80,
+    "rank": 78,
     "guildRank": 21,
     "name": "강테토",
     "job": "신궁",
@@ -1360,7 +1326,7 @@
     "isMaster": false
   },
   {
-    "rank": 81,
+    "rank": 79,
     "guildRank": 22,
     "name": "루배",
     "job": "신궁",
@@ -1377,7 +1343,7 @@
     "isMaster": false
   },
   {
-    "rank": 82,
+    "rank": 80,
     "guildRank": 7,
     "name": "신라면z",
     "job": "팔라딘",
@@ -1394,7 +1360,7 @@
     "isMaster": false
   },
   {
-    "rank": 83,
+    "rank": 81,
     "guildRank": 23,
     "name": "배차둘",
     "job": "섀도어",
@@ -1411,7 +1377,7 @@
     "isMaster": false
   },
   {
-    "rank": 84,
+    "rank": 82,
     "guildRank": 24,
     "name": "흰색이",
     "job": "다크나이트",
@@ -1428,7 +1394,7 @@
     "isMaster": false
   },
   {
-    "rank": 85,
+    "rank": 83,
     "guildRank": 24,
     "name": "냥미011",
     "job": "섀도어",
@@ -1445,7 +1411,7 @@
     "isMaster": true
   },
   {
-    "rank": 86,
+    "rank": 84,
     "guildRank": 25,
     "name": "퍼푸치노",
     "job": "비숍",
@@ -1462,24 +1428,7 @@
     "isMaster": false
   },
   {
-    "rank": 87,
-    "guildRank": 26,
-    "name": "유지율",
-    "job": "나이트로드",
-    "power": 178717560000,
-    "powerText": "1787억 1756만",
-    "guild": "친구둘",
-    "image": "",
-    "weeklyDiff": 0,
-    "level": 90,
-    "overallRank": 0,
-    "serverRank": 0,
-    "popularity": 0,
-    "detailUrl": "https://mgf.gg/contents/character.php?n=%EC%9C%A0%EC%A7%80%EC%9C%A8",
-    "isMaster": false
-  },
-  {
-    "rank": 88,
+    "rank": 85,
     "guildRank": 8,
     "name": "핀세모",
     "job": "비숍",
@@ -1496,7 +1445,7 @@
     "isMaster": false
   },
   {
-    "rank": 89,
+    "rank": 86,
     "guildRank": 9,
     "name": "말술",
     "job": "신궁",
@@ -1513,7 +1462,7 @@
     "isMaster": false
   },
   {
-    "rank": 90,
+    "rank": 87,
     "guildRank": 27,
     "name": "이나북",
     "job": "섀도어",
@@ -1530,7 +1479,7 @@
     "isMaster": false
   },
   {
-    "rank": 91,
+    "rank": 88,
     "guildRank": 28,
     "name": "에스터스",
     "job": "비숍",
@@ -1547,7 +1496,7 @@
     "isMaster": false
   },
   {
-    "rank": 92,
+    "rank": 89,
     "guildRank": 25,
     "name": "새싹전붕이",
     "job": "신궁",
@@ -1564,7 +1513,7 @@
     "isMaster": false
   },
   {
-    "rank": 93,
+    "rank": 90,
     "guildRank": 26,
     "name": "유니블루",
     "job": "신궁",
@@ -1581,7 +1530,7 @@
     "isMaster": false
   },
   {
-    "rank": 94,
+    "rank": 91,
     "guildRank": 29,
     "name": "친구둘",
     "job": "다크나이트",
@@ -1598,7 +1547,7 @@
     "isMaster": true
   },
   {
-    "rank": 95,
+    "rank": 92,
     "guildRank": 27,
     "name": "빌베이",
     "job": "비숍",
@@ -1615,7 +1564,7 @@
     "isMaster": false
   },
   {
-    "rank": 96,
+    "rank": 93,
     "guildRank": 30,
     "name": "부산깔매기",
     "job": "신궁",
@@ -1632,7 +1581,7 @@
     "isMaster": false
   },
   {
-    "rank": 97,
+    "rank": 94,
     "guildRank": 28,
     "name": "훅창",
     "job": "다크나이트",
@@ -1649,7 +1598,7 @@
     "isMaster": false
   },
   {
-    "rank": 98,
+    "rank": 95,
     "guildRank": 10,
     "name": "친구덜",
     "job": "비숍",
@@ -1666,7 +1615,7 @@
     "isMaster": false
   },
   {
-    "rank": 99,
+    "rank": 96,
     "guildRank": 29,
     "name": "귀여우신애",
     "job": "아크메이지(불,독)",
@@ -1683,7 +1632,24 @@
     "isMaster": false
   },
   {
-    "rank": 100,
+    "rank": 97,
+    "guildRank": 31,
+    "name": "마라탕수육",
+    "job": "보우마스터",
+    "power": 6166730000,
+    "powerText": "61억 6673만",
+    "guild": "친구둘",
+    "image": "",
+    "weeklyDiff": 0,
+    "level": 81,
+    "overallRank": 0,
+    "serverRank": 0,
+    "popularity": 4,
+    "detailUrl": "https://mgf.gg/contents/character.php?n=%EB%A7%88%EB%9D%BC%ED%83%95%EC%88%98%EC%9C%A1",
+    "isMaster": false
+  },
+  {
+    "rank": 98,
     "guildRank": 30,
     "name": "이해티",
     "job": "아크메이지(썬,콜)",
@@ -1700,7 +1666,7 @@
     "isMaster": false
   },
   {
-    "rank": 101,
+    "rank": 99,
     "guildRank": 4,
     "name": "슈펴사이",
     "job": "보우마스터",
@@ -1717,7 +1683,7 @@
     "isMaster": false
   },
   {
-    "rank": 102,
+    "rank": 100,
     "guildRank": 11,
     "name": "수파사이",
     "job": "아크메이지(썬,콜)",
@@ -1734,7 +1700,7 @@
     "isMaster": true
   },
   {
-    "rank": 103,
+    "rank": 101,
     "guildRank": 5,
     "name": "수퍼사이",
     "job": "아크메이지(썬,콜)",
@@ -1751,7 +1717,7 @@
     "isMaster": false
   },
   {
-    "rank": 104,
+    "rank": 102,
     "guildRank": 6,
     "name": "슈퍼시이",
     "job": "비숍",
@@ -1768,7 +1734,7 @@
     "isMaster": true
   },
   {
-    "rank": 105,
+    "rank": 103,
     "guildRank": 12,
     "name": "힝힝호수",
     "job": "나이트로드",
