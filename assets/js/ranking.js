@@ -27,11 +27,19 @@ function renderRankingPage(rows){
   `;
 }
 
+function rankChipHtml(rank){
+  const n = Number(rank || 0);
+  if (n === 1) return `<div class="rank-chip medal-gold">🥇</div>`;
+  if (n === 2) return `<div class="rank-chip medal-silver">🥈</div>`;
+  if (n === 3) return `<div class="rank-chip medal-bronze">🥉</div>`;
+  return `<div class="rank-chip rank-default">${n}</div>`;
+}
+
 function rankingCard(item, displayRank){
   return `
     <article class="list-card" data-character-row="${escapeHtml(String(item.name||'').toLowerCase())}">
       <div class="card-left">
-        <div class="rank-chip">${displayRank}</div>
+        ${rankChipHtml(displayRank)}
         ${characterAvatarHtml(item)}
       </div>
       <div class="card-main">
@@ -40,8 +48,8 @@ function rankingCard(item, displayRank){
             <div class="rank-name">${escapeHtml(item.name||'-')}</div>
             <div class="rank-subline">
               ${guildBadgeHtml(item.guild||'길드 없음')}
-              <span>${escapeHtml(item.job||'-')}</span>
-              <span>Lv ${escapeHtml(item.level||'-')}</span>
+              <span class="job-text">${escapeHtml(item.job||'-')}</span>
+              <span class="level-text">Lv ${escapeHtml(item.level||'-')}</span>
             </div>
           </div>
           <div class="rank-power">${escapeHtml(formatCompactPower(item.powerText||'-'))}</div>
