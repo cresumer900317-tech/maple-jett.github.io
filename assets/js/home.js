@@ -3,10 +3,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   renderLoading("home-page", "홈 데이터를 불러오는 중...");
 
   try {
-    const data = await getHomeData();
+    const summary = await getHomeData();
     const members = await getGuildsData().catch(() => []);
     const root = document.getElementById("home-page");
-    root.innerHTML = renderHomePage(data, members);
+    root.innerHTML = renderHomePage(summary, members);
   } catch (error) {
     console.error(error);
     renderError("home-page", error);
@@ -26,7 +26,7 @@ function renderHomePage(summary, members) {
       </div>
       <div class="kpi-grid">
         ${kpiCard("총 인원", formatNumber(summary.member_count || 0))}
-        ${kpiCard("최고 전투력", fullPowerText(summary.top_power || 0))}
+        ${kpiCard("최고 전투력", escapeHtml(formatCompactPower(summary.top_power || "0")))}
         ${kpiCard("상위 멤버", escapeHtml(summary.top_member || "-"))}
         ${kpiCard("주간 성장 1위", escapeHtml(summary.top_growth_name || "-"))}
       </div>
@@ -77,7 +77,7 @@ function topMemberCard(item, rank) {
         <div class="top-member-name">${escapeHtml(item.name || "-")}</div>
         <div class="top-member-sub">${guildBadgeHtml(item.guild || "길드 없음")} <span>Lv ${escapeHtml(item.level || "-")}</span></div>
       </div>
-      <div class="top-member-power">${escapeHtml(formatCompactPower(item.powerText || item.power_text || "-"))}</div>
+      <div class="top-member-power">${escapeHtml(formatCompactPower(item.powerText || "-"))}</div>
     </article>
   `;
 }
@@ -103,7 +103,7 @@ function guildSummaryCard(guild, rows) {
       </div>
       <div class="guild-summary-body">
         <div class="guild-summary-name">${escapeHtml(best?.name || "-")}</div>
-        <div class="guild-summary-meta">최고 전투력 · ${escapeHtml(formatCompactPower(best?.powerText || best?.power_text || "-"))}</div>
+        <div class="guild-summary-meta">최고 전투력 · ${escapeHtml(formatCompactPower(best?.powerText || "-"))}</div>
       </div>
     </article>
   `;

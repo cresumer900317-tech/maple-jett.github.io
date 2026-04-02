@@ -20,7 +20,7 @@ function renderRankingPage(rows) {
       <div class="section-head">
         <div>
           <h1 class="section-title">길드 통합 랭킹</h1>
-          <p class="section-sub">모바일 최적화 카드형 정렬</p>
+          <p class="section-sub">서버 순위 / 인기도 반영</p>
         </div>
       </div>
 
@@ -42,9 +42,10 @@ function renderRankingPage(rows) {
 function rankingCard(item, displayRank) {
   const guild = item.guild || "길드 없음";
   const level = item.level || "-";
-  const powerShort = formatCompactPower(item.powerText || item.power_text || "-");
-  const powerFull = fullPowerText(item.powerText || item.power_text || "-");
-  const popularity = item.popularity ?? null;
+  const powerShort = formatCompactPower(item.powerText || "-");
+  const powerFull = fullPowerText(item.powerText || "-");
+  const popularity = Number(item.popularity || 0);
+  const serverRank = Number(item.serverRank || 0);
 
   return `
     <article class="rank-card compact-rank-card" data-character-row="${escapeHtml(String(item.name || "").toLowerCase())}">
@@ -72,19 +73,17 @@ function rankingCard(item, displayRank) {
             <strong>${escapeHtml(displayRank)}</strong>
           </div>
           <div class="mini-stat">
+            <span>서버 순위</span>
+            <strong>${serverRank ? escapeHtml(formatNumber(serverRank)) + "위" : "-"}</strong>
+          </div>
+          <div class="mini-stat">
+            <span>인기도</span>
+            <strong>${escapeHtml(formatNumber(popularity))}</strong>
+          </div>
+          <div class="mini-stat">
             <span>전투력</span>
             <strong>${escapeHtml(powerFull)}</strong>
           </div>
-          <div class="mini-stat">
-            <span>주간 변화</span>
-            <strong>${rankTrendHtml(item)}</strong>
-          </div>
-          ${popularity !== null ? `
-            <div class="mini-stat">
-              <span>인기도</span>
-              <strong>${escapeHtml(formatNumber(popularity))}</strong>
-            </div>
-          ` : ``}
         </div>
       </div>
     </article>

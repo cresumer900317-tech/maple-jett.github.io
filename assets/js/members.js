@@ -62,8 +62,8 @@ function memberCard(item, rank) {
         <div class="member-name">${escapeHtml(item.name || "-")}</div>
         <div class="member-subline"><span>${escapeHtml(item.job || "-")}</span><span>Lv ${escapeHtml(item.level || "-")}</span></div>
         <div class="member-meta-grid">
-          <div class="mini-stat"><span>전투력</span><strong>${escapeHtml(formatCompactPower(item.powerText || item.power_text || "-"))}</strong></div>
-          <div class="mini-stat"><span>서버 순위</span><strong>${escapeHtml(item.serverRank || rank)}</strong></div>
+          <div class="mini-stat"><span>전투력</span><strong>${escapeHtml(formatCompactPower(item.powerText || "-"))}</strong></div>
+          <div class="mini-stat"><span>서버 순위</span><strong>${item.serverRank ? escapeHtml(formatNumber(item.serverRank)) + "위" : "-"}</strong></div>
         </div>
       </div>
     </article>

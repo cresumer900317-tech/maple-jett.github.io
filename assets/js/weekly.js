@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 function renderWeeklyPage(rows) {
-  const topRows = [...rows].sort((a, b) => Number(b.weeklyDiff || b.weekly_diff || 0) - Number(a.weeklyDiff || a.weekly_diff || 0)).slice(0, 10);
+  const topRows = [...rows].sort((a, b) => Number(b.weeklyDiff || 0) - Number(a.weeklyDiff || 0)).slice(0, 10);
 
   return `
     <section class="page-card">
@@ -32,7 +32,7 @@ function renderWeeklyPage(rows) {
 }
 
 function weeklyCard(item, rank) {
-  const diff = item.weeklyDiff ?? item.weekly_diff ?? 0;
+  const diff = item.weeklyDiff ?? 0;
   return `
     <article class="weekly-card">
       <div class="weekly-card-left">
@@ -44,7 +44,7 @@ function weeklyCard(item, rank) {
         <div class="rank-subline">${guildBadgeHtml(item.guild || "길드 없음")} <span>${escapeHtml(item.job || "-")}</span></div>
         <div class="weekly-bottom-row">
           <div class="mini-stat"><span>성장량</span><strong>${metricHtml(diff)}</strong></div>
-          <div class="mini-stat"><span>현재 전투력</span><strong>${escapeHtml(formatCompactPower(item.powerText || item.power_text || "-"))}</strong></div>
+          <div class="mini-stat"><span>현재 전투력</span><strong>${escapeHtml(formatCompactPower(item.powerText || "-"))}</strong></div>
         </div>
       </div>
     </article>

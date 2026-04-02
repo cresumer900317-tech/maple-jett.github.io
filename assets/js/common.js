@@ -35,15 +35,6 @@ function formatNumber(value) {
   return new Intl.NumberFormat("ko-KR").format(num);
 }
 
-function formatDecimal(value, digits = 2) {
-  const num = Number(value ?? 0);
-  if (!Number.isFinite(num)) return "-";
-  return num.toLocaleString("ko-KR", {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: digits
-  });
-}
-
 function fullPowerText(text) {
   const raw = String(text || "").trim();
   return raw || "-";
@@ -79,10 +70,9 @@ function metricHtml(value) {
 }
 
 function rankTrendHtml(item) {
-  const diff = Number(item?.weeklyRankDiff ?? item?.weeklyDiff ?? 0);
-  const direction = item?.weeklyRankDirection || (diff > 0 ? "up" : diff < 0 ? "down" : "same");
-  if (!diff || direction === "same") return `<span class="rank-trend neutral">-</span>`;
-  if (direction === "up") return `<span class="rank-trend up">▲ ${Math.abs(diff)}</span>`;
+  const diff = Number(item?.weeklyDiff ?? 0);
+  if (!diff) return `<span class="rank-trend neutral">-</span>`;
+  if (diff > 0) return `<span class="rank-trend up">▲ ${Math.abs(diff)}</span>`;
   return `<span class="rank-trend down">▼ ${Math.abs(diff)}</span>`;
 }
 
