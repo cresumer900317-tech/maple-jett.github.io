@@ -222,3 +222,107 @@ main{padding:16px 0 40px}
   .guild-summary-grid{grid-template-columns:1fr}
   .rank-meta-grid,.member-meta-grid,.weekly-bottom-row,.kpi-grid{grid-template-columns:1fr}
 }
+
+
+/* ranking mobile cleanup */
+.compact-rank-list{
+  gap:10px;
+}
+.compact-rank-card{
+  grid-template-columns: auto 1fr;
+  gap:12px;
+  padding:12px;
+}
+.compact-rank-left{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:8px;
+}
+.compact-rank-main{
+  min-width:0;
+}
+.compact-rank-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:10px;
+}
+.compact-rank-title-wrap{
+  min-width:0;
+  flex:1;
+}
+.compact-stat-grid{
+  display:grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap:8px;
+  margin-top:10px;
+}
+.compact-rank-card .mini-stat{
+  padding:9px 10px;
+}
+.compact-rank-card .mini-stat span{
+  font-size:.72rem;
+}
+.compact-rank-card .mini-stat strong{
+  font-size:.86rem;
+}
+.compact-rank-card .character-avatar{
+  width:86px;
+  height:86px;
+}
+.compact-rank-card .character-avatar img{
+  transform:scale(2.5);
+}
+.compact-rank-card .rank-chip{
+  width:30px;
+  height:30px;
+  border-radius:10px;
+}
+.compact-rank-card .rank-name{
+  font-size:1.06rem;
+}
+.compact-rank-card .rank-subline{
+  font-size:.82rem;
+  gap:5px;
+  margin-top:4px;
+}
+.compact-rank-card .rank-power{
+  font-size:.96rem;
+  line-height:1.2;
+  margin-top:1px;
+}
+.ranking-mobile-page .toolbar-card{
+  padding:10px;
+}
+.ranking-mobile-page .search-field{
+  min-width:0;
+}
+@media (max-width: 560px){
+  .ranking-mobile-page{
+    padding:14px;
+  }
+  .compact-rank-card{
+    padding:10px;
+    gap:10px;
+  }
+  .compact-rank-card .character-avatar{
+    width:76px;
+    height:76px;
+    border-radius:16px;
+  }
+  .compact-rank-card .character-avatar img{
+    transform:scale(2.35);
+  }
+  .compact-rank-head{
+    display:block;
+  }
+  .compact-rank-card .rank-power{
+    margin-top:7px;
+    text-align:left;
+  }
+  .compact-stat-grid{
+    grid-template-columns:1fr 1fr;
+    gap:7px;
+  }
+}
