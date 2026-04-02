@@ -9,9 +9,7 @@ const GUILD_META = {
 
 async function fetchLocalJson(filename) {
   const response = await fetch(`./data/${filename}`, { cache: "no-store" });
-  if (!response.ok) {
-    throw new Error(`데이터 파일을 불러오지 못했습니다: ${filename}`);
-  }
+  if (!response.ok) throw new Error(`데이터 파일을 불러오지 못했습니다: ${filename}`);
   return response.json();
 }
 
@@ -21,7 +19,6 @@ const getWeeklyData = () => fetchLocalJson("weekly.json");
 const getGuildsData = () => fetchLocalJson("members.json");
 const getNoticeData = async () => ({ posts: [] });
 const getTipsData = async () => ({ posts: [] });
-const getHealthData = async () => ({ ok: true });
 
 function escapeHtml(value) {
   return String(value ?? "")
@@ -47,32 +44,15 @@ function formatDecimal(value, digits = 2) {
   });
 }
 
-function formatDateTime(value) {
-  if (!value) return "-";
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return String(value);
-  const parts = new Intl.DateTimeFormat("ko-KR", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false
-  }).formatToParts(date);
-  const map = Object.fromEntries(parts.filter(p => p.type !== "literal").map(p => [p.type, p.value]));
-  return `${map.year}.${map.month}.${map.day} ${map.hour}:${map.minute}`;
-}
-
-function formatCompactPower(text) {
-  const raw = String(text || "").trim();
-  if (!raw) return "-";
-  const parts = raw.split(/\s+/).filter(Boolean);
-  return parts.length <= 2 ? raw : parts.slice(0, 2).join(" ");
-}
-
 function fullPowerText(text) {
   const raw = String(text || "").trim();
   return raw || "-";
+}
+
+function formatCompactPower(text) {
+  const raw = fullPowerText(text);
+  const parts = raw.split(/\s+/).filter(Boolean);
+  return parts.length <= 2 ? raw : parts.slice(0, 2).join(" ");
 }
 
 function normalizeGuildName(guild) {
@@ -117,11 +97,11 @@ function renderShell() {
   const page = document.body.dataset.page || "home";
   const links = `
     ${navLink("./index.html", "home", "홈", page)}
-    ${navLink("./ranking.html", "ranking", "전체랭킹", page)}
-    ${navLink("./members.html", "members", "인원·성장", page)}
-    ${navLink("./weekly.html", "weekly", "주간 TOP", page)}
+    ${navLink("./ranking.html", "ranking", "랭킹", page)}
+    ${navLink("./members.html", "members", "길드원", page)}
+    ${navLink("./weekly.html", "weekly", "주간성장", page)}
     ${navLink("./notice.html", "notice", "공지", page)}
-    ${navLink("./tips.html", "tips", "꿀팁", page)}
+    ${navLink("./tips.html", "tips", "팁", page)}
   `;
 
   root.innerHTML = `
@@ -129,7 +109,7 @@ function renderShell() {
       <div class="container site-header-inner">
         <a class="brand-box" href="./index.html">
           <span class="brand-title">친구패밀리</span>
-          <span class="brand-sub">Guild Ranking Portal</span>
+          <span class="brand-sub">Guild Portal</span>
         </a>
         <nav class="nav-menu">${links}</nav>
         <button id="mobileMenuButton" class="mobile-menu-btn" type="button" aria-label="메뉴 열기">☰</button>
@@ -177,19 +157,15 @@ function characterAvatarHtml(item) {
 function renderBoardList(posts, emptyMessage) {
   if (!Array.isArray(posts) || posts.length === 0) return createEmptyBox(emptyMessage);
   return `
-    <div class="board-list">
+    <div class="notice-stack">
       ${posts.map(post => `
-        <article class="board-item">
-          <div class="board-item-top">
-            <span class="board-category">${escapeHtml(post.category || "게시글")}</span>
-            ${post.isPinned ? `<span class="board-pin">고정</span>` : ""}
+        <article class="notice-card">
+          <div class="notice-top">
+            <span class="notice-chip">${escapeHtml(post.category || "게시글")}</span>
+            ${post.isPinned ? `<span class="notice-pin">고정</span>` : ""}
           </div>
-          <h3 class="board-title">${escapeHtml(post.title || "")}</h3>
-          <p class="board-content">${escapeHtml(post.content || "")}</p>
-          <div class="board-meta">
-            <span>${escapeHtml(post.author || "")}</span>
-            <span>${escapeHtml(post.createdAt || "")}</span>
-          </div>
+          <h3 class="notice-title">${escapeHtml(post.title || "")}</h3>
+          <p class="notice-content">${escapeHtml(post.content || "")}</p>
         </article>
       `).join("")}
     </div>

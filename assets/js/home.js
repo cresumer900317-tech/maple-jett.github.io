@@ -3,84 +3,108 @@ document.addEventListener("DOMContentLoaded", async () => {
   renderLoading("home-page", "홈 데이터를 불러오는 중...");
 
   try {
-    const data = await loadHomeSummary();
+    const data = await getHomeData();
+    const members = await getGuildsData().catch(() => []);
     const root = document.getElementById("home-page");
-    if (!root) return;
-    root.innerHTML = renderHomeSummary(data);
+    root.innerHTML = renderHomePage(data, members);
   } catch (error) {
     console.error(error);
     renderError("home-page", error);
   }
 });
 
-async function loadHomeSummary() {
-  const response = await fetch("./data/home-summary.json?v=2", { cache: "no-store" });
-  if (!response.ok) {
-    throw new Error(`home-summary.json 로드 실패: ${response.status}`);
-  }
-  return response.json();
-}
-
-function renderHomeSummary(data) {
-  const guildName = data?.guild_name || "친구패밀리";
-  const memberCount = Number(data?.member_count || 0);
-  const topMember = data?.top_member || "-";
-  const topPower = Number(data?.top_power || 0);
-  const topGrowthName = data?.top_growth_name || "-";
-  const topGrowthValue = Number(data?.top_growth_value || 0);
+function renderHomePage(summary, members) {
+  const topMembers = Array.isArray(members) ? [...members].sort((a, b) => Number(b.power || 0) - Number(a.power || 0)).slice(0, 5) : [];
+  const guildGroups = groupByGuild(members);
 
   return `
-    <div class="page-grid">
-      <div class="home-top">
-        <section class="panel hero-panel">
-          <h1 class="hero-title">${escapeHtml(guildName)}</h1>
-          <p class="hero-desc">Python이 생성한 경량 JSON만 읽는 홈 화면입니다. 첫 진입 속도를 우선으로 구성했습니다.</p>
-          <div class="hero-meta-grid">
-            <div class="meta-card">
-              <div class="meta-label">길드명</div>
-              <div class="meta-value">${escapeHtml(guildName)}</div>
-            </div>
-            <div class="meta-card">
-              <div class="meta-label">총 인원</div>
-              <div class="meta-value">${escapeHtml(formatNumber(memberCount))}</div>
-            </div>
-            <div class="meta-card">
-              <div class="meta-label">데이터 소스</div>
-              <div class="meta-value">Local JSON</div>
-            </div>
-          </div>
-        </section>
-
-        <section class="panel summary-panel">
-          <div class="panel-head">
-            <div>
-              <h2 class="panel-title">핵심 요약</h2>
-              <p class="panel-subtitle">첫 화면에서 꼭 필요한 값만 표시</p>
-            </div>
-            <span class="live-badge">FAST</span>
-          </div>
-          <div class="summary-grid">
-            <div class="stat-card">
-              <div class="stat-label">최고 전투력</div>
-              <div class="stat-value">${escapeHtml(topMember)}</div>
-              <div class="stat-sub">${escapeHtml(formatNumber(topPower))}</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-label">주간 성장 1위</div>
-              <div class="stat-value">${escapeHtml(topGrowthName)}</div>
-              <div class="stat-sub">+${escapeHtml(formatNumber(topGrowthValue))}</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-label">멤버 페이지</div>
-              <div class="stat-value"><a class="section-link" href="./members.html">이동</a></div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-label">랭킹 페이지</div>
-              <div class="stat-value"><a class="section-link" href="./ranking.html">이동</a></div>
-            </div>
-          </div>
-        </section>
+    <section class="hero-card">
+      <div class="hero-copy">
+        <div class="eyebrow">GUILD PORTAL</div>
+        <h1 class="hero-title">친구패밀리</h1>
+        <p class="hero-desc">친구들 · 친구둘 · 친구삼 · 친구넷 · 친구닷 길드원을 모바일에서도 보기 편하게 정리한 길드 포털</p>
       </div>
-    </div>
+      <div class="kpi-grid">
+        ${kpiCard("총 인원", formatNumber(summary.member_count || 0))}
+        ${kpiCard("최고 전투력", fullPowerText(summary.top_power || 0))}
+        ${kpiCard("상위 멤버", escapeHtml(summary.top_member || "-"))}
+        ${kpiCard("주간 성장 1위", escapeHtml(summary.top_growth_name || "-"))}
+      </div>
+    </section>
+
+    <section class="section-block">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title">전투력 TOP 5</h2>
+          <p class="section-sub">가장 강한 길드원</p>
+        </div>
+        <a class="section-link" href="./ranking.html">전체 보기</a>
+      </div>
+      <div class="top-stack">
+        ${topMembers.length ? topMembers.map((item, index) => topMemberCard(item, index + 1)).join("") : createEmptyBox("데이터가 없습니다.")}
+      </div>
+    </section>
+
+    <section class="section-block">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title">길드별 요약</h2>
+          <p class="section-sub">길드별 인원과 상위 멤버</p>
+        </div>
+      </div>
+      <div class="guild-summary-grid">
+        ${Object.entries(guildGroups).map(([guild, rows]) => guildSummaryCard(guild, rows)).join("")}
+      </div>
+    </section>
+  `;
+}
+
+function kpiCard(label, value) {
+  return `
+    <article class="kpi-card">
+      <div class="kpi-label">${label}</div>
+      <div class="kpi-value">${value}</div>
+    </article>
+  `;
+}
+
+function topMemberCard(item, rank) {
+  return `
+    <article class="top-member-card">
+      <div class="top-rank-badge">${rank}</div>
+      ${characterAvatarHtml(item)}
+      <div class="top-member-main">
+        <div class="top-member-name">${escapeHtml(item.name || "-")}</div>
+        <div class="top-member-sub">${guildBadgeHtml(item.guild || "길드 없음")} <span>Lv ${escapeHtml(item.level || "-")}</span></div>
+      </div>
+      <div class="top-member-power">${escapeHtml(formatCompactPower(item.powerText || item.power_text || "-"))}</div>
+    </article>
+  `;
+}
+
+function groupByGuild(rows) {
+  const grouped = {};
+  (Array.isArray(rows) ? rows : []).forEach((row) => {
+    const guild = normalizeGuildName(row.guild || "길드 없음");
+    grouped[guild] ||= [];
+    grouped[guild].push(row);
+  });
+  return grouped;
+}
+
+function guildSummaryCard(guild, rows) {
+  const sorted = [...rows].sort((a, b) => Number(b.power || 0) - Number(a.power || 0));
+  const best = sorted[0];
+  return `
+    <article class="guild-summary-card">
+      <div class="guild-summary-top">
+        ${guildBadgeHtml(guild)}
+        <span class="guild-summary-count">${formatNumber(rows.length)}명</span>
+      </div>
+      <div class="guild-summary-body">
+        <div class="guild-summary-name">${escapeHtml(best?.name || "-")}</div>
+        <div class="guild-summary-meta">최고 전투력 · ${escapeHtml(formatCompactPower(best?.powerText || best?.power_text || "-"))}</div>
+      </div>
+    </article>
   `;
 }
