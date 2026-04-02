@@ -35,9 +35,17 @@ function formatNumber(value) {
   return new Intl.NumberFormat("ko-KR").format(num);
 }
 
+function formatRate(value) {
+  const num = Number(value ?? 0);
+  if (!Number.isFinite(num)) return "-";
+  return `${num.toFixed(2)}%`;
+}
+
 function fullPowerText(text) {
-  const raw = String(text || "").trim();
-  return raw || "-";
+  if (typeof text === "string" && text.trim()) return text.trim();
+  const num = Number(text ?? 0);
+  if (!Number.isFinite(num)) return "-";
+  return new Intl.NumberFormat("ko-KR").format(num);
 }
 
 function formatCompactPower(text) {
@@ -58,21 +66,22 @@ function guildBadgeHtml(guild) {
 }
 
 function metricClass(value) {
-  const text = String(value ?? "0").trim();
-  const numeric = Number(text.replace(/[^\d+\-.]/g, ""));
-  if (!Number.isFinite(numeric) || numeric === 0) return "metric-neutral";
-  return numeric > 0 || text.startsWith("+") ? "metric-up" : "metric-down";
+  const num = Number(value ?? 0);
+  if (!Number.isFinite(num) || num === 0) return "metric-neutral";
+  return num > 0 ? "metric-up" : "metric-down";
 }
 
-function metricHtml(value) {
-  const text = String(value ?? "0").trim() || "0";
-  return `<span class="${metricClass(text)}">${escapeHtml(text)}</span>`;
+function metricHtml(value, suffix = "") {
+  const num = Number(value ?? 0);
+  const text = !Number.isFinite(num) ? "-" : `${num > 0 ? "+" : ""}${formatNumber(num)}${suffix}`;
+  return `<span class="${metricClass(num)}">${escapeHtml(text)}</span>`;
 }
 
 function rankTrendHtml(item) {
-  const diff = Number(item?.weeklyDiff ?? 0);
-  if (!diff) return `<span class="rank-trend neutral">-</span>`;
-  if (diff > 0) return `<span class="rank-trend up">▲ ${Math.abs(diff)}</span>`;
+  const diff = Number(item?.serverRankDiff ?? 0);
+  const direction = item?.serverRankDirection || (diff > 0 ? "up" : diff < 0 ? "down" : "same");
+  if (!diff || direction === "same") return `<span class="rank-trend neutral">-</span>`;
+  if (direction === "up") return `<span class="rank-trend up">▲ ${Math.abs(diff)}</span>`;
   return `<span class="rank-trend down">▼ ${Math.abs(diff)}</span>`;
 }
 
@@ -93,13 +102,12 @@ function renderShell() {
     ${navLink("./notice.html", "notice", "공지", page)}
     ${navLink("./tips.html", "tips", "팁", page)}
   `;
-
   root.innerHTML = `
     <header class="site-header-bar">
       <div class="container site-header-inner">
         <a class="brand-box" href="./index.html">
           <span class="brand-title">친구패밀리</span>
-          <span class="brand-sub">Guild Portal</span>
+          <span class="brand-sub">Guild Dashboard</span>
         </a>
         <nav class="nav-menu">${links}</nav>
         <button id="mobileMenuButton" class="mobile-menu-btn" type="button" aria-label="메뉴 열기">☰</button>
@@ -109,7 +117,6 @@ function renderShell() {
       </div>
     </header>
   `;
-
   const mobileMenuButton = document.getElementById("mobileMenuButton");
   const mobileNavPanel = document.getElementById("mobileNavPanel");
   if (mobileMenuButton && mobileNavPanel) {
@@ -160,4 +167,14 @@ function renderBoardList(posts, emptyMessage) {
       `).join("")}
     </div>
   `;
+}
+
+function byGuild(rows) {
+  const grouped = {};
+  (Array.isArray(rows) ? rows : []).forEach((row) => {
+    const guild = normalizeGuildName(row.guild || "길드 없음");
+    grouped[guild] ||= [];
+    grouped[guild].push(row);
+  });
+  return grouped;
 }
