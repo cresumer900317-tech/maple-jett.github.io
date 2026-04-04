@@ -308,9 +308,9 @@ main { padding: 0 0 48px; }
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 30%;
+  object-position: center 15%;
   transform: scale(3.2);
-  transform-origin: center center;
+  transform-origin: center 20%;
 }
 .character-avatar.no-image {
   display: flex;
@@ -460,20 +460,20 @@ main { padding: 0 0 48px; }
 
 /* ===== 랭크 칩 ===== */
 .rank-chip {
-  width: 56px;
-  height: 56px;
+  width: 64px;
+  height: 64px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   border-radius: var(--radius-md);
   font-weight: 700;
-  font-size: 1.1rem;
+  font-size: 2rem;
   flex: 0 0 auto;
 }
 .rank-chip.medal-gold { background: var(--yellow-pale); color: var(--amber-darker); border: 1px solid var(--yellow-border); }
 .rank-chip.medal-silver { background: #f1f5f9; color: #42566f; border: 1px solid #cad4de; }
 .rank-chip.medal-bronze { background: #ffeedd; color: #7c3810; border: 1px solid #f5c4a0; }
-.rank-chip.rank-default { background: var(--bg); color: var(--text-soft); border: 1px solid var(--border); font-size: 1rem; }
+.rank-chip.rank-default { background: var(--bg); color: var(--text-soft); border: 1px solid var(--border); font-size: 1.1rem; font-weight: 700; }
 
 /* ===== 길드 배지 ===== */
 .guild-badge {
