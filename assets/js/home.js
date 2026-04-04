@@ -111,10 +111,14 @@ document.addEventListener("DOMContentLoaded", async () => {
                 ? Math.round(list.reduce((s, r) => s + Number(r.power || 0), 0) / list.length)
                 : 0;
               const isFull = list.length >= 30;
+              const guildLevel = list.length > 0 ? (list[0].guildLevel || 0) : 0;
               return `
                 <div class="guild-board-card ${isFull ? "full" : "active"}" data-guild="${escapeHtml(guild)}" style="cursor:pointer;">
                   <div class="guild-board-emoji">😊</div>
-                  <div class="guild-board-name">${escapeHtml(guild)}</div>
+                  <div class="guild-board-name">
+                    ${escapeHtml(guild)}
+                    ${guildLevel ? `<span class="guild-board-lv">Lv.${String(guildLevel).padStart(2, "0")}</span>` : ""}
+                  </div>
                   <div class="guild-board-stat">
                     <div class="guild-board-stat-label">인원</div>
                     <div class="guild-board-stat-val accent">${formatNumber(list.length)}명</div>

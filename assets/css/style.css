@@ -270,7 +270,25 @@ main { padding: 0 0 48px; }
 }
 .guild-board-card:hover { border-color: var(--yellow-border); }
 .guild-board-emoji { font-size: 28px; margin-bottom: 8px; }
-.guild-board-name { font-size: 1.05rem; font-weight: 700; color: var(--amber-darker); margin-bottom: 12px; }
+.guild-board-name {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--amber-darker);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.guild-board-lv {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--text-faint);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 1px 7px;
+}
 .guild-board-card.full {
   background: #f0fdf4;
   border-color: #bbf7d0;
