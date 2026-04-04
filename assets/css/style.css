@@ -275,8 +275,300 @@ main { padding: 0 0 48px; }
   border-color: var(--yellow-border);
 }
 .guild-board-card:hover { border-color: var(--yellow-border); }
-.guild-board-emoji { font-size: 22px; margin-bottom: 8px; }
-.guild-board-name { font-size: 0.85rem; font-weight: 600; color: var(--amber-darker); margin-bottom: 10px; }
+.guild-board-emoji { font-size: 28px; margin-bottom: 8px; }
+.guild-board-name { font-size: 1.05rem; font-weight: 700; color: var(--amber-darker); margin-bottom: 12px; }
+.guild-board-more {
+  margin-top: 10px;
+  font-size: 0.75rem;
+  color: var(--amber);
+  font-weight: 600;
+}
+.guild-board-card:hover .guild-board-more { text-decoration: underline; }
+
+/* ===== 모달 ===== */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal-box {
+  background: var(--white);
+  border-radius: var(--radius-xl);
+  width: 100%;
+  max-width: 480px;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+}
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 20px 16px;
+  border-bottom: 1px solid var(--border-light);
+  position: sticky;
+  top: 0;
+  background: var(--white);
+  z-index: 1;
+}
+.modal-title-wrap { display: flex; align-items: center; gap: 12px; }
+.modal-emoji { font-size: 28px; }
+.modal-title { font-size: 1.2rem; font-weight: 700; color: var(--text); }
+.modal-sub { font-size: 0.78rem; color: var(--text-faint); margin-top: 2px; }
+.modal-close {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text-soft);
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-close:hover { background: var(--border); }
+.modal-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-light);
+}
+.modal-stat-item {
+  background: var(--bg);
+  border-radius: var(--radius-md);
+  padding: 12px;
+}
+.modal-stat-label { font-size: 0.72rem; color: var(--text-faint); margin-bottom: 4px; }
+.modal-stat-value { font-size: 1rem; font-weight: 700; color: var(--text); }
+.modal-stat-value.accent { color: var(--amber); }
+.modal-section-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-soft);
+  padding: 14px 20px 8px;
+}
+.modal-member-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px;
+  border-bottom: 1px solid var(--border-light);
+}
+.modal-member-row:last-child { border-bottom: none; }
+.modal-member-rank {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--amber);
+  width: 18px;
+  flex-shrink: 0;
+}
+.modal-member-info { flex: 1; min-width: 0; }
+.modal-member-name { font-size: 0.95rem; font-weight: 600; color: var(--text); }
+.modal-member-meta { font-size: 0.75rem; color: var(--text-faint); margin-top: 2px; }
+.modal-member-power { font-size: 0.88rem; font-weight: 700; color: var(--amber); white-space: nowrap; }
+.modal-footer {
+  padding: 14px 20px;
+  border-top: 1px solid var(--border-light);
+  text-align: center;
+}
+.modal-more-btn {
+  display: inline-flex;
+  align-items: center;
+  height: 38px;
+  padding: 0 20px;
+  background: var(--yellow-bg);
+  border: 1px solid var(--yellow-border);
+  border-radius: var(--radius-lg);
+  color: var(--amber-dark);
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+.modal-more-btn:hover { background: var(--yellow-pale); }
+
+/* ===== 길드 모달 ===== */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  backdrop-filter: blur(4px);
+}
+.modal-box {
+  background: var(--white);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--yellow-border);
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+}
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 20px 16px;
+  border-bottom: 1px solid var(--border-light);
+  position: sticky;
+  top: 0;
+  background: var(--white);
+  z-index: 1;
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+}
+.modal-title-wrap { display: flex; align-items: center; gap: 10px; }
+.modal-emoji { font-size: 24px; }
+.modal-guild-name { font-size: 1.1rem; font-weight: 700; color: var(--amber-darker); }
+.modal-close {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text-soft);
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+.modal-close:hover { background: var(--yellow-bg); border-color: var(--yellow-border); color: var(--amber); }
+.modal-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-light);
+}
+.modal-stat {
+  background: var(--yellow-bg);
+  border: 1px solid var(--yellow-border);
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  text-align: center;
+}
+.modal-stat-label { font-size: 0.7rem; color: var(--text-faint); margin-bottom: 4px; }
+.modal-stat-value { font-size: 0.95rem; font-weight: 700; color: var(--amber-dark); }
+.modal-section-title {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-soft);
+  padding: 14px 20px 8px;
+}
+.modal-member-list { padding: 0 20px 20px; display: grid; gap: 8px; }
+.modal-member-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  transition: border-color 0.15s;
+}
+.modal-member-row:hover { border-color: var(--yellow-border); }
+.modal-member-rank {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--amber);
+  flex: 0 0 auto;
+}
+.modal-member-info { flex: 1; min-width: 0; }
+.modal-member-name { font-size: 0.92rem; font-weight: 600; color: var(--text); }
+.modal-member-sub { font-size: 0.75rem; color: var(--text-faint); margin-top: 2px; }
+.modal-member-power { font-size: 0.88rem; font-weight: 700; color: var(--amber); white-space: nowrap; }
+.guild-board-card { cursor: pointer; }
+.guild-board-more {
+  margin-top: 10px;
+  color: var(--amber);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+.modal-title { font-size: 1.1rem; font-weight: 700; color: var(--amber-darker); }
+.modal-sub { font-size: 0.75rem; color: var(--text-faint); margin-top: 2px; }
+.modal-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border-light);
+}
+.modal-stat-item {
+  background: var(--yellow-bg);
+  border: 1px solid var(--yellow-border);
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+}
+.modal-stat-label { font-size: 0.7rem; color: var(--text-faint); margin-bottom: 4px; }
+.modal-stat-value { font-size: 0.95rem; font-weight: 700; color: var(--text); }
+.modal-stat-value.accent { color: var(--amber); }
+.modal-section-title {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-soft);
+  padding: 14px 20px 8px;
+}
+.modal-member-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  margin: 0 20px 8px;
+  transition: border-color 0.15s;
+}
+.modal-member-row:hover { border-color: var(--yellow-border); }
+.modal-member-rank {
+  width: 24px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--amber);
+  flex: 0 0 auto;
+  text-align: center;
+}
+.modal-member-info { flex: 1; min-width: 0; }
+.modal-member-name { font-size: 0.92rem; font-weight: 600; color: var(--text); }
+.modal-member-meta { font-size: 0.72rem; color: var(--text-faint); margin-top: 2px; }
+.modal-member-power { font-size: 0.88rem; font-weight: 700; color: var(--amber); white-space: nowrap; }
+.modal-footer {
+  padding: 14px 20px 20px;
+  border-top: 1px solid var(--border-light);
+  margin-top: 4px;
+}
+.modal-more-btn {
+  display: block;
+  text-align: center;
+  padding: 10px;
+  background: var(--yellow-bg);
+  border: 1px solid var(--yellow-border);
+  border-radius: var(--radius-md);
+  color: var(--amber-dark);
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.15s;
+}
+.modal-more-btn:hover { background: var(--yellow-pale); }
 .guild-board-stat { margin-bottom: 6px; }
 .guild-board-stat-label { font-size: 0.72rem; color: var(--text-faint); }
 .guild-board-stat-val { font-size: 0.95rem; font-weight: 600; color: var(--text); }
