@@ -309,8 +309,8 @@ main { padding: 0 0 48px; }
   height: 100%;
   object-fit: cover;
   object-position: center top;
-  transform: scale(2.8);
-  transform-origin: center 25%;
+  transform: scale(3.0);
+  transform-origin: center 10%;
 }
 .character-avatar.no-image {
   display: flex;
