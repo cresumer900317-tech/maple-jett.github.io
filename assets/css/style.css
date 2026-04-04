@@ -160,12 +160,6 @@ main { padding: 0 0 48px; }
   text-decoration: none;
 }
 .cta-btn:hover { background: var(--amber); }
-.kpi-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
-  margin-top: 28px;
-}
 .kpi-card {
   background: var(--white);
   border: 1px solid var(--yellow-border);
@@ -225,7 +219,7 @@ main { padding: 0 0 48px; }
 /* KPI 그리드 */
 .kpi-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   gap: 12px;
   margin-top: 28px;
 }

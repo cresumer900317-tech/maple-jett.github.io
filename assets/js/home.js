@@ -48,6 +48,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const memberCount = summary.member_count || rows.length;
     const guildCount = summary.guild_count || 5;
+    const top500Count = rows.filter((r) => Number(r.serverRank || 0) > 0 && Number(r.serverRank) <= 500).length;
+    const top500Rate = memberCount > 0 ? ((top500Count / memberCount) * 100).toFixed(1) : "0.0";
+    const topPlayer = [...rows].sort((a, b) => Number(b.power || 0) - Number(a.power || 0))[0] || {};
+    const topPlayerPt = topPlayer.powerText || "";
+    const topPlayerParts = topPlayerPt.trim().split(/\s+/).filter(Boolean);
+    const topPlayerPower = topPlayerParts.length >= 2 ? topPlayerParts[0] + " " + topPlayerParts[1] : topPlayerPt || formatCompactPower(topPlayer.power);
 
     document.querySelector("main").innerHTML = `
       <div class="home-hero">
@@ -74,8 +80,17 @@ document.addEventListener("DOMContentLoaded", async () => {
               <div class="kpi-value">${formatCompactPower(avgPower)}</div>
             </div>
             <div class="kpi-card">
-              <div class="kpi-label">평균 서버 순위</div>
-              <div class="kpi-value dark">${avgServerRank !== "-" ? formatNumber(Number(avgServerRank)) + "위" : "-"}</div>
+              <div class="kpi-label">TOP 500 비율</div>
+              <div class="kpi-value dark">${formatNumber(top500Count)}명 <span style="font-size:0.85rem;color:var(--text-faint);">(${top500Rate}%)</span></div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label">주간 성장량</div>
+              <div class="kpi-value">${totalWeeklyGrowth > 0 ? "+" + formatCompactPower(totalWeeklyGrowth) : "-"}</div>
+            </div>
+            <div class="kpi-card" style="cursor:pointer;" onclick="location.href='./ranking.html'">
+              <div class="kpi-label">최고 전투력</div>
+              <div class="kpi-value" style="font-size:1rem;">${escapeHtml(topPlayer.name || "-")}</div>
+              <div style="font-size:0.78rem;color:var(--text-faint);margin-top:3px;">${escapeHtml(topPlayerPower)} · 서버 ${topPlayer.serverRank ? formatNumber(topPlayer.serverRank) + "위" : "-"}</div>
             </div>
           </div>
         </div>
