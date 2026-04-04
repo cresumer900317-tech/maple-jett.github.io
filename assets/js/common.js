@@ -1,3 +1,5 @@
+const API_BASE = "https://guild-backend-production-75a6.up.railway.app";
+
 const GUILD_META = {
   "친구들": { className: "guild-f1", label: "친구들" },
   "친구둘": { className: "guild-f2", label: "친구둘" },
@@ -8,8 +10,9 @@ const GUILD_META = {
 };
 
 async function fetchLocalJson(filename) {
-  const response = await fetch(`./data/${filename}`, { cache: "no-store" });
-  if (!response.ok) throw new Error(`데이터 파일을 불러오지 못했습니다: ${filename}`);
+  const key = filename.replace(".json", "");
+  const response = await fetch(`${API_BASE}/api/${key}`, { cache: "no-store" });
+  if (!response.ok) throw new Error(`데이터를 불러오지 못했습니다: ${filename}`);
   return response.json();
 }
 
