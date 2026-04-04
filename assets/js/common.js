@@ -11,7 +11,14 @@ const GUILD_META = {
 
 async function fetchLocalJson(filename) {
   const key = filename.replace(".json", "");
-  const response = await fetch(`${API_BASE}/api/${key}`, { cache: "no-store" });
+  const apiKey = {
+    "home-summary": "home-summary",
+    "members": "members",
+    "ranking": "ranking",
+    "weekly": "weekly",
+    "notices": "notices",
+  }[key] || key;
+  const response = await fetch(`${API_BASE}/api/${apiKey}`, { cache: "no-store" });
   if (!response.ok) throw new Error(`데이터를 불러오지 못했습니다: ${filename}`);
   return response.json();
 }
@@ -20,7 +27,7 @@ const getHomeData = () => fetchLocalJson("home-summary.json");
 const getRankingData = () => fetchLocalJson("ranking.json");
 const getWeeklyData = () => fetchLocalJson("weekly.json");
 const getGuildsData = () => fetchLocalJson("members.json");
-const getNoticeData = async () => ({ posts: [] });
+const getNoticeData = () => fetchLocalJson("notices.json");
 const getTipsData = async () => ({ posts: [] });
 
 function escapeHtml(value) {
@@ -35,7 +42,7 @@ function escapeHtml(value) {
 function formatNumber(value) {
   const num = Number(value ?? 0);
   if (!Number.isFinite(num)) return "-";
-  return new Intl.NumberFormat("ko-KR").format(num);
+  return new Intl.NumberFormat("ko-KR").format(Math.round(num));
 }
 
 function formatRate(value) {
@@ -44,17 +51,21 @@ function formatRate(value) {
   return `${num.toFixed(2)}%`;
 }
 
-function fullPowerText(text) {
-  if (typeof text === "string" && text.trim()) return text.trim();
-  const num = Number(text ?? 0);
-  if (!Number.isFinite(num)) return "-";
-  return new Intl.NumberFormat("ko-KR").format(num);
+function formatCompactPower(value) {
+  const num = Number(String(value ?? "0").replace(/[^0-9.]/g, ""));
+  if (!Number.isFinite(num) || num === 0) return "-";
+  const jo = Math.floor(num / 1e12);
+  const eok = Math.floor((num % 1e12) / 1e8);
+  if (jo > 0 && eok > 0) return `${formatNumber(jo)}조 ${formatNumber(eok)}억`;
+  if (jo > 0) return `${formatNumber(jo)}조`;
+  if (eok > 0) return `${formatNumber(eok)}억`;
+  const man = Math.floor(num / 1e4);
+  if (man > 0) return `${formatNumber(man)}만`;
+  return formatNumber(num);
 }
 
-function formatCompactPower(text) {
-  const raw = fullPowerText(text);
-  const parts = raw.split(/\s+/).filter(Boolean);
-  return parts.length <= 2 ? raw : parts.slice(0, 2).join(" ");
+function fullPowerText(text) {
+  return formatCompactPower(text);
 }
 
 function normalizeGuildName(guild) {
@@ -76,7 +87,8 @@ function metricClass(value) {
 
 function metricHtml(value, suffix = "") {
   const num = Number(value ?? 0);
-  const text = !Number.isFinite(num) ? "-" : `${num > 0 ? "+" : ""}${formatNumber(num)}${suffix}`;
+  const absVal = formatCompactPower(Math.abs(num));
+  const text = !Number.isFinite(num) ? "-" : `${num > 0 ? "+" : num < 0 ? "-" : ""}${absVal}${suffix}`;
   return `<span class="${metricClass(num)}">${escapeHtml(text)}</span>`;
 }
 
@@ -109,8 +121,11 @@ function renderShell() {
     <header class="site-header-bar">
       <div class="container site-header-inner">
         <a class="brand-box" href="./index.html">
-          <span class="brand-title">친구패밀리</span>
-          <span class="brand-sub">Guild Dashboard</span>
+          <span class="brand-emoji">😊</span>
+          <div>
+            <div class="brand-title">친구패밀리</div>
+            <div class="brand-sub">Guild Dashboard</div>
+          </div>
         </a>
         <nav class="nav-menu">${links}</nav>
         <button id="mobileMenuButton" class="mobile-menu-btn" type="button" aria-label="메뉴 열기">☰</button>
@@ -128,13 +143,13 @@ function renderShell() {
 }
 
 function renderLoading(targetId, message = "불러오는 중...") {
-  const el = document.getElementById(targetId);
-  if (el) el.innerHTML = `<div class="loading-box">${escapeHtml(message)}</div>`;
+  const el = document.getElementById(targetId) || document.querySelector("main");
+  if (el) el.innerHTML = `<div class="container" style="padding-top:40px;"><div class="loading-box">${escapeHtml(message)}</div></div>`;
 }
 
 function renderError(targetId, error) {
-  const el = document.getElementById(targetId);
-  if (el) el.innerHTML = `<div class="error-box">${escapeHtml(error?.message || "오류가 발생했습니다.")}</div>`;
+  const el = document.getElementById(targetId) || document.querySelector("main");
+  if (el) el.innerHTML = `<div class="container" style="padding-top:40px;"><div class="error-box">${escapeHtml(error?.message || "오류가 발생했습니다.")}</div></div>`;
 }
 
 function createEmptyBox(message = "데이터가 없습니다.") {
@@ -162,7 +177,7 @@ function renderBoardList(posts, emptyMessage) {
         <article class="notice-card">
           <div class="notice-top">
             <span class="notice-chip">${escapeHtml(post.category || "게시글")}</span>
-            ${post.isPinned ? `<span class="notice-pin">고정</span>` : ""}
+            ${post.isPinned || post.is_pinned ? `<span class="notice-pin">고정</span>` : ""}
           </div>
           <h3 class="notice-title">${escapeHtml(post.title || "")}</h3>
           <p class="notice-content">${escapeHtml(post.content || "")}</p>
