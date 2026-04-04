@@ -117,8 +117,21 @@ main { padding: 0 0 48px; }
   border-bottom: 1px solid var(--yellow-border);
   padding: 40px 0 32px;
   margin-bottom: 0;
+  position: relative;
+  overflow: hidden;
 }
-.hero-inner { max-width: var(--container); margin: 0 auto; padding: 0 16px; }
+.hero-bg-image {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 55%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.5) 30%, black 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.5) 30%, black 100%);
+}
+.hero-inner { max-width: var(--container); margin: 0 auto; padding: 0 16px; position: relative; z-index: 1; }
 .hero-badge {
   display: inline-flex;
   align-items: center;

@@ -47,6 +47,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     document.querySelector("main").innerHTML = `
       <div class="home-hero">
+        <img class="hero-bg-image" src="./assets/images/guild-photo.png" alt="친구패밀리 단체사진" />
         <div class="container hero-inner">
           <div class="hero-badge">
             <span class="hero-dot"></span>
