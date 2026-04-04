@@ -44,6 +44,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const memberCount = summary.member_count || rows.length;
     const guildCount = summary.guild_count || 5;
+    const totalWeeklyGrowth = rows.reduce((sum, r) => sum + Number(r.weeklyDiff || 0), 0);
+    const avgPopularity = rows.length
+      ? Math.round(rows.reduce((sum, r) => sum + Number(r.popularity || 0), 0) / rows.length)
+      : 0;
 
     document.querySelector("main").innerHTML = `
       <div class="home-hero">
@@ -76,6 +80,14 @@ document.addEventListener("DOMContentLoaded", async () => {
             <div class="kpi-bar-item">
               <div class="kpi-bar-label">평균 서버 순위</div>
               <div class="kpi-bar-value white">${avgServerRank !== "-" ? formatNumber(Number(avgServerRank)) + "위" : "-"}</div>
+            </div>
+            <div class="kpi-bar-item">
+              <div class="kpi-bar-label">총 주간 성장</div>
+              <div class="kpi-bar-value">${totalWeeklyGrowth > 0 ? "+" + formatCompactPower(totalWeeklyGrowth) : "-"}</div>
+            </div>
+            <div class="kpi-bar-item">
+              <div class="kpi-bar-label">평균 인기도</div>
+              <div class="kpi-bar-value white">${formatNumber(avgPopularity)}</div>
             </div>
           </div>
         </div>
