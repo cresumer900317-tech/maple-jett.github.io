@@ -1,46 +1,117 @@
 document.addEventListener("DOMContentLoaded", async () => {
   renderShell();
-  renderLoading("members-page", "길드원 데이터를 불러오는 중...");
-  try {
-    const rows = await getGuildsData();
-    const list = Array.isArray(rows) ? rows : [];
-    const tabs = ["전체", "친구들", "친구둘", "친구삼", "친구넷", "친구닷"];
-    document.getElementById("members-page").innerHTML = `
-      <section class="page-card">
-        <div class="section-head"><div><h1 class="section-title">길드원</h1><p class="section-sub">길드 필터 + 내부 스크롤</p></div></div>
-        <div class="tab-bar">${tabs.map((tab, idx) => `<button class="tab-btn ${idx === 0 ? "is-active" : ""}" data-guild-filter="${tab}" type="button">${tab}</button>`).join("")}</div>
-        <div id="membersScrollPanel" class="scroll-panel members-scroll"><div id="membersCardList" class="stack-list">
-          ${list.length ? list.map((item) => `
-            <article class="list-card" data-guild="${escapeHtml(item.guild || "길드 없음")}">
-              <div class="card-left"><div class="rank-chip">${escapeHtml(item.guildRank || "-")}</div>${characterAvatarHtml(item)}</div>
-              <div class="card-main">
-                <div class="card-topline">
-                  <div><div class="rank-name">${escapeHtml(item.name || "-")}</div><div class="rank-subline">${guildBadgeHtml(item.guild || "길드 없음")}<span>${escapeHtml(item.job || "-")}</span><span>Lv ${escapeHtml(item.level || "-")}</span></div></div>
-                  <div class="rank-power">${escapeHtml(formatCompactPower(item.powerText || "-"))}</div>
-                </div>
-                <div class="meta-grid four">
-                  <div class="mini-stat"><span>길드 내 순위</span><strong>${escapeHtml(item.guildRank || "-")}</strong></div>
-                  <div class="mini-stat"><span>서버 순위</span><strong>${item.serverRank ? `${escapeHtml(formatNumber(item.serverRank))}위` : "-"}</strong></div>
-                  <div class="mini-stat"><span>인기도</span><strong>${escapeHtml(formatNumber(item.popularity || 0))}</strong></div>
-                  <div class="mini-stat"><span>주간 성장</span><strong>${metricHtml(item.weeklyDiff || 0)}</strong></div>
-                </div>
-              </div>
-            </article>
-          `).join("") : createEmptyBox("길드원 데이터가 없습니다.")}
-        </div></div>
-      </section>`;
 
-    const buttons = Array.from(document.querySelectorAll("[data-guild-filter]"));
-    const cardList = document.getElementById("membersCardList");
-    const apply = (guild) => {
-      Array.from(cardList.querySelectorAll("[data-guild]"))
-        .forEach((card) => { const same = guild === "전체" || card.getAttribute("data-guild") === guild; card.style.display = same ? "" : "none"; });
-      buttons.forEach((btn) => btn.classList.toggle("is-active", btn.getAttribute("data-guild-filter") === guild));
-    };
-    buttons.forEach((btn) => btn.addEventListener("click", () => apply(btn.getAttribute("data-guild-filter"))));
-    apply("전체");
+  try {
+    const members = await getGuildsData();
+    const rows = Array.isArray(members) ? members : [];
+    const guilds = ["친구들", "친구둘", "친구삼", "친구넷", "친구닷"];
+
+    let currentGuild = "전체";
+
+    function getFiltered() {
+      if (currentGuild === "전체") return rows;
+      return rows.filter((r) => r.guild === currentGuild);
+    }
+
+    function renderList(list) {
+      // 길드 필터 적용 시 전투력 순 재정렬 + 순위 재부여
+      const sorted = [...list].sort((a, b) => Number(b.power || 0) - Number(a.power || 0));
+      return sorted.map((item, idx) => {
+        const displayRank = idx + 1;
+        const pt = item.powerText || "";
+        const parts = pt.trim().split(/\s+/).filter(Boolean);
+        const displayPower = parts.length >= 2 ? parts[0] + " " + parts[1] : pt || formatCompactPower(item.power);
+        return `
+          <article class="list-card">
+            <div class="card-left">
+              ${rankChipHtml(displayRank)}
+              ${characterAvatarHtml(item)}
+            </div>
+            <div class="card-main">
+              <div class="card-topline">
+                <div>
+                  <div class="rank-name">${escapeHtml(item.name || "-")}</div>
+                  <div class="rank-subline">
+                    ${guildBadgeHtml(item.guild || "길드 없음")}
+                    <span class="job-text">${escapeHtml(item.job || "-")}</span>
+                    <span class="level-text">Lv ${escapeHtml(String(item.level || "-"))}</span>
+                  </div>
+                </div>
+                <div class="rank-power">${escapeHtml(displayPower)}</div>
+              </div>
+              <div class="meta-grid four">
+                <div class="mini-stat"><span>길드 내 순위</span><strong>${displayRank}</strong></div>
+                <div class="mini-stat"><span>서버 순위</span><strong>${item.serverRank ? formatNumber(item.serverRank) + "위" : "-"}</strong></div>
+                <div class="mini-stat"><span>인기도</span><strong>${formatNumber(item.popularity || 0)}</strong></div>
+                <div class="mini-stat"><span>주간 성장</span><strong>${item.weeklyDiff ? metricHtml(item.weeklyDiff) : "-"}</strong></div>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join("");
+    }
+
+    function rankChipHtml(rank) {
+      const n = Number(rank || 0);
+      if (n === 1) return `<div class="rank-chip medal-gold">🥇</div>`;
+      if (n === 2) return `<div class="rank-chip medal-silver">🥈</div>`;
+      if (n === 3) return `<div class="rank-chip medal-bronze">🥉</div>`;
+      return `<div class="rank-chip rank-default">${n}</div>`;
+    }
+
+    function render() {
+      const filtered = getFiltered();
+      const listHtml = filtered.length
+        ? renderList(filtered)
+        : createEmptyBox("해당 길드에 멤버가 없습니다.");
+
+      document.getElementById("members-list").innerHTML = listHtml;
+      document.getElementById("members-count").textContent = `${formatNumber(filtered.length)}명`;
+
+      // 탭 활성화
+      document.querySelectorAll(".tab-btn").forEach((btn) => {
+        btn.classList.toggle("is-active", btn.dataset.guild === currentGuild);
+      });
+    }
+
+    document.querySelector("main").innerHTML = `
+      <div class="page-card">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <div class="section-title">길드원</div>
+              <div class="section-sub">전투력 기준 정렬 · <span id="members-count">-</span></div>
+            </div>
+          </div>
+
+          <div class="tab-bar">
+            <button class="tab-btn is-active" data-guild="전체">전체</button>
+            ${guilds.map((g) => `<button class="tab-btn" data-guild="${escapeHtml(g)}">${escapeHtml(g)}</button>`).join("")}
+          </div>
+
+          <div class="stack-list members-scroll" id="members-list">
+            <div class="loading-box">불러오는 중...</div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    // 탭 이벤트
+    document.querySelectorAll(".tab-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        currentGuild = btn.dataset.guild;
+        render();
+      });
+    });
+
+    render();
+
   } catch (error) {
     console.error(error);
-    renderError("members-page", error);
+    document.querySelector("main").innerHTML = `
+      <div class="container" style="padding-top:40px;">
+        <div class="error-box">데이터를 불러오지 못했습니다: ${escapeHtml(error?.message || "오류")}</div>
+      </div>
+    `;
   }
 });

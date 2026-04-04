@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             </div>
             <div class="kpi-card">
               <div class="kpi-label">평균 서버 순위</div>
-              <div class="kpi-value dark">${avgServerRank !== "-" ? formatNumber(avgServerRank) + "위" : "-"}</div>
+              <div class="kpi-value dark">${avgServerRank !== "-" ? formatNumber(Number(avgServerRank)) + "위" : "-"}</div>
             </div>
           </div>
         </div>
@@ -123,11 +123,14 @@ document.addEventListener("DOMContentLoaded", async () => {
           <div class="top3-grid">
             ${powerTop3.length ? powerTop3.map((item, i) => {
               const medals = ["🥇", "🥈", "🥉"];
+              const pt = item.powerText || "";
+              const parts = pt.trim().split(/\s+/).filter(Boolean);
+              const displayPower = parts.length >= 2 ? parts[0] + " " + parts[1] : pt || formatCompactPower(item.power);
               return `
                 <div class="top-card ${i === 0 ? "gold" : ""}">
                   <div class="top-rank-icon">${medals[i]}</div>
                   <div class="top-name">${escapeHtml(item.name || "-")}</div>
-                  <div class="top-power">${escapeHtml(formatCompactPower(item.powerText || item.power || 0))}</div>
+                  <div class="top-power">${escapeHtml(displayPower)}</div>
                   <div class="top-meta">${escapeHtml(item.guild || "-")} · 서버 ${item.serverRank ? formatNumber(item.serverRank) + "위" : "-"}</div>
                 </div>
               `;
