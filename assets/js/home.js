@@ -49,14 +49,16 @@ document.addEventListener("DOMContentLoaded", async () => {
       <div class="home-hero">
         <img class="hero-bg-image" src="./assets/images/guild-photo.png" alt="친구패밀리 단체사진" />
         <div class="container hero-inner">
-          <div class="hero-badge">
-            <span class="hero-dot"></span>
-            메이플키우기 · 스카니아 11서버
+          <div class="hero-text-area">
+            <div class="hero-badge">
+              <span class="hero-dot"></span>
+              메이플키우기 · 스카니아 11서버
+            </div>
+            <h1 class="hero-title">함께라서 <span class="accent">더 강한</span><br>친구패밀리 😊</h1>
+            <p class="hero-desc">5개 길드가 함께하는 메이플키우기 패밀리 길드</p>
+            <p class="hero-update">마지막 업데이트: <span class="time">${lastUpdate}</span></p>
+            <a class="cta-btn" href="https://open.kakao.com/o/gagOlyni" target="_blank" rel="noopener noreferrer">가입 문의하기</a>
           </div>
-          <h1 class="hero-title">함께라서 <span class="accent">더 강한</span><br>친구패밀리 😊</h1>
-          <p class="hero-desc">5개 길드가 함께하는 메이플키우기 패밀리 길드</p>
-          <p class="hero-update">마지막 업데이트: <span class="time">${lastUpdate}</span></p>
-          <a class="cta-btn" href="https://open.kakao.com/o/gagOlyni" target="_blank" rel="noopener noreferrer">가입 문의하기</a>
           <div class="kpi-grid">
             <div class="kpi-card">
               <div class="kpi-label">총 길드 수</div>

@@ -113,25 +113,31 @@ main { padding: 0 0 48px; }
 
 /* ===== 히어로 섹션 ===== */
 .home-hero {
-  background: var(--yellow-bg);
+  background: #ffffff;
   border-bottom: 1px solid var(--yellow-border);
-  padding: 40px 0 32px;
+  padding: 40px 0 0;
   margin-bottom: 0;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
 }
 .hero-bg-image {
   position: absolute;
   top: 0;
   right: 0;
-  width: 55%;
-  height: 100%;
+  width: 65%;
+  height: 120%;
   object-fit: cover;
   object-position: center top;
-  mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.5) 30%, black 100%);
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.5) 30%, black 100%);
+  z-index: 0;
+  mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.6) 20%, black 60%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.6) 20%, black 60%);
 }
-.hero-inner { max-width: var(--container); margin: 0 auto; padding: 0 16px; position: relative; z-index: 1; }
+.hero-inner { max-width: var(--container); margin: 0 auto; padding: 0 16px 0; position: relative; z-index: 1; }
+.hero-text-area {
+  background: linear-gradient(to right, #ffffff 60%, transparent 100%);
+  padding: 0 0 32px;
+}
+.kpi-grid { position: relative; z-index: 2; }
 .hero-badge {
   display: inline-flex;
   align-items: center;
