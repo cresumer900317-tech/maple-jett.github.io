@@ -13,18 +13,24 @@ document.addEventListener("DOMContentLoaded", async () => {
       return rows.filter((r) => r.guild === currentGuild);
     }
 
+    function rankChipHtml(rank) {
+      if (rank === 1) return `<div class="rank-chip medal-gold">🥇</div>`;
+      if (rank === 2) return `<div class="rank-chip medal-silver">🥈</div>`;
+      if (rank === 3) return `<div class="rank-chip medal-bronze">🥉</div>`;
+      return `<div class="rank-chip rank-default">${rank}</div>`;
+    }
+
     function renderList(list) {
-      // 길드 필터 적용 시 전투력 순 재정렬 + 순위 재부여
       const sorted = [...list].sort((a, b) => Number(b.power || 0) - Number(a.power || 0));
       return sorted.map((item, idx) => {
-        const displayRank = idx + 1;
+        const rank = idx + 1;
         const pt = item.powerText || "";
         const parts = pt.trim().split(/\s+/).filter(Boolean);
         const displayPower = parts.length >= 2 ? parts[0] + " " + parts[1] : pt || formatCompactPower(item.power);
         return `
           <article class="list-card">
             <div class="card-left">
-              ${rankChipHtml(displayRank)}
+              ${rankChipHtml(rank)}
               ${characterAvatarHtml(item)}
             </div>
             <div class="card-main">
@@ -40,8 +46,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                 <div class="rank-power">${escapeHtml(displayPower)}</div>
               </div>
               <div class="meta-grid four">
-                <div class="mini-stat"><span>길드 내 순위</span><strong>${displayRank}</strong></div>
                 <div class="mini-stat"><span>서버 순위</span><strong>${item.serverRank ? formatNumber(item.serverRank) + "위" : "-"}</strong></div>
+                <div class="mini-stat"><span>통합 순위</span><strong>${item.overallRank ? formatNumber(item.overallRank) + "위" : "-"}</strong></div>
                 <div class="mini-stat"><span>인기도</span><strong>${formatNumber(item.popularity || 0)}</strong></div>
                 <div class="mini-stat"><span>주간 성장</span><strong>${item.weeklyDiff ? metricHtml(item.weeklyDiff) : "-"}</strong></div>
               </div>
@@ -49,14 +55,6 @@ document.addEventListener("DOMContentLoaded", async () => {
           </article>
         `;
       }).join("");
-    }
-
-    function rankChipHtml(rank) {
-      const n = Number(rank || 0);
-      if (n === 1) return `<div class="rank-chip medal-gold">🥇</div>`;
-      if (n === 2) return `<div class="rank-chip medal-silver">🥈</div>`;
-      if (n === 3) return `<div class="rank-chip medal-bronze">🥉</div>`;
-      return `<div class="rank-chip rank-default">${n}</div>`;
     }
 
     function render() {
@@ -68,7 +66,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       document.getElementById("members-list").innerHTML = listHtml;
       document.getElementById("members-count").textContent = `${formatNumber(filtered.length)}명`;
 
-      // 탭 활성화
       document.querySelectorAll(".tab-btn").forEach((btn) => {
         btn.classList.toggle("is-active", btn.dataset.guild === currentGuild);
       });
@@ -83,20 +80,17 @@ document.addEventListener("DOMContentLoaded", async () => {
               <div class="section-sub">전투력 기준 정렬 · <span id="members-count">-</span></div>
             </div>
           </div>
-
           <div class="tab-bar">
             <button class="tab-btn is-active" data-guild="전체">전체</button>
             ${guilds.map((g) => `<button class="tab-btn" data-guild="${escapeHtml(g)}">${escapeHtml(g)}</button>`).join("")}
           </div>
-
-          <div class="stack-list members-scroll" id="members-list">
+          <div class="stack-list" id="members-list">
             <div class="loading-box">불러오는 중...</div>
           </div>
         </div>
       </div>
     `;
 
-    // 탭 이벤트
     document.querySelectorAll(".tab-btn").forEach((btn) => {
       btn.addEventListener("click", () => {
         currentGuild = btn.dataset.guild;
