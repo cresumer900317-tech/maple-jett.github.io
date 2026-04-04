@@ -51,43 +51,31 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     document.querySelector("main").innerHTML = `
       <div class="home-hero">
-        <img class="hero-bg-image" src="./assets/images/guild-photo.png" alt="친구패밀리 단체사진" />
-        <div class="hero-overlay"></div>
-        <div class="hero-inner">
-          <div class="hero-text-area">
-            <div class="hero-badge">
-              <span class="hero-dot"></span>
-              메이플키우기 · 스카니아 11서버
-            </div>
-            <h1 class="hero-title">함께라서 <span class="accent">더 강한</span><br>친구패밀리 😊</h1>
-            <p class="hero-desc">5개 길드가 함께하는 메이플키우기 패밀리 길드</p>
-            <p class="hero-update">마지막 업데이트: <span class="time">${lastUpdate}</span></p>
-            <a class="cta-btn" href="https://open.kakao.com/o/gagOlyni" target="_blank" rel="noopener noreferrer">가입 문의하기</a>
+        <div class="container hero-inner">
+          <div class="hero-badge">
+            <span class="hero-dot"></span>
+            메이플키우기 · 스카니아 11서버
           </div>
-          <div class="kpi-bar">
-            <div class="kpi-bar-item">
-              <div class="kpi-bar-label">총 길드 수</div>
-              <div class="kpi-bar-value">${guildCount}개</div>
+          <h1 class="hero-title">함께라서 <span class="accent">더 강한</span><br>친구패밀리 😊</h1>
+          <p class="hero-desc">5개 길드가 함께하는 메이플키우기 패밀리 길드</p>
+          <p class="hero-update">마지막 업데이트: <span class="time">${lastUpdate}</span></p>
+          <a class="cta-btn" href="https://open.kakao.com/o/gagOlyni" target="_blank" rel="noopener noreferrer">가입 문의하기</a>
+          <div class="kpi-grid">
+            <div class="kpi-card">
+              <div class="kpi-label">총 길드 수</div>
+              <div class="kpi-value">${guildCount}개</div>
             </div>
-            <div class="kpi-bar-item">
-              <div class="kpi-bar-label">총 인원</div>
-              <div class="kpi-bar-value white">${formatNumber(memberCount)}명</div>
+            <div class="kpi-card">
+              <div class="kpi-label">총 인원</div>
+              <div class="kpi-value dark">${formatNumber(memberCount)}명</div>
             </div>
-            <div class="kpi-bar-item">
-              <div class="kpi-bar-label">평균 전투력</div>
-              <div class="kpi-bar-value">${formatCompactPower(avgPower)}</div>
+            <div class="kpi-card">
+              <div class="kpi-label">평균 전투력</div>
+              <div class="kpi-value">${formatCompactPower(avgPower)}</div>
             </div>
-            <div class="kpi-bar-item">
-              <div class="kpi-bar-label">평균 서버 순위</div>
-              <div class="kpi-bar-value white">${avgServerRank !== "-" ? formatNumber(Number(avgServerRank)) + "위" : "-"}</div>
-            </div>
-            <div class="kpi-bar-item">
-              <div class="kpi-bar-label">총 주간 성장</div>
-              <div class="kpi-bar-value">${totalWeeklyGrowth > 0 ? "+" + formatCompactPower(totalWeeklyGrowth) : "-"}</div>
-            </div>
-            <div class="kpi-bar-item">
-              <div class="kpi-bar-label">평균 인기도</div>
-              <div class="kpi-bar-value white">${formatNumber(avgPopularity)}</div>
+            <div class="kpi-card">
+              <div class="kpi-label">평균 서버 순위</div>
+              <div class="kpi-value dark">${avgServerRank !== "-" ? formatNumber(Number(avgServerRank)) + "위" : "-"}</div>
             </div>
           </div>
         </div>
