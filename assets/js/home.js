@@ -95,9 +95,9 @@ document.addEventListener("DOMContentLoaded", async () => {
               const avg = list.length
                 ? Math.round(list.reduce((s, r) => s + Number(r.power || 0), 0) / list.length)
                 : 0;
-              const isActive = list.length >= 10;
+              const isFull = list.length >= 30;
               return `
-                <div class="guild-board-card ${isActive ? "active" : ""}" data-guild="${escapeHtml(guild)}" style="cursor:pointer;">
+                <div class="guild-board-card ${isFull ? "full" : "active"}" data-guild="${escapeHtml(guild)}" style="cursor:pointer;">
                   <div class="guild-board-emoji">😊</div>
                   <div class="guild-board-name">${escapeHtml(guild)}</div>
                   <div class="guild-board-stat">
@@ -108,6 +108,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     <div class="guild-board-stat-label">평균 전투력</div>
                     <div class="guild-board-stat-val">${formatCompactPower(avg)}</div>
                   </div>
+                  <div class="guild-board-badge ${isFull ? "full" : "recruit"}">${isFull ? "🔒 정원 마감" : "✨ 모집 중"}</div>
                   <div class="guild-board-more">상세보기 →</div>
                 </div>
               `;
