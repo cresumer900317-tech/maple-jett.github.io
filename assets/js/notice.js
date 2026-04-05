@@ -186,24 +186,28 @@ function renderNoticeCard(notice) {
 
 // ── 페이지 렌더 ────────────────────────────
 function renderNoticePage() {
-  const section = document.getElementById("notice-page");
-  if (!section) return;
+  const main = document.querySelector("main");
+  if (!main) return;
 
   let html = `
-    <div class="page-header">
-      <h1 class="page-title">📋 공지사항</h1>
-      <p class="page-subtitle">친구패밀리 운영진의 공지를 확인하세요</p>
-    </div>
-    <div class="notice-list">
+    <div class="container" style="padding-top: 32px; padding-bottom: 48px;">
+      <div class="page-header">
+        <h1 class="page-title">📋 공지사항</h1>
+        <p class="page-subtitle">친구패밀리 운영진의 공지를 확인하세요</p>
+      </div>
+      <div class="notice-list">
   `;
 
   for (const notice of NOTICES) {
     html += renderNoticeCard(notice);
   }
 
-  html += `</div>`;
-  section.innerHTML = html;
+  html += `</div></div>`;
+  main.innerHTML = html;
 }
 
 // ── 실행 ───────────────────────────────────
-document.addEventListener("DOMContentLoaded", renderNoticePage);
+document.addEventListener("DOMContentLoaded", () => {
+  renderShell();
+  renderNoticePage();
+});
