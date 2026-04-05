@@ -230,11 +230,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             <button class="modal-close" id="modalClose">✕</button>
           </div>
           <div class="modal-stats" id="modalStats"></div>
-          <div class="modal-section-title">전투력 TOP 5</div>
-          <div id="modalTop5"></div>
-          <div class="modal-footer">
-            <a id="modalMoreLink" href="./members.html" class="modal-more-btn">길드원 전체보기 →</a>
-          </div>
+          <div class="modal-section-title">전체 길드원</div>
+          <div id="modalTop5" style="max-height:400px; overflow-y:auto; padding:0 4px 4px;"></div>
         </div>
       </div>
     `;
@@ -276,8 +273,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           </div>
         `;
 
-        const top5 = sorted.slice(0, 5);
-        document.getElementById("modalTop5").innerHTML = top5.map((item, i) => {
+        document.getElementById("modalTop5").innerHTML = sorted.map((item, i) => {
           const pt = item.powerText || "";
           const parts = pt.trim().split(/\s+/).filter(Boolean);
           const displayPower = parts.length >= 2 ? parts[0] + " " + parts[1] : pt || formatCompactPower(item.power);
