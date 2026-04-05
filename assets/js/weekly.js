@@ -2,17 +2,18 @@ document.addEventListener("DOMContentLoaded", async () => {
   renderShell();
 
   try {
-    // /api/monthly 엔드포인트로 변경
     const API_BASE = "https://guild-backend-production-75a6.up.railway.app";
     const res = await fetch(`${API_BASE}/api/monthly`, { cache: "no-store" });
     if (!res.ok) throw new Error("월간 성장 데이터를 불러오지 못했습니다.");
     const members = await res.json();
     const rows = Array.isArray(members) ? members : [];
 
-    // 이번 달 표시용
     const now = new Date();
     const monthLabel = `${now.getFullYear()}년 ${now.getMonth() + 1}월`;
     const hasSnapshot = rows.some(r => r.hasSnapshot);
+
+    // 기준일 텍스트
+    const snapDateLabel = `${now.getFullYear()}년 ${now.getMonth() + 1}월 5일`;
 
     let currentTab = "growth";
 
@@ -40,7 +41,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         const parts = pt.trim().split(/\s+/).filter(Boolean);
         const displayPower = parts.length >= 2 ? parts[0] + " " + parts[1] : pt || formatCompactPower(item.power);
 
-        // 월간 성장량 표시
         const monthlyDiff = item.monthlyDiff;
         let diffHtml = "-";
         if (!item.hasSnapshot) {
@@ -49,7 +49,6 @@ document.addEventListener("DOMContentLoaded", async () => {
           diffHtml = metricHtml(monthlyDiff);
         }
 
-        // 성장률
         const growthRateHtml = item.growthRate !== null && item.growthRate !== undefined
           ? formatRate(item.growthRate)
           : (item.hasSnapshot ? "0.00%" : "-");
@@ -87,29 +86,50 @@ document.addEventListener("DOMContentLoaded", async () => {
       }).join("");
     }
 
-    // 스냅샷 없을 때 안내 배너
-    const snapshotBanner = !hasSnapshot ? `
+    const snapshotBanner = hasSnapshot ? `
       <div style="
-        background: var(--yellow-bg);
-        border: 1px solid var(--yellow-border);
-        border-radius: var(--radius-md);
-        padding: 12px 16px;
-        font-size: 0.85rem;
-        color: var(--amber-dark);
-        margin-bottom: 16px;
+        display:flex; align-items:center; gap:8px;
+        background:var(--yellow-bg);
+        border:1px solid var(--yellow-border);
+        border-radius:var(--radius-md);
+        padding:10px 16px;
+        font-size:0.83rem;
+        color:var(--amber-dark);
+        margin-bottom:20px;
       ">
-        📌 매달 1일에 기준 전투력이 저장됩니다. 스냅샷이 생성된 이후부터 월간 성장량이 표시됩니다.
+        📌 기준일 <strong style="margin:0 4px;">${snapDateLabel}</strong> 전투력 대비 현재 성장량 · 매달 1일 자동 갱신
       </div>
-    ` : "";
+    ` : `
+      <div style="
+        background:var(--yellow-bg);
+        border:1px solid var(--yellow-border);
+        border-radius:var(--radius-md);
+        padding:10px 16px;
+        font-size:0.83rem;
+        color:var(--amber-dark);
+        margin-bottom:20px;
+      ">
+        📌 매달 1일에 기준 전투력이 자동 저장됩니다. 스냅샷 생성 이후부터 성장량이 표시됩니다.
+      </div>
+    `;
 
     document.querySelector("main").innerHTML = `
       <div class="page-card">
         <div class="container">
-          <div class="section-head">
-            <div>
-              <div class="section-title">📈 월간 성장 <span style="font-size:0.8rem;font-weight:400;color:var(--text-faint);margin-left:6px;">${monthLabel}</span></div>
-              <div class="section-sub">성장량 / 성장률 / 서버 순위 상승 기준 전환</div>
+          <div style="padding:32px 0 24px;">
+            <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:8px;">
+              <h1 style="font-size:1.7rem; font-weight:800; color:var(--text); margin:0; line-height:1;">
+                📈 월간 성장
+              </h1>
+              <span style="
+                font-size:0.95rem; font-weight:700;
+                color:var(--white); background:var(--amber);
+                border-radius:999px; padding:3px 14px; line-height:1.6;
+              ">${monthLabel}</span>
             </div>
+            <p style="font-size:0.88rem; color:var(--text-soft); margin:0;">
+              성장량 · 성장률 · 서버 순위 상승 기준으로 전환하여 볼 수 있어요
+            </p>
           </div>
           ${snapshotBanner}
           <div class="tab-bar">
